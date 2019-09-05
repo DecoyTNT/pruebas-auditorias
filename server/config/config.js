@@ -29,9 +29,7 @@ let urlDB
 if (process.env.NODE_ENV === 'dev') {
     urlDB = 'mongodb://localhost:27017/ssgi'
 } else {
-    urlDB = 'mongodb+srv://Administrador:MFoqRpyLvLvTfY15@cluster0-4zhf2.mongodb.net/sgi?retryWrites=true&w=majority'
-
-    urlDB = process.env.MONGO_URL
+    urlDB = process.env.MONGO_URI
 }
 
 process.env.URLDB = urlDB
