@@ -1,6 +1,6 @@
 const express = require('express')
 
-// const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt')
 
 const _ = require('underscore')
 
@@ -57,8 +57,8 @@ app.post('/usuario', function(req, res) {
         email: body.email,
         telefono: body.telefono,
         puesto: body.puesto,
-        contraseña: body.contraseña,
-        // contraseña: bcrypt.hashSync(body.contraseña, 10),
+        // contraseña: body.contraseña,
+        contraseña: bcrypt.hashSync(body.contraseña, 10),
         tipo_Usuario: body.tipo_Usuario
     })
 
