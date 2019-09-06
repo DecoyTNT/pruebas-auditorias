@@ -9,7 +9,9 @@ let verificaToken = (req, res, next) => {
         if (err) {
             return res.status(401).json({
                 ok: false,
-                err
+                err: {
+                    message: "Token no válido"
+                }
             })
         }
 

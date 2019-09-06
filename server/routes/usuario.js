@@ -5,11 +5,11 @@ const bcrypt = require('bcrypt')
 const _ = require('underscore')
 
 const Usuario = require('../models/usuario')
-    // const { verificaToken } = require('../middlewares/autenticacion')
+const { verificaToken } = require('../middlewares/autenticacion')
 
 const app = express()
 
-app.get('/usuario', /*verificaToken,*/ (req, res) => {
+app.get('/usuario', verificaToken, (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -45,7 +45,7 @@ app.get('/usuario', /*verificaToken,*/ (req, res) => {
     // res.json('get Usuario LOCAL')
 })
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', verificaToken, function(req, res) {
 
     let body = req.body
 
@@ -92,7 +92,7 @@ app.post('/usuario', function(req, res) {
     // }
 })
 
-app.get('/usuario/:id', function(req, res) {
+app.get('/usuario/:id', verificaToken, function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
@@ -112,35 +112,35 @@ app.get('/usuario/:id', function(req, res) {
         // res.json('get Usuario LOCAL')
 })
 
-app.put('/usuario', function(req, res) {
+// app.put('/usuario', verificaToken, function(req, res) {
 
 
 
-        Usuario.find({ estado: false })
-            .exec((err, usuarios) => {
-                if (err) {
-                    return res.status(400).json({
-                        ok: false,
-                        err
-                    })
-                }
-                // res.json({
-                //     ok: true,
-                //     usuarios
-                // })
+//         Usuario.find({ estado: false })
+//             .exec((err, usuarios) => {
+//                 if (err) {
+//                     return res.status(400).json({
+//                         ok: false,
+//                         err
+//                     })
+//                 }
+//                 // res.json({
+//                 //     ok: true,
+//                 //     usuarios
+//                 // })
 
-                Usuario.count({ estado: false }, (err, conteo) => {
-                    res.json({
-                        ok: true,
-                        usuarios,
-                        cuantos: conteo
-                    })
-                })
+//                 Usuario.count({ estado: false }, (err, conteo) => {
+//                     res.json({
+//                         ok: true,
+//                         usuarios,
+//                         cuantos: conteo
+//                     })
+//                 })
 
-            })
-    })
-    //actualizar
-app.put('/usuario/:id', function(req, res) {
+//             })
+//     })
+//actualizar
+app.put('/usuario/:id', verificaToken, function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'contraseña', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
@@ -169,7 +169,7 @@ app.put('/usuario/:id', function(req, res) {
 
 
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', verificaToken, function(req, res) {
 
     let id = req.params.id
     let cambiaEstado = {
