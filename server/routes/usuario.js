@@ -5,12 +5,11 @@ const bcrypt = require('bcrypt')
 const _ = require('underscore')
 
 const Usuario = require('../models/usuario')
-    // const { verificaToken } = require('../middlewares/autenticacion')
-    // verificaToken,
+const { verificaToken } = require('../middlewares/autenticacion')
 
 const app = express()
 
-app.get('/usuario', (req, res) => {
+app.get('/usuario', verificaToken, (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -93,7 +92,7 @@ app.post('/usuario', function(req, res) {
     // }
 })
 
-app.get('/usuario/:id', function(req, res) {
+app.get('/usuario/:id', verificaToken, function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
@@ -141,7 +140,7 @@ app.get('/usuario/:id', function(req, res) {
 //             })
 //     })
 //actualizar
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', verificaToken, function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'contraseña', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
@@ -170,7 +169,7 @@ app.put('/usuario/:id', function(req, res) {
 
 
 
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', verificaToken, function(req, res) {
 
     let id = req.params.id
     let cambiaEstado = {
