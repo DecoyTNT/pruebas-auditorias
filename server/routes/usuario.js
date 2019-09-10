@@ -129,11 +129,10 @@ app.post('/usuario', function(req, res) {
 app.put('/usuario/:id', function(req, res) {
 
     let id = req.params.id
-    let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
-    let body2 = req.body;
+    let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', bcrypt.hashSync(body.contraseña, 10), 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
 
-    let contraseña = bcrypt.hashSync(body2.contraseña, 10);
-    Usuario.findByIdAndUpdate(id, [body, contraseña], { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+
+    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
             return res.status(400).json({
