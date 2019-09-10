@@ -69,8 +69,6 @@ app.get('/usuario/inactivos', (req, res) => {
             })
 
         })
-
-    // res.json('get Usuario LOCAL')
 })
 
 app.get('/usuario/:id', function(req, res) {
@@ -127,11 +125,11 @@ app.post('/usuario', function(req, res) {
 })
 
 
-//actualizar
+// Actualizar Usuario
 app.put('/usuario/:id', function(req, res) {
 
     let id = req.params.id
-    let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'contraseña', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
+    let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
@@ -149,16 +147,75 @@ app.put('/usuario/:id', function(req, res) {
     })
 })
 
+// Activar Usuario
+app.put('/usuario/inactivos/:id', function(req, res) {
 
+    let id = req.params.id
+    let cambiaEstado = {
+        estado: true
+    }
+    Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
 
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
 
+        if (!usuarioBorrado) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioBorrado
+        })
+    })
+})
+
+// Desactivar Usuario
 app.delete('/usuario/:id', function(req, res) {
 
     let id = req.params.id
     let cambiaEstado = {
         estado: false
     }
-    Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
+    Usuario.findByIdAndRemove(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!usuarioBorrado) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioBorrado
+        })
+    })
+})
+
+// Borrar Usuario
+app.delete('/usuario/inactivos/:id', function(req, res) {
+
+    let id = req.params.id
+    Usuario.findByIdAndUpdate(id, { new: true }, (err, usuarioBorrado) => {
 
         if (err) {
             return res.status(400).json({

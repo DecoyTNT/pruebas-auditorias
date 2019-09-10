@@ -20,7 +20,7 @@ app.get('/norma', (req, res) => {
         // .limit(limite)
         .exec((err, normas) => {
             if (err) {
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -44,7 +44,7 @@ app.get('/norma/:id', (req, res) => {
 
     Norma.findById(normid).exec((err, normaDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -121,7 +121,7 @@ app.delete('/norma/:id', (req, res) => {
 
     Norma.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, normaBorrada) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
