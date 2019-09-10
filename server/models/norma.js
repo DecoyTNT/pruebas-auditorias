@@ -6,7 +6,7 @@ const uniqueValidator = require('mongoose-unique-validator')
 let Schema = mongoose.Schema;
 
 let normaSchema = new Schema({
-    nombre_Norma: {
+    nombreNorma: {
         type: String,
         unique: true,
         required: [true, 'El nombre de la norma es obligatorio']
@@ -14,7 +14,7 @@ let normaSchema = new Schema({
     descripcion: {
         type: String
     },
-    archivo_Digital: {
+    archivoDigital: {
         type: String,
         required: [true, 'El archivo es necesario']
     },

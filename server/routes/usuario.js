@@ -5,10 +5,11 @@ const bcrypt = require('bcrypt')
 const _ = require('underscore')
 
 const Usuario = require('../models/usuario')
-const { verificaToken } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin } = require('../middlewares/autenticacion')
 
 const app = express()
 
+// Usuarios Activos
 app.get('/usuario', (req, res) => {
 
     // let desde = req.query.desde || 0
@@ -17,7 +18,7 @@ app.get('/usuario', (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Usuario.find()
+    Usuario.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
         .exec((err, usuarios) => {
@@ -27,10 +28,37 @@ app.get('/usuario', (req, res) => {
                     err
                 })
             }
-            // res.json({
-            //     ok: true,
-            //     usuarios
-            // })
+
+            Usuario.count({ estado: true }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    usuarios,
+                    cuantos: conteo
+                })
+            })
+
+        })
+})
+
+// Usuarios Inactivos
+app.get('/usuario/inactivos', (req, res) => {
+
+    // let desde = req.query.desde || 0
+    // desde = Number(desde)
+
+    // let limite = req.query.limite || 5
+    // limite = Number(limite)
+
+    Usuario.find({ estado: false })
+        // .skip(desde)
+        // .limit(limite)
+        .exec((err, usuarios) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
 
             Usuario.count({ estado: true }, (err, conteo) => {
                 res.json({
@@ -45,7 +73,26 @@ app.get('/usuario', (req, res) => {
     // res.json('get Usuario LOCAL')
 })
 
-app.post('/usuario', function(req, res) {
+app.get('/usuario/:id', function(req, res) {
+    var usid = req.params.id
+
+    Usuario.findById(usid).exec((err, usuarioDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        })
+
+    })
+})
+
+app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
 
     let body = req.body
 
@@ -71,81 +118,22 @@ app.post('/usuario', function(req, res) {
             })
         }
 
-        // usuarioDB.password = null
-
         res.json({
             ok: true,
             usuario: usuarioDB
         })
     })
 
-    // if (body.nombre === undefined) {
-    //     res.status(400).json({
-    //         ok: false,
-    //         mensaje: 'El nombre es necesario'
-    //     })
-    // } else {
-
-    //     res.json({
-    //         persona: body
-    //     })
-    // }
 })
 
-app.get('/usuario/:id', function(req, res) {
-    var usid = req.params.id
 
-    Usuario.findById(usid).exec((err, usuarioDB) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
-
-            res.json({
-                ok: true,
-                usuario: usuarioDB
-            })
-
-        })
-        // res.json('get Usuario LOCAL')
-})
-
-// app.put('/usuario', verificaToken, function(req, res) {
-
-
-
-//         Usuario.find({ estado: false })
-//             .exec((err, usuarios) => {
-//                 if (err) {
-//                     return res.status(400).json({
-//                         ok: false,
-//                         err
-//                     })
-//                 }
-//                 // res.json({
-//                 //     ok: true,
-//                 //     usuarios
-//                 // })
-
-//                 Usuario.count({ estado: false }, (err, conteo) => {
-//                     res.json({
-//                         ok: true,
-//                         usuarios,
-//                         cuantos: conteo
-//                     })
-//                 })
-
-//             })
-//     })
 //actualizar
 app.put('/usuario/:id', function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'contraseña', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
 
-    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true }, (err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
             return res.status(400).json({
@@ -159,11 +147,6 @@ app.put('/usuario/:id', function(req, res) {
             usuario: usuarioDB
         })
     })
-
-    // res.json({
-    //         id
-    //     })
-    // res.json('put Usuario')
 })
 
 
@@ -198,8 +181,6 @@ app.delete('/usuario/:id', function(req, res) {
             usuario: usuarioBorrado
         })
     })
-
-    // res.json('delete Usuario')
 })
 
 module.exports = app;

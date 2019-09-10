@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 let tiposValidos = {
-    values: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'],
+    values: ['ROOT', 'ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'],
     message: '{VALUE} no es un tipo valido'
 }
 
@@ -12,7 +12,6 @@ let Schema = mongoose.Schema;
 let usuarioSchema = new Schema({
     numero_Empleado: {
         type: Number,
-        //unique: true,
         required: [true, 'El numero de empleado es necesario']
     },
     nombre_Usuario: {
