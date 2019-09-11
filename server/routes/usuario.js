@@ -21,6 +21,7 @@ app.get('/usuario', (req, res) => {
     Usuario.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
+        .sort('nombre_Usuario')
         .exec((err, usuarios) => {
             if (err) {
                 return res.status(500).json({
@@ -71,6 +72,7 @@ app.get('/usuario/inactivos', (req, res) => {
         })
 })
 
+//Obtener un usuario por id
 app.get('/usuario/:id', function(req, res) {
     var usid = req.params.id
 
@@ -88,6 +90,11 @@ app.get('/usuario/:id', function(req, res) {
         })
 
     })
+})
+
+//Buscador de usuarios
+app.get('/usuario/buscar/:termino', (err, res) => {
+
 })
 
 app.post('/usuario', function(req, res) {
