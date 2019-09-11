@@ -94,6 +94,30 @@ app.get('/usuario/:id', function(req, res) {
 
 //Buscador de usuarios
 app.get('/usuario/buscar/:termino', (err, res) => {
+    let termino = req.params.termino
+    let regex = new RegExp(termino, 'i')
+
+    Usuario.find({ nombre_Usuario: regex, estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
+        // .skip(desde)
+        // .limit(limite)
+        .sort('nombre_Usuario')
+        .exec((err, usuarios) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Usuario.count({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    usuarios,
+                    cuantos: conteo
+                })
+            })
+
+        })
 
 })
 
