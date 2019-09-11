@@ -23,7 +23,7 @@ app.get('/usuario', (req, res) => {
         // .limit(limite)
         .exec((err, usuarios) => {
             if (err) {
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -54,7 +54,7 @@ app.get('/usuario/inactivos', (req, res) => {
         // .limit(limite)
         .exec((err, usuarios) => {
             if (err) {
-                return res.status(400).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -76,7 +76,7 @@ app.get('/usuario/:id', function(req, res) {
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -110,7 +110,7 @@ app.post('/usuario', function(req, res) {
 
     usuario.save((err, usuarioDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -135,7 +135,7 @@ app.put('/usuario/:id', function(req, res) {
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -158,7 +158,7 @@ app.put('/usuario/contraseña/:id', function(req, res) {
     Usuario.findByIdAndUpdate(id, contraseña, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -181,7 +181,7 @@ app.put('/usuario/inactivos/:id', function(req, res) {
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
 
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -239,10 +239,10 @@ app.delete('/usuario/:id', function(req, res) {
 app.delete('/usuario/inactivos/:id', function(req, res) {
 
     let id = req.params.id
-    Usuario.findByIdAndRemove(id, { new: true }, (err, usuarioBorrado) => {
+    Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
 
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
