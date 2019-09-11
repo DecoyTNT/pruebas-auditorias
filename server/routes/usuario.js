@@ -149,7 +149,7 @@ app.put('/usuario/:id', function(req, res) {
 })
 
 // Actualizar Contraseña
-app.put('/usuario/contraseña/:id', function(req, res) {
+app.put('/usuario/password/:id', function(req, res) {
 
     let id = req.params.id
     let body = req.body
