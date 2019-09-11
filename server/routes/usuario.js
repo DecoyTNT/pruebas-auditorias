@@ -18,7 +18,7 @@ app.get('/usuario', (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Usuario.find({ estado: true, tipo_Usuario: 'ROOT, ADMIN' })
+    Usuario.find({ estado: true, tipo_Usuario: ['ROOT', 'ADMIN'] })
         // .skip(desde)
         // .limit(limite)
         .sort('nombre_Usuario')
