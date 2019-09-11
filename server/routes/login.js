@@ -12,47 +12,44 @@ const app = express()
 
 app.post('/login', (req, res) => {
     let body = req.body
-    Usuario.findOne({ nombre_Usuario: body.nombre_Usuario }, (err, usuarioDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                })
-            }
-
-            if (!usuarioDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'Usuario o Contraseña incorrectos'
-                    }
-                })
-            }
-
-            if (!bcrypt.compareSync(body.contraseña, usuarioDB.contraseña)) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'Usuario o Contraseña incorrectos'
-                    }
-                })
-            }
-
-            let token = jwt.sign({
-                usuario: usuarioDB
-            }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN })
-
-            res.json({
-                ok: true,
-                usuario: usuarioDB,
-                id: usuarioDB._id,
-                token
+    Usuario.findOne({ nombre_Usuario: body.nombre_Usuario, estado: true }, (err, usuarioDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
             })
+        }
 
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario o Contraseña incorrectos'
+                }
+            })
+        }
+
+        if (!bcrypt.compareSync(body.contraseña, usuarioDB.contraseña)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario o Contraseña incorrectos'
+                }
+            })
+        }
+
+        let token = jwt.sign({
+            usuario: usuarioDB
+        }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN })
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB,
+            id: usuarioDB._id,
+            token
         })
-        // res.json({
-        //     ok: true
-        // })
+
+    })
 })
 
 
