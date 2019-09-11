@@ -93,7 +93,7 @@ app.get('/usuario/:id', function(req, res) {
 })
 
 //Buscador de usuarios
-app.get('/usuario/buscar/:termino', (err, res) => {
+app.get('/usuario/buscar/:termino', (req, res) => {
     let termino = req.params.termino;
 
     let regex = new RegExp(termino, 'i');
