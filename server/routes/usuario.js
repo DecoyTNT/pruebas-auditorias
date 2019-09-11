@@ -187,7 +187,7 @@ app.delete('/usuario/:id', function(req, res) {
     let cambiaEstado = {
         estado: false
     }
-    Usuario.findByIdAndRemove(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
+    Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
 
         if (err) {
             return res.status(500).json({
@@ -216,7 +216,7 @@ app.delete('/usuario/:id', function(req, res) {
 app.delete('/usuario/inactivos/:id', function(req, res) {
 
     let id = req.params.id
-    Usuario.findByIdAndUpdate(id, { new: true }, (err, usuarioBorrado) => {
+    Usuario.findByIdAndRemove(id, { new: true }, (err, usuarioBorrado) => {
 
         if (err) {
             return res.status(400).json({
