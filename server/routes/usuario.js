@@ -155,7 +155,7 @@ app.put('/usuario/password/:id', function(req, res) {
     let body = req.body
     let contraseña = bcrypt.hashSync(body.contraseña, 10)
 
-    Usuario.findByIdAndUpdate(id, { contraseña, body }, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+    Usuario.findByIdAndUpdate(id, { contraseña }, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
             return res.status(500).json({
