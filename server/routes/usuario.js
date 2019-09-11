@@ -60,7 +60,7 @@ app.get('/usuario/inactivos', (req, res) => {
                 })
             }
 
-            Usuario.count({ estado: true }, (err, conteo) => {
+            Usuario.count({ estado: false }, (err, conteo) => {
                 res.json({
                     ok: true,
                     usuarios,
@@ -133,6 +133,29 @@ app.put('/usuario/:id', function(req, res) {
 
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        })
+    })
+})
+
+// Actualizar Contraseña
+app.put('/usuario/contraseña/:id', function(req, res) {
+
+    let id = req.params.id
+    let body = req.body
+    let contraseña = bcrypt.hashSync(body.contraseña, 10)
+
+    Usuario.findByIdAndUpdate(id, contraseña, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
 
         if (err) {
             return res.status(400).json({
