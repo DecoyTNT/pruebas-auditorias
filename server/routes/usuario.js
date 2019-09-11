@@ -18,7 +18,7 @@ app.get('/usuario', (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Usuario.find({ estado: true, tipo_Usuario: ['ROOT', 'ADMIN'] })
+    Usuario.find({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
         // .skip(desde)
         // .limit(limite)
         .sort('nombre_Usuario')
@@ -30,7 +30,7 @@ app.get('/usuario', (req, res) => {
                 })
             }
 
-            Usuario.count({ estado: true }, (err, conteo) => {
+            Usuario.count({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] }, (err, conteo) => {
                 res.json({
                     ok: true,
                     usuarios,
