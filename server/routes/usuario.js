@@ -122,6 +122,8 @@ app.get('/usuario/buscar/:termino', (req, res) => {
 
 })
 
+
+// Crear Usuario
 app.post('/usuario', function(req, res) {
 
     let body = req.body
@@ -162,6 +164,29 @@ app.put('/usuario/:id', function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
+
+
+    Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        })
+    })
+})
+
+// Actualizar correo y telefono
+app.put('/usuario/miperfil/:id', function(req, res) {
+
+    let id = req.params.id
+    let body = _.pick(req.body, ['email', 'telefono'])
 
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
