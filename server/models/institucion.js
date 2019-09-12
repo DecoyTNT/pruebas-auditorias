@@ -1,37 +1,19 @@
 const mongoose = require('mongoose')
 
-const uniqueValidator = require('mongoose-unique-validator')
-
-
 let Schema = mongoose.Schema;
 
 let institucionSchema = new Schema({
-    nombreNorma: {
+    nombreInstitucion: {
         type: String,
-        unique: true,
-        required: [true, 'El nombre de la norma es obligatorio']
+        required: [true, 'El nombre de la institucion es obligatorio']
     },
-    descripcion: {
+    logo: {
         type: String
     },
-    archivoDigital: {
+    direccion: {
         type: String,
         required: [true, 'El archivo es necesario']
-    },
-    estado: {
-        type: Boolean,
-        default: true
     }
 })
 
-institucionSchema.methods.toJSON = function() {
-    let user = this
-    let userObject = user.toObject()
-    return userObject
-}
-
-institucionSchema.plugin(uniqueValidator, {
-    message: '{PATH} debe de ser unico'
-})
-
-module.exports = mongoose.model('Norma', institucionSchema)
+module.exports = mongoose.model('Institucion', institucionSchema)
