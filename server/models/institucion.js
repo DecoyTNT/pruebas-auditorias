@@ -5,15 +5,16 @@ let Schema = mongoose.Schema;
 let institucionSchema = new Schema({
     nombreInstitucion: {
         type: String,
-        required: [true, 'El nombre de la institucion es obligatorio']
+        required: [true, 'El nombre de la institucion es necesario']
     },
-    logo: {
-        type: String
-    },
-    direccion: {
+    domicilio: {
         type: String,
-        required: [true, 'El archivo es necesario']
+        required: [true, 'El domicilio es necesario']
+    },
+    telefono: {
+        type: Number,
+        required: [true, 'El número de teléfono es necesario']
     }
 })
 
-module.exports = mongoose.model('Institucion', institucionSchema)
+module.exports = mongoose.model('Instituciones', institucionSchema)

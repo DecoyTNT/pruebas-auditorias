@@ -10,7 +10,7 @@ const { verificaToken, verificaAdmin } = require('../middlewares/autenticacion')
 const app = express()
 
 // Usuarios Activos
-app.get('/usuario', (req, res) => {
+app.get('/usuario', [verificaToken, verificaAdmin], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -42,7 +42,7 @@ app.get('/usuario', (req, res) => {
 })
 
 // Usuarios Inactivos
-app.get('/usuario/inactivos', (req, res) => {
+app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -73,7 +73,7 @@ app.get('/usuario/inactivos', (req, res) => {
 })
 
 //Obtener un usuario por id
-app.get('/usuario/:id', function(req, res) {
+app.get('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
@@ -124,7 +124,7 @@ app.get('/usuario/buscar/:termino', (req, res) => {
 
 
 // Crear Usuario
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
 
     let body = req.body
 
@@ -160,7 +160,7 @@ app.post('/usuario', function(req, res) {
 
 
 // Actualizar Usuario
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['numero_Empleado', 'nombre_Usuario', 'nombre', 'primer_Apellido', 'segundo_Apellido', 'email', 'telefono', 'puesto', 'tipo_Usuario', 'estado'])
@@ -183,7 +183,7 @@ app.put('/usuario/:id', function(req, res) {
 })
 
 // Actualizar correo y telefono
-app.put('/usuario/miperfil/:id', function(req, res) {
+app.put('/usuario/miperfil/:id', verificaToken, function(req, res) {
 
     let id = req.params.id
     let body = _.pick(req.body, ['email', 'telefono'])
@@ -206,7 +206,7 @@ app.put('/usuario/miperfil/:id', function(req, res) {
 })
 
 // Actualizar Contraseña
-app.put('/usuario/password/:id', function(req, res) {
+app.put('/usuario/password/:id', [verificaToken, verificaAdmin], function(req, res) {
 
     let id = req.params.id
     let body = req.body
@@ -229,7 +229,7 @@ app.put('/usuario/password/:id', function(req, res) {
 })
 
 // Activar Usuario
-app.put('/usuario/inactivos/:id', function(req, res) {
+app.put('/usuario/inactivos/:id', [verificaToken, verificaAdmin], function(req, res) {
 
     let id = req.params.id
     let cambiaEstado = {
@@ -261,7 +261,7 @@ app.put('/usuario/inactivos/:id', function(req, res) {
 })
 
 // Desactivar Usuario
-app.delete('/usuario/:id', function(req, res) {
+app.delete('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
 
     let id = req.params.id
     let cambiaEstado = {
@@ -293,7 +293,7 @@ app.delete('/usuario/:id', function(req, res) {
 })
 
 // Borrar Usuario
-app.delete('/usuario/inactivos/:id', function(req, res) {
+app.delete('/usuario/inactivos/:id', [verificaToken, verificaAdmin], function(req, res) {
 
     let id = req.params.id
     Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
