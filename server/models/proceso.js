@@ -7,10 +7,6 @@ let procesoSchema = new Schema({
         type: String,
         required: [true, 'El nombre del proceso es necesario']
     },
-    nombreSubProceso: {
-        type: Schema.Types.ObjectId,
-        ref: 'SubProceso'
-    },
     estado: {
         type: Boolean,
         default: true

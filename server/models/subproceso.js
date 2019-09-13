@@ -2,12 +2,12 @@ const mongoose = require('mongoose')
 
 let Schema = mongoose.Schema;
 
-let procesoSchema = new Schema({
-    nombreSubProceso: {
+let subprocesoSchema = new Schema({
+    nombreSubproceso: {
         type: String,
         required: [true, 'El nombre del subproceso es necesario']
     },
-    nombreProceso: {
+    proceso: {
         type: Schema.Types.ObjectId,
         ref: 'Proceso'
     },
@@ -21,4 +21,4 @@ let procesoSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('SubProceso', procesoSchema)
+module.exports = mongoose.model('Subproceso', subprocesoSchema)
