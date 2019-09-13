@@ -28,7 +28,7 @@ let verificaToken = (req, res, next) => {
 // =======================
 let verificaAdmin = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'ADMIN') {
+    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 

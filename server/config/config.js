@@ -11,11 +11,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'dev'
 //================
 //Vencimiento del token
 //================
+//1000 Milisegundos
 //60 Segundos
 //60 Minutos
 //24 Horas
-//30 Días
-process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 15
+process.env.CADUCIDAD_TOKEN = 1000 * 60 * 60 * 24
 
 //================
 //SEED de autenticación
