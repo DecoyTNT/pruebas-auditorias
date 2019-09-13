@@ -115,11 +115,8 @@ app.put('/norma/:id', (req, res) => {
 // Elimina una norma
 app.delete('/norma/:id', (req, res) => {
     let id = req.params.id
-    let cambiaEstado = {
-        estado: false
-    }
 
-    Norma.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, normaBorrada) => {
+    Norma.findByIdAndRemove(id, (err, normaBorrada) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
