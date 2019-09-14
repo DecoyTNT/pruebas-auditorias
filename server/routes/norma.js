@@ -15,7 +15,7 @@ app.get('/norma', (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Norma.find()
+    Norma.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
         .exec((err, normas) => {
@@ -115,8 +115,11 @@ app.put('/norma/:id', (req, res) => {
 // Elimina una norma
 app.delete('/norma/:id', (req, res) => {
     let id = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
 
-    Norma.findByIdAndRemove(id, (err, normaBorrada) => {
+    Norma.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, normaBorrada) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
