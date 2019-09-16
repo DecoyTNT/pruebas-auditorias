@@ -111,4 +111,31 @@ app.put('/institucion/:id', (req, res) => {
     })
 })
 
+app.delete('/institucion/:id', (req, res) => {
+    let id = req.params.id
+    Institucion.findByIdAndRemove(id, (err, institucionBorrada) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!institucionBorrada) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Institucion no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            institucion: institucionBorrada
+        })
+    })
+})
+
 module.exports = app;

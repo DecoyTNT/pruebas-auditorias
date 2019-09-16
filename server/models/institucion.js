@@ -12,7 +12,7 @@ let institucionSchema = new Schema({
         required: [true, 'El domicilio es necesario']
     },
     telefono: {
-        type: Number,
+        type: String,
         required: [true, 'El número de teléfono es necesario']
     }
 })
