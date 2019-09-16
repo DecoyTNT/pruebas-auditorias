@@ -65,7 +65,7 @@ app.post('/norma', (req, res) => {
         nombreNorma: body.nombreNorma,
         descripcion: body.descripcion,
         archivoDigital: body.archivoDigital,
-        estado: body.estado
+        color: body.color
     })
 
     norma.save((err, normaDB) => {
