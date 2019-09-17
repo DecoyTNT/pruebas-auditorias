@@ -7,8 +7,8 @@ app.use(require('./login'))
 app.use(require('./norma'))
 app.use(require('./upload'))
 app.use(require('./institucion'))
-    // app.use(require('./proceso'))
-    // app.use(require('./subproceso'))
+app.use(require('./proceso'))
+app.use(require('./subproceso'))
 
 
 module.exports = app;
