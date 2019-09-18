@@ -11,6 +11,10 @@ let institucionSchema = new Schema({
         type: String,
         required: [true, 'El domicilio es necesario']
     },
+    img: {
+        type: String,
+        required: false
+    },
     telefono: {
         type: String,
         required: [true, 'El número de teléfono es necesario']
