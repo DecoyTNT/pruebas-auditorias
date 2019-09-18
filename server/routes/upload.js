@@ -166,7 +166,6 @@ function imagenInstitucion(id, res, nombreArchivo) {
 function borraArchivo(nombreArchivo, tipo) {
     let pathImagen = path.resolve(__dirname, `../../uploads/${ tipo }/${ nombreArchivo }`);
     if (fs.existsSync(pathImagen)) {
-        console.log("Imagen eliminada");
 
         fs.unlinkSync(pathImagen);
     }
