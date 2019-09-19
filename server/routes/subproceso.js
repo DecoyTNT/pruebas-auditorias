@@ -93,7 +93,7 @@ app.put('/subproceso/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Subroceso.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, subprocesoDB) => {
+    Subproceso.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, subprocesoDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -132,7 +132,7 @@ app.delete('/subproceso/:id', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Proceso no encontrado'
+                    message: 'Subproceso no encontrado'
                 }
             })
         }
