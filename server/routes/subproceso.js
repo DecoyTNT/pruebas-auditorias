@@ -4,6 +4,8 @@ const { verificaToken } = require('../middlewares/autenticacion')
 
 const Subproceso = require('../models/subproceso')
 
+const Proceso = require('../models/proceso')
+
 const app = express()
 
 // Obtiene los subproceso
@@ -43,7 +45,7 @@ app.get('/subproceso', (req, res) => {
 app.get('/subproceso/:id', (req, res) => {
     var subprocesoid = req.params.id
 
-    Subroceso.findById(subprocesoid)
+    Subproceso.findById(subprocesoid)
         .populate('proceso', 'nombreProceso')
         .exec((err, subprocesoDB) => {
             if (err) {
@@ -56,6 +58,37 @@ app.get('/subproceso/:id', (req, res) => {
                 ok: true,
                 subproceso: subprocesoDB
             })
+
+        })
+})
+
+// Obtiene los subprocesos de un procesos por id
+app.get('/subproceso/proceso/:id', (req, res) => {
+    var procesoid = req.params.id
+
+    Proceso.findById(procesoid)
+        .exec((err, subprocesoDB) => {
+            Subproceso.find({ proceso: procesoid })
+                // .skip(desde)
+                // .limit(limite)
+                .populate('proceso', 'nombreProceso')
+                .exec((err, subprocesos) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Subproceso.count({ proceso: procesoid }, (err, conteo) => {
+                        res.json({
+                            ok: true,
+                            subprocesos,
+                            cuantos: conteo
+                        })
+                    })
+
+                })
 
         })
 })

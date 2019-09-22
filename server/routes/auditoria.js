@@ -18,6 +18,7 @@ app.get('/auditoria', (req, res) => {
     Auditoria.find()
         // .skip(desde)
         // .limit(limite)
+        .populate('norma', 'nombreNorma')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({

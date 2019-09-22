@@ -12,8 +12,8 @@ let auditoriaSchema = new Schema({
         required: [true, 'El numero de la auditoria es necesario']
     },
     norma: {
-        type: String,
-        required: [true, 'La norma es obligatoria']
+        type: Schema.Types.ObjectId,
+        ref: 'Norma'
     },
     periodo: {
         type: String,
