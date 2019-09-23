@@ -182,6 +182,21 @@ app.delete('/subproceso/proceso/:id', (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid, (err, procesoid) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!procesoid) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Proceso no encontrado'
+                }
+            })
+        }
         Subproceso.find({ proceso: procesoid })
             // .skip(desde)
             // .limit(limite)
@@ -215,29 +230,7 @@ app.delete('/subproceso/proceso/:id', (req, res) => {
 
     })
 
-    Proceso.findByIdAndRemove(procesoid, (err, procesoBorrado) => {
 
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            })
-        }
-
-        if (!procesoBorrado) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'Proceso no encontrado'
-                }
-            })
-        }
-
-        res.json({
-            ok: true,
-            proceso: procesoBorrado
-        })
-    })
 
 })
 
