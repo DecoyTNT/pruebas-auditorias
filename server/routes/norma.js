@@ -7,7 +7,7 @@ const Norma = require('../models/norma')
 const app = express()
 
 // Obtiene todas las normas
-app.get('/norma', (req, res) => {
+app.get('/norma', [verificaToken, verificaAdmin], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +39,7 @@ app.get('/norma', (req, res) => {
 })
 
 // Obtiene una norma por id
-app.get('/norma/:id', (req, res) => {
+app.get('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
     var normid = req.params.id
 
     Norma.findById(normid).exec((err, normaDB) => {
@@ -58,7 +58,7 @@ app.get('/norma/:id', (req, res) => {
 })
 
 // Crea una norma
-app.post('/norma', (req, res) => {
+app.post('/norma', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let norma = new Norma({
@@ -86,7 +86,7 @@ app.post('/norma', (req, res) => {
 })
 
 // Actualiza una norma
-app.put('/norma/:id', (req, res) => {
+app.put('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -113,7 +113,7 @@ app.put('/norma/:id', (req, res) => {
 })
 
 // Elimina una norma
-app.delete('/norma/:id', (req, res) => {
+app.delete('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let cambiaEstado = {
         estado: false

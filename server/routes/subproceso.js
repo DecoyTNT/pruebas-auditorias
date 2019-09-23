@@ -9,7 +9,7 @@ const Proceso = require('../models/proceso')
 const app = express()
 
 // Obtiene los subproceso
-app.get('/subproceso', (req, res) => {
+app.get('/subproceso', [verificaToken, verificaAdmin], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -42,7 +42,7 @@ app.get('/subproceso', (req, res) => {
 })
 
 // Obtiene un subproceso por id
-app.get('/subproceso/:id', (req, res) => {
+app.get('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     var subprocesoid = req.params.id
 
     Subproceso.findById(subprocesoid)
@@ -63,7 +63,7 @@ app.get('/subproceso/:id', (req, res) => {
 })
 
 // Obtiene los subprocesos de un procesos por id
-app.get('/subproceso/proceso/:id', (req, res) => {
+app.get('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid)
@@ -94,7 +94,7 @@ app.get('/subproceso/proceso/:id', (req, res) => {
 })
 
 // Crea un subproceso
-app.post('/subproceso', (req, res) => {
+app.post('/subproceso', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let subproceso = new Subproceso({
@@ -122,7 +122,7 @@ app.post('/subproceso', (req, res) => {
 })
 
 // Actualiza un subproceso
-app.put('/subproceso/:id', (req, res) => {
+app.put('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -150,7 +150,7 @@ app.put('/subproceso/:id', (req, res) => {
 
 
 // Elimina un subproceso
-app.delete('/subproceso/:id', (req, res) => {
+app.delete('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     Subproceso.findByIdAndRemove(id, (err, subprocesoBorrado) => {
 
@@ -177,8 +177,8 @@ app.delete('/subproceso/:id', (req, res) => {
     })
 })
 
-// Obtiene los subprocesos de un procesos por id
-app.delete('/subproceso/proceso/:id', (req, res) => {
+// Elimina los subprocesos de un procesos por id
+app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid, (err, procesoid) => {

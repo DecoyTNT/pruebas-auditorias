@@ -7,7 +7,7 @@ const Proceso = require('../models/proceso')
 const app = express()
 
 // Obtiene los procesos
-app.get('/proceso', (req, res) => {
+app.get('/proceso', [verificaToken, verificaAdmin], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +39,7 @@ app.get('/proceso', (req, res) => {
 })
 
 // Obtiene un proceso por id
-app.get('/proceso/:id', (req, res) => {
+app.get('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid).exec((err, procesoDB) => {
@@ -58,7 +58,7 @@ app.get('/proceso/:id', (req, res) => {
 })
 
 // Crea un proceso
-app.post('/proceso', (req, res) => {
+app.post('/proceso', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let proceso = new Proceso({
@@ -83,7 +83,7 @@ app.post('/proceso', (req, res) => {
 })
 
 // Actualiza un proceso
-app.put('/proceso/:id', (req, res) => {
+app.put('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -111,7 +111,7 @@ app.put('/proceso/:id', (req, res) => {
 
 
 // Elimina un proceso
-app.delete('/proceso/:id', (req, res) => {
+app.delete('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     Proceso.findByIdAndRemove(id, (err, procesoBorrado) => {
 
