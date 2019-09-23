@@ -18,7 +18,7 @@ let usuarioSchema = new Schema({
         type: String,
         unique: true,
         required: [true, 'El nombre de usuario es necesario'],
-        max: 5
+        length: 5
     },
     contraseña: {
         type: String,
