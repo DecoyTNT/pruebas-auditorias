@@ -64,7 +64,9 @@ app.post('/institucion', (req, res) => {
     let institucion = new Institucion({
         nombreInstitucion: body.nombreInstitucion,
         domicilio: body.domicilio,
-        telefono: body.telefono
+        telefono: body.telefono,
+        img: body.img
+
     })
 
     institucion.save((err, institucionDB) => {
