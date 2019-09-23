@@ -177,4 +177,68 @@ app.delete('/subproceso/:id', (req, res) => {
     })
 })
 
+// Obtiene los subprocesos de un procesos por id
+app.delete('/subproceso/proceso/:id', (req, res) => {
+    var procesoid = req.params.id
+
+    Proceso.findById(procesoid, (err, procesoid) => {
+        Subproceso.find({ proceso: procesoid })
+            // .skip(desde)
+            // .limit(limite)
+            .remove((err, subprocesoBorrado) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                if (!subprocesoBorrado) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'Subproceso no encontrado'
+                        }
+                    })
+                }
+
+
+                res.json({
+                    ok: true,
+                    subproceso: subprocesoBorrado
+                })
+
+
+
+
+            })
+
+    })
+
+    Proceso.findByIdAndRemove(procesoid, (err, procesoBorrado) => {
+
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!procesoBorrado) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Proceso no encontrado'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            proceso: procesoBorrado
+        })
+    })
+
+})
+
 module.exports = app;
