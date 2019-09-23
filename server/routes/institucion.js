@@ -1,13 +1,13 @@
 const express = require('express')
 
-const { verificaToken } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Institucion = require('../models/institucion')
 
 const app = express()
 
 // Obtiene la institucion
-app.get('/institucion', (req, res) => {
+app.get('/institucion', verificaToken, (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +39,7 @@ app.get('/institucion', (req, res) => {
 })
 
 // Obtiene una institucion por id
-app.get('/institucion/:id', (req, res) => {
+app.get('/institucion/:id', verificaToken, (req, res) => {
     var institucionid = req.params.id
 
     Institucion.findById(institucionid).exec((err, institucionDB) => {
@@ -58,7 +58,7 @@ app.get('/institucion/:id', (req, res) => {
 })
 
 // Crea una institucion
-app.post('/institucion', (req, res) => {
+app.post('/institucion', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let institucion = new Institucion({
@@ -87,7 +87,7 @@ app.post('/institucion', (req, res) => {
 })
 
 // Actualiza la institucion
-app.put('/institucion/:id', (req, res) => {
+app.put('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -113,7 +113,7 @@ app.put('/institucion/:id', (req, res) => {
     })
 })
 
-app.delete('/institucion/:id', (req, res) => {
+app.delete('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     Institucion.findByIdAndRemove(id, (err, institucionBorrada) => {
 

@@ -42,6 +42,82 @@ let verificaAdmin = (req, res, next) => {
 
 }
 
+// =======================
+// Verificar AUDITADO
+// =======================
+let verificaAuditado = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITADO') {
+        next()
+    } else {
+
+        return res.json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditado"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar AUDITOR
+// =======================
+let verificaAuditor = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITOR') {
+        next()
+    } else {
+
+        return res.json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditor"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar AUDITOR_LIDER
+// =======================
+let verificaAuditorLider = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITOR_LIDER') {
+        next()
+    } else {
+
+        return res.json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditor lider"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar ALTA_DIRECCION
+// =======================
+let verificaAltaDir = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'ALTA_DIRECCION') {
+        next()
+    } else {
+
+        return res.json({
+            ok: false,
+            err: {
+                message: "El usuario no es alta dirección"
+            }
+        })
+    }
+
+}
+
 // =====================
 // Verifica token para imagen
 // =====================
@@ -71,5 +147,9 @@ let verificaTokenImg = (req, res, next) => {
 module.exports = {
     verificaToken,
     verificaAdmin,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir,
     verificaTokenImg
 }

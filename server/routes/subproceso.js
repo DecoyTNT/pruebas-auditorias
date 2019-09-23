@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { verificaToken } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Subproceso = require('../models/subproceso')
 
