@@ -11,27 +11,22 @@ let auditoriaSchema = new Schema({
         type: Number,
         required: [true, 'El numero de la auditoria es necesario']
     },
-    normas: {
-        norma: {
-            type: Schema.Types.ObjectId,
-            ref: 'Norma'
-        }
-    },
+    normas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Norma'
+    }],
     periodo: {
         type: String,
         required: [true, 'El periodo de la auditoria es necesario']
     },
-    grupoAuditor: {
-        usuario: {
-            type: Schema.Types.ObjectId,
-            ref: 'Usuario',
-            required: [true, 'El usuario es necesario']
-        }
-    },
-    auditados: {
-        type: String,
-        required: [true, 'Los auditados son necesarios']
-    },
+    grupoAuditor: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    }],
+    auditados: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    }],
     objetivos: {
         type: String,
         required: [true, 'Es necesario establecer los objetivos']

@@ -18,7 +18,11 @@ app.get('/auditoria', (req, res) => {
     Auditoria.find()
         // .skip(desde)
         // .limit(limite)
-        .populate('norma', 'nombreNorma')
+        .populate('normas', 'nombreNorma')
+        .populate('grupoAuditor', 'nombre')
+        // .populate('grupoAuditor', 'primer_Apellido')
+        .populate('auditados', 'nombre')
+        // .populate('auditados', 'primer_Apellido')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({
@@ -43,19 +47,23 @@ app.get('/auditoria', (req, res) => {
 app.get('/auditoria/:id', (req, res) => {
     var auditoriaid = req.params.id
 
-    Auditoria.findById(auditoriaid).exec((err, auditoriaDB) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
+    Auditoria.findById(auditoriaid)
+        .populate('normas', 'nombreNorma')
+        .populate('grupoAuditor', 'nombre', 'primer_Apellido')
+        .populate('auditados', 'nombre', 'primer_Apellido')
+        .exec((err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                auditoria: auditoriaDB
             })
-        }
-        res.json({
-            ok: true,
-            auditoria: auditoriaDB
-        })
 
-    })
+        })
 })
 
 // Crea una auditoria
@@ -64,7 +72,7 @@ app.post('/auditoria', (req, res) => {
 
     let auditoria = new Auditoria({
         numeroAuditoria: body.numeroAuditoria,
-        norma: body.norma,
+        normas: body.norma,
         periodo: body.periodo,
         grupoAuditor: body.grupoAuditor,
         auditados: body.auditados,
@@ -73,7 +81,7 @@ app.post('/auditoria', (req, res) => {
         contacto: body.contacto
     })
 
-    auditoria.save((err, auditorianDB) => {
+    auditoria.save({ $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditorianDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -95,7 +103,7 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Auditoria.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, { $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -103,7 +111,7 @@ app.put('/auditoria/:id', (req, res) => {
             });
         }
 
-        if (err) {
+        if (!auditoriaDB) {
             return res.status(400).json({
                 ok: false,
                 err
@@ -114,6 +122,7 @@ app.put('/auditoria/:id', (req, res) => {
             ok: true,
             auditoria: auditoriaDB
         })
+
     })
 })
 
