@@ -43,6 +43,25 @@ let verificaAdmin = (req, res, next) => {
 }
 
 // =======================
+// Verificar ADMIN o AUDITOR_LIDER
+// =======================
+let verificaAdminAuditorLider = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITOR_LIDER') {
+        next()
+    } else {
+
+        return res.json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditor lider"
+            }
+        })
+    }
+
+}
+
+// =======================
 // Verificar AUDITADO
 // =======================
 let verificaAuditado = (req, res, next) => {
@@ -147,6 +166,7 @@ let verificaTokenImg = (req, res, next) => {
 module.exports = {
     verificaToken,
     verificaAdmin,
+    verificaAdminAuditorLider,
     verificaAuditado,
     verificaAuditor,
     verificaAuditorLider,
