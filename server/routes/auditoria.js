@@ -20,9 +20,8 @@ app.get('/auditoria', (req, res) => {
         // .limit(limite)
         .populate('normas', 'nombreNorma')
         .populate('grupoAuditor', 'nombre')
-        // .populate('grupoAuditor', 'primer_Apellido')
         .populate('auditados', 'nombre')
-        // .populate('auditados', 'primer_Apellido')
+        .populate('plan', 'nombrePlan')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({
@@ -66,14 +65,61 @@ app.get('/auditoria/:id', (req, res) => {
         })
 })
 
+// Obtiene una auditoria por periodo
+app.get('/auditoria/periodo/:periodo', (req, res) => {
+    var auditoriaPeriodo = req.params.periodo
+
+    Auditoria.find({ periodo: auditoriaPeriodo })
+        .populate('normas', 'nombreNorma')
+        .populate('grupoAuditor', 'nombre')
+        .populate('auditados', 'nombre')
+        .exec((err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                auditoria: auditoriaDB
+            })
+
+        })
+})
+
+// Obtiene los periodos de una auditoria
+app.get('/auditoria/periodos/todos', (req, res) => {
+
+    Auditoria.find()
+        .populate('normas', 'nombreNorma')
+        .populate('grupoAuditor', 'nombre')
+        .populate('auditados', 'nombre')
+        .exec((err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                auditoria: auditoriaDB
+            })
+
+        })
+})
+
 // Crea una auditoria
 app.post('/auditoria', (req, res) => {
     let body = req.body
 
     let auditoria = new Auditoria({
-        numeroAuditoria: body.numeroAuditoria,
+        nombreAuditoria: body.nombreAuditoria,
         normas: body.norma,
-        periodo: body.periodo,
+        fechaInicial: body.fechaInicial,
+        fechaFinal: body.fechaFinal,
+        plan: body.plan,
         grupoAuditor: body.grupoAuditor,
         auditados: body.auditados,
         objetivos: body.objetivos,
@@ -81,7 +127,7 @@ app.post('/auditoria', (req, res) => {
         contacto: body.contacto
     })
 
-    auditoria.save({ $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditorianDB) => {
+    auditoria.save({ $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -91,7 +137,7 @@ app.post('/auditoria', (req, res) => {
 
         res.json({
             ok: true,
-            auditoria: auditorianDB
+            auditoria: auditoriaDB
         })
     })
 

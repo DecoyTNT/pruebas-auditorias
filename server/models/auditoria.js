@@ -7,17 +7,26 @@ let Schema = mongoose.Schema;
 
 let auditoriaSchema = new Schema({
 
-    numeroAuditoria: {
-        type: Number,
-        required: [true, 'El numero de la auditoria es necesario']
+    nombreAuditoria: {
+        type: String,
+        unique: true,
+        required: [true, 'El nombre de la auditoria es necesario']
     },
     normas: [{
         type: Schema.Types.ObjectId,
         ref: 'Norma'
     }],
-    periodo: {
-        type: String,
-        required: [true, 'El periodo de la auditoria es necesario']
+    fechaInicial: {
+        type: Date,
+        required: [true, 'La fecha incial de la auditoria es necesario']
+    },
+    fechaFinal: {
+        type: Date,
+        required: [true, 'La fecha final de la auditoria es necesario']
+    },
+    plan: {
+        type: Schema.Types.ObjectId,
+        ref: 'Plan'
     },
     grupoAuditor: [{
         type: Schema.Types.ObjectId,
@@ -28,21 +37,25 @@ let auditoriaSchema = new Schema({
         ref: 'Usuario'
     }],
     objetivos: {
-        type: String,
-        required: [true, 'Es necesario establecer los objetivos']
+        type: String
+            // required: [true, 'Es necesario establecer los objetivos']
     },
     alcance: {
-        type: String,
-        required: [true, 'El email es necesario']
+        type: String
+            // required: [true, 'El email es necesario']
     },
     contacto: {
-        type: String,
-        required: [true, 'El telefono es necesario']
+        type: String
+            // required: [true, 'El telefono es necesario']
+    },
+    estado: {
+        type: Boolean,
+        default: false
     }
 })
 
 auditoriaSchema.plugin(uniqueValidator, {
-    message: '{PATH} debe de ser unico'
+    message: 'El nombre de la auditoria debe de ser unico'
 })
 
 module.exports = mongoose.model('Auditorias', auditoriaSchema)

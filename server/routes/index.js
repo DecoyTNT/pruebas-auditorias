@@ -10,6 +10,7 @@ app.use(require('./institucion'))
 app.use(require('./proceso'))
 app.use(require('./subproceso'))
 app.use(require('./auditoria'))
+app.use(require('./plan'))
 app.use(require('./imagen'))
 
 

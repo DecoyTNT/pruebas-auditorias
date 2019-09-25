@@ -47,7 +47,7 @@ let verificaAdmin = (req, res, next) => {
 // =======================
 let verificaAdminAuditorLider = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITOR_LIDER') {
+    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITOR_LIDER' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
