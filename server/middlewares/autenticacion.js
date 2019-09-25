@@ -32,7 +32,7 @@ let verificaAdmin = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(400).json({
             ok: false,
             err: {
                 message: "El usuario no es administrador"
@@ -51,7 +51,7 @@ let verificaAdminAuditorLider = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(400).json({
             ok: false,
             err: {
                 message: "El usuario no es administrador o auditor lider"
