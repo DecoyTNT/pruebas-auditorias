@@ -1,6 +1,6 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Subproceso = require('../models/subproceso')
 
@@ -9,7 +9,7 @@ const Proceso = require('../models/proceso')
 const app = express()
 
 // Obtiene los subproceso
-app.get('/subproceso', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/subproceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -42,7 +42,7 @@ app.get('/subproceso', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 // Obtiene un subproceso por id
-app.get('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/subproceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var subprocesoid = req.params.id
 
     Subproceso.findById(subprocesoid)
@@ -63,7 +63,7 @@ app.get('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 // Obtiene los subprocesos de un procesos por id
-app.get('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/subproceso/proceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid)

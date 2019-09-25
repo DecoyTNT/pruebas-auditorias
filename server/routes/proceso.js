@@ -1,13 +1,13 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Proceso = require('../models/proceso')
 
 const app = express()
 
 // Obtiene los procesos
-app.get('/proceso', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/proceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +39,7 @@ app.get('/proceso', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 // Obtiene un proceso por id
-app.get('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/proceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var procesoid = req.params.id
 
     Proceso.findById(procesoid).exec((err, procesoDB) => {

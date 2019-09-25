@@ -1,13 +1,13 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Institucion = require('../models/institucion')
 
 const app = express()
 
 // Obtiene la institucion
-app.get('/institucion', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/institucion', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +39,7 @@ app.get('/institucion', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 // Obtiene una institucion por id
-app.get('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/institucion/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var institucionid = req.params.id
 
     Institucion.findById(institucionid).exec((err, institucionDB) => {
