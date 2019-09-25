@@ -54,7 +54,7 @@ let verificaAdminAuditorLider = (req, res, next) => {
         return res.json({
             ok: false,
             err: {
-                message: "El usuario no es auditor lider"
+                message: "El usuario no es administrador o auditor lider"
             }
         })
     }
