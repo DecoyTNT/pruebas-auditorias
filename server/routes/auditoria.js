@@ -21,7 +21,7 @@ app.get('/auditoria', (req, res) => {
         .populate('normas', 'nombreNorma')
         .populate('grupoAuditor', 'nombre')
         .populate('auditados', 'nombre')
-        .populate('plan', 'nombrePlan')
+        //.populate('plan', 'nombrePlan')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({
