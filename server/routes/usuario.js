@@ -9,8 +9,10 @@ const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verific
 
 const app = express()
 
+const vista = verificaAdmin || verificaAuditorLider
+
 // Usuarios Activos
-app.get('/usuario', [verificaToken, verificaAdmin], (req, res) => {
+app.get('/usuario', [verificaToken, vista], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -73,7 +75,7 @@ app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 //Obtener un usuario por id
-app.get('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
+app.get('/usuario/:id', [verificaToken, vista], function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
