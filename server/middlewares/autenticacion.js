@@ -32,7 +32,7 @@ let verificaAdmin = (req, res, next) => {
         next()
     } else {
 
-        return res.status(400).json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es administrador"
@@ -51,7 +51,7 @@ let verificaAdminAuditorLider = (req, res, next) => {
         next()
     } else {
 
-        return res.status(400).json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es administrador o auditor lider"
@@ -70,7 +70,7 @@ let verificaAuditado = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es auditado"
@@ -89,7 +89,7 @@ let verificaAuditor = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es auditor"
@@ -108,7 +108,7 @@ let verificaAuditorLider = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es auditor lider"
@@ -127,7 +127,7 @@ let verificaAltaDir = (req, res, next) => {
         next()
     } else {
 
-        return res.json({
+        return res.status(401).json({
             ok: false,
             err: {
                 message: "El usuario no es alta dirección"
@@ -147,7 +147,7 @@ let verificaTokenImg = (req, res, next) => {
     jwt.verify(token, process.env.SEED, (err, decoded) => {
 
         if (err) {
-            return res.status(401).json({
+            return res.status(401).status(401).json({
                 ok: false,
                 err: {
                     message: 'Token no válido'
