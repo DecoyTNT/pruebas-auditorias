@@ -175,7 +175,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
-        res.json({
+        res.status(200).json({
             ok: true,
             usuario: usuarioDB
         })
