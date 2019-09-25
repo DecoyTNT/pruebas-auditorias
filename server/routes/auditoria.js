@@ -3,6 +3,7 @@ const express = require('express')
 const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Auditoria = require('../models/auditoria')
+const Plan = require('../models/plan')
 
 const app = express()
 
@@ -21,7 +22,7 @@ app.get('/auditoria', (req, res) => {
         .populate('normas', 'nombreNorma')
         .populate('grupoAuditor', 'nombre')
         .populate('auditados', 'nombre')
-        //.populate('plan', 'nombrePlan')
+        .populate('plan', 'nombrePlan')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({
@@ -65,47 +66,33 @@ app.get('/auditoria/:id', (req, res) => {
         })
 })
 
-// Obtiene una auditoria por periodo
-app.get('/auditoria/periodo/:periodo', (req, res) => {
-    var auditoriaPeriodo = req.params.periodo
+// Obtiene las auditorias de un plan por id
+app.get('/auditoria/plan/:id', (req, res) => {
+    var planid = req.params.id
 
-    Auditoria.find({ periodo: auditoriaPeriodo })
-        .populate('normas', 'nombreNorma')
-        .populate('grupoAuditor', 'nombre')
-        .populate('auditados', 'nombre')
+    Plan.findById(planid)
         .exec((err, auditoriaDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
+            Auditoria.find({ plan: planid })
+                // .skip(desde)
+                // .limit(limite)
+                .populate('plan', 'nombrePlan')
+                .exec((err, auditorias) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Auditoria.count({ plan: planid }, (err, conteo) => {
+                        res.json({
+                            ok: true,
+                            auditorias,
+                            cuantos: conteo
+                        })
+                    })
+
                 })
-            }
-            res.json({
-                ok: true,
-                auditoria: auditoriaDB
-            })
-
-        })
-})
-
-// Obtiene los periodos de una auditoria
-app.get('/auditoria/periodos/todos', (req, res) => {
-
-    Auditoria.find()
-        .populate('normas', 'nombreNorma')
-        .populate('grupoAuditor', 'nombre')
-        .populate('auditados', 'nombre')
-        .exec((err, auditoriaDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                })
-            }
-            res.json({
-                ok: true,
-                auditoria: auditoriaDB
-            })
 
         })
 })

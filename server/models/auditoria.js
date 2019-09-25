@@ -26,7 +26,7 @@ let auditoriaSchema = new Schema({
     },
     plan: {
         type: Schema.Types.ObjectId,
-        ref: 'Plan'
+        ref: 'Planes'
     },
     grupoAuditor: [{
         type: Schema.Types.ObjectId,
@@ -47,6 +47,10 @@ let auditoriaSchema = new Schema({
     contacto: {
         type: String
             // required: [true, 'El telefono es necesario']
+    },
+    progreso: {
+        type: String,
+        default: "empezar"
     },
     estado: {
         type: Boolean,

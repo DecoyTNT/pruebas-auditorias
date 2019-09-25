@@ -11,9 +11,9 @@ let planSchema = new Schema({
         unique: true,
         required: [true, 'El periodo de la auditoria es necesario']
     },
-    color: {
+    estado: {
         type: String,
-        default: "secondary"
+        default: false
     }
 })
 
