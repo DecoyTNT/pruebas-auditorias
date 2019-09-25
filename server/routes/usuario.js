@@ -150,7 +150,7 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
-        res.json({
+        res.status(201).json({
             ok: true,
             usuario: usuarioDB
         })
@@ -175,7 +175,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
-        res.status(200).json({
+        res.status(201).json({
             ok: true,
             usuario: usuarioDB
         })
