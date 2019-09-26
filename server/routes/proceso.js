@@ -15,7 +15,7 @@ app.get('/proceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Proceso.find()
+    Proceso.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
         .exec((err, procesos) => {
@@ -26,7 +26,7 @@ app.get('/proceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
                 })
             }
 
-            Proceso.count((err, conteo) => {
+            Proceso.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     procesos,
