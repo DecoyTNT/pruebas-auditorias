@@ -159,11 +159,11 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
 })
 
 // Validacion de director
-app.post('/usuario/director/validar', (req, res) => {
+app.post('/usuario/director/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Usuario.findOne({ nombre_Usuario: body.nombre_Usuario, estado: true }, (err, usuarioDB) => {
+    Usuario.findById((err, usuarioDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -171,20 +171,11 @@ app.post('/usuario/director/validar', (req, res) => {
             })
         }
 
-        if (!usuarioDB) {
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'Usuario o Contraseña incorrectos'
-                }
-            })
-        }
-
         if (!bcrypt.compareSync(body.contraseña, usuarioDB.contraseña)) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Contraseña incorrectos'
+                    message: 'Contraseña incorrecta'
                 }
             })
         }
@@ -192,7 +183,7 @@ app.post('/usuario/director/validar', (req, res) => {
         res.json({
             ok: true,
             usuario: usuarioDB,
-            id: usuarioDB._id,
+            id: usuarioDB._id
         })
 
     })
