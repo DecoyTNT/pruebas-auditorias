@@ -103,6 +103,7 @@ app.post('/auditoria', (req, res) => {
 
     let auditoria = new Auditoria({
         nombreAuditoria: body.nombreAuditoria,
+        nombre: body.nombre,
         normas: body.normas,
         fechaInicial: body.fechaInicial,
         fechaFinal: body.fechaFinal,
@@ -184,6 +185,63 @@ app.delete('/auditoria/:id', (req, res) => {
             auditoria: auditoriaBorrada
         })
     })
+})
+
+// Elimina los subprocesos de un procesos por id
+app.delete('/auditoria/plan/:id', (req, res) => {
+    var planid = req.params.id
+
+    Plan.findById(planid, (err, planid) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!planid) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Plan no encontrado'
+                }
+            })
+        }
+        Auditoria.find({ plan: planid })
+            // .skip(desde)
+            // .limit(limite)
+            .remove((err, auditoriaBorrada) => {
+                if (err) {
+                    return res.status(500).json({
+                        ok: false,
+                        err
+                    })
+                }
+
+                if (!auditoriaBorrada) {
+                    return res.status(400).json({
+                        ok: false,
+                        err: {
+                            message: 'Auditoria no encontrada'
+                        }
+                    })
+                }
+
+
+                res.json({
+                    ok: true,
+                    auditoria: auditoriaBorrada
+                })
+
+
+
+
+            })
+
+    })
+
+
+
 })
 
 module.exports = app;

@@ -158,6 +158,37 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
 
 })
 
+// Validacion de director
+app.post('/usuario/director/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Usuario.findById((err, usuarioDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!bcrypt.compareSync(body.contraseña, usuarioDB.contraseña)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Contraseña incorrecta'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB,
+            id: usuarioDB._id
+        })
+
+    })
+})
+
 
 // Actualizar Usuario
 app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {

@@ -99,6 +99,35 @@ app.put('/plan/:id', (req, res) => {
     })
 })
 
+// Actualiza un plan
+app.put('/plan/validacion/:id', (req, res) => {
+    let id = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
+
+    Plan.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            plan: planDB
+        })
+    })
+})
+
 // Elimina una norma
 app.delete('/plan/:id', (req, res) => {
     let id = req.params.id

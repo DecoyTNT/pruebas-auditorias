@@ -12,6 +12,10 @@ let auditoriaSchema = new Schema({
         unique: true,
         required: [true, 'El nombre de la auditoria es necesario']
     },
+    nombre: {
+        type: String,
+        required: [true, 'El nombre es necesario']
+    },
     normas: [{
         type: Schema.Types.ObjectId,
         ref: 'Norma'
