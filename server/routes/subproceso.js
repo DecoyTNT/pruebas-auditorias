@@ -17,7 +17,7 @@ app.get('/subproceso', [verificaToken, verificaAdminAuditorLider], (req, res) =>
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Subproceso.find()
+    Subproceso.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
         .populate('proceso', 'nombreProceso')
@@ -68,7 +68,7 @@ app.get('/subproceso/proceso/:id', [verificaToken, verificaAdminAuditorLider], (
 
     Proceso.findById(procesoid)
         .exec((err, subprocesoDB) => {
-            Subproceso.find({ proceso: procesoid })
+            Subproceso.find({ proceso: procesoid, estado: true })
                 // .skip(desde)
                 // .limit(limite)
                 .populate('proceso', 'nombreProceso')
@@ -80,7 +80,7 @@ app.get('/subproceso/proceso/:id', [verificaToken, verificaAdminAuditorLider], (
                         })
                     }
 
-                    Subproceso.count({ proceso: procesoid }, (err, conteo) => {
+                    Subproceso.count({ proceso: procesoid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             subprocesos,
@@ -152,7 +152,11 @@ app.put('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
 // Elimina un subproceso
 app.delete('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
-    Subproceso.findByIdAndRemove(id, (err, subprocesoBorrado) => {
+    let cambiaEstado = {
+        estado: false
+    }
+
+    Subproceso.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, subprocesoBorrado) => {
 
         if (err) {
             return res.status(500).json({
@@ -180,6 +184,10 @@ app.delete('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
 // Elimina los subprocesos de un procesos por id
 app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     var procesoid = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
+
 
     Proceso.findById(procesoid, (err, procesoid) => {
         if (err) {
@@ -200,7 +208,7 @@ app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res)
         Subproceso.find({ proceso: procesoid })
             // .skip(desde)
             // .limit(limite)
-            .remove((err, subprocesoBorrado) => {
+            .update(cambiaEstado, { new: true }, (err, subprocesoBorrado) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,

@@ -22,7 +22,7 @@ let planSchema = new Schema({
 })
 
 planSchema.plugin(uniqueValidator, {
-    message: 'El plan debe de ser unico'
+    message: 'El nombre del plan ya está en uso'
 })
 
 module.exports = mongoose.model('Planes', planSchema)

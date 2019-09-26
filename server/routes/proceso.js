@@ -113,7 +113,11 @@ app.put('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
 // Elimina un proceso
 app.delete('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
-    Proceso.findByIdAndRemove(id, (err, procesoBorrado) => {
+    let cambiaEstado = {
+        estado: false
+    }
+
+    Proceso.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, procesoBorrado) => {
 
         if (err) {
             return res.status(500).json({
