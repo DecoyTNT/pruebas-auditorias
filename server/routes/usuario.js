@@ -163,7 +163,7 @@ app.post('/usuario/director/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Usuario.findById((err, usuarioDB) => {
+    Usuario.findById(id, (err, usuarioDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
