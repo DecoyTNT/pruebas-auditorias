@@ -159,7 +159,7 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
 })
 
 // Validacion de director
-app.post('/usuario/director/:id', [verificaToken, verificaAltaDir], (req, res) => {
+app.post('/usuario/director/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
