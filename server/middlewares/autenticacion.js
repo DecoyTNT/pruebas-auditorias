@@ -66,7 +66,7 @@ let verificaAdminAuditorLider = (req, res, next) => {
 // =======================
 let verificaAuditado = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'AUDITADO') {
+    if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
@@ -85,7 +85,7 @@ let verificaAuditado = (req, res, next) => {
 // =======================
 let verificaAuditor = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'AUDITOR') {
+    if (usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
@@ -104,7 +104,7 @@ let verificaAuditor = (req, res, next) => {
 // =======================
 let verificaAuditorLider = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'AUDITOR_LIDER') {
+    if (usuario.tipo_Usuario === 'AUDITOR_LIDER' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
@@ -123,7 +123,7 @@ let verificaAuditorLider = (req, res, next) => {
 // =======================
 let verificaAltaDir = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'ALTA_DIRECCION') {
+    if (usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
