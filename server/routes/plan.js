@@ -128,7 +128,7 @@ app.put('/plan/validacion/:id', (req, res) => {
     })
 })
 
-// Elimina una norma
+// Elimina un plan
 app.delete('/plan/:id', (req, res) => {
     let id = req.params.id
     let cambiaEstado = {
@@ -136,6 +136,34 @@ app.delete('/plan/:id', (req, res) => {
     }
 
     Plan.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planBorrado) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!planBorrado) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Plan no encontrado'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            norma: planBorrado
+        })
+    })
+})
+
+// Elimina definitivamente un plan
+app.delete('/plan/:id', (req, res) => {
+    let id = req.params.id
+
+    Plan.findByIdAndRemove(id, (err, planBorrado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

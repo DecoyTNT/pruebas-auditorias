@@ -29,7 +29,7 @@ app.get('/subproceso', [verificaToken, verificaAdminAuditorLider], (req, res) =>
                 })
             }
 
-            Subproceso.count((err, conteo) => {
+            Subproceso.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     subprocesos,
