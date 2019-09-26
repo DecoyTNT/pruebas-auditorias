@@ -103,7 +103,7 @@ app.post('/auditoria', (req, res) => {
 
     let auditoria = new Auditoria({
         nombreAuditoria: body.nombreAuditoria,
-        normas: body.norma,
+        normas: body.normas,
         fechaInicial: body.fechaInicial,
         fechaFinal: body.fechaFinal,
         plan: body.plan,
@@ -114,7 +114,7 @@ app.post('/auditoria', (req, res) => {
         contacto: body.contacto
     })
 
-    auditoria.save({ $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
+    auditoria.save({ $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -136,7 +136,7 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Auditoria.findByIdAndUpdate(id, { $set: { normas: body.norma, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
