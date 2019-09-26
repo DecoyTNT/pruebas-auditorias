@@ -16,7 +16,7 @@ app.get('/auditoria', (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Auditoria.find()
+    Auditoria.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
         .populate('normas', 'nombreNorma')
@@ -31,7 +31,7 @@ app.get('/auditoria', (req, res) => {
                 })
             }
 
-            Auditoria.count((err, conteo) => {
+            Auditoria.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     auditorias,
@@ -72,7 +72,7 @@ app.get('/auditoria/plan/:id', (req, res) => {
 
     Plan.findById(planid)
         .exec((err, auditoriaDB) => {
-            Auditoria.find({ plan: planid })
+            Auditoria.find({ plan: planid, estado: true })
                 // .skip(desde)
                 // .limit(limite)
                 .populate('plan', 'nombrePlan')
@@ -84,7 +84,7 @@ app.get('/auditoria/plan/:id', (req, res) => {
                         })
                     }
 
-                    Auditoria.count({ plan: planid }, (err, conteo) => {
+                    Auditoria.count({ plan: planid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             auditorias,
@@ -162,7 +162,11 @@ app.put('/auditoria/:id', (req, res) => {
 
 app.delete('/auditoria/:id', (req, res) => {
     let id = req.params.id
-    Auditoria.findByIdAndRemove(id, (err, auditoriaBorrada) => {
+    let cambiaEstado = {
+        estado: false
+    }
+
+    Auditoria.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, auditoriaBorrada) => {
 
         if (err) {
             return res.status(500).json({
@@ -190,6 +194,9 @@ app.delete('/auditoria/:id', (req, res) => {
 // Elimina los subprocesos de un procesos por id
 app.delete('/auditoria/plan/:id', (req, res) => {
     var planid = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
 
     Plan.findById(planid, (err, planid) => {
         if (err) {
@@ -210,7 +217,7 @@ app.delete('/auditoria/plan/:id', (req, res) => {
         Auditoria.find({ plan: planid })
             // .skip(desde)
             // .limit(limite)
-            .remove((err, auditoriaBorrada) => {
+            .update(cambiaEstado, { new: true }, (err, auditoriaBorrada) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,

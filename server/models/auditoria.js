@@ -56,9 +56,13 @@ let auditoriaSchema = new Schema({
         type: String,
         default: "empezar"
     },
-    estado: {
+    valido: {
         type: Boolean,
         default: false
+    },
+    estado: {
+        type: Boolean,
+        default: true
     }
 })
 

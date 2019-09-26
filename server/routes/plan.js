@@ -9,7 +9,7 @@ const app = express()
 // Obtiene los planes
 app.get('/plan', (req, res) => {
 
-    Plan.find()
+    Plan.find({ estado: true })
         .exec((err, planes) => {
             if (err) {
                 return res.status(500).json({
@@ -18,7 +18,7 @@ app.get('/plan', (req, res) => {
                 })
             }
 
-            Plan.count((err, conteo) => {
+            Plan.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     planes,
@@ -102,11 +102,11 @@ app.put('/plan/:id', (req, res) => {
 // Actualiza un plan
 app.put('/plan/validacion/:id', (req, res) => {
     let id = req.params.id
-    let cambiaEstado = {
-        estado: false
+    let cambiaValido = {
+        valido: true
     }
 
-    Plan.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planDB) => {
+    Plan.findByIdAndUpdate(id, cambiaValido, { new: true }, (err, planDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -131,8 +131,11 @@ app.put('/plan/validacion/:id', (req, res) => {
 // Elimina una norma
 app.delete('/plan/:id', (req, res) => {
     let id = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
 
-    Plan.findByIdAndRemove(id, (err, planBorrado) => {
+    Plan.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planBorrado) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
