@@ -205,36 +205,40 @@ app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res)
                 }
             })
         }
-        Subproceso.find({ proceso: procesoid })
-            // .skip(desde)
-            // .limit(limite)
-            .update(cambiaEstado, (err, subprocesoBorrado) => {
-                if (err) {
-                    return res.status(500).json({
-                        ok: false,
-                        err
-                    })
-                }
-
-                if (!subprocesoBorrado) {
-                    return res.status(400).json({
-                        ok: false,
-                        err: {
-                            message: 'Subproceso no encontrado'
-                        }
-                    })
-                }
-
-
-                res.json({
-                    ok: true,
-                    subproceso: subprocesoBorrado
+        Subproceso
+        // .find({ proceso: procesoid })
+        // .skip(desde)
+        // .limit(limite)
+        // .where({ proceso: procesoid })
+            .update({ proceso: procesoid }, { estado: false }, { multi: true }, (err, subprocesoBorrado) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
                 })
+            }
+
+            if (!subprocesoBorrado) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'Subproceso no encontrado'
+                    }
+                })
+            }
 
 
+            res.json({
 
+                ok: true,
+                subproceso: subprocesoBorrado
 
             })
+
+
+
+
+        })
 
     })
 
