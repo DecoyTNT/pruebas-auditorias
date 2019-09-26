@@ -214,36 +214,37 @@ app.delete('/auditoria/plan/:id', (req, res) => {
                 }
             })
         }
-        Auditoria.find({ plan: planid })
-            // .skip(desde)
-            // .limit(limite)
-            .update(cambiaEstado, { new: true }, (err, auditoriaBorrada) => {
-                if (err) {
-                    return res.status(500).json({
-                        ok: false,
-                        err
-                    })
-                }
-
-                if (!auditoriaBorrada) {
-                    return res.status(400).json({
-                        ok: false,
-                        err: {
-                            message: 'Auditoria no encontrada'
-                        }
-                    })
-                }
-
-
-                res.json({
-                    ok: true,
-                    auditoria: auditoriaBorrada
+        Auditoria
+        // .find({ plan: planid })
+        // .skip(desde)
+        // .limit(limite)
+            .update({ plan: planid }, { estado: false }, { multi: true }, (err, auditoriaBorrada) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
                 })
+            }
+
+            if (!auditoriaBorrada) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'Auditoria no encontrada'
+                    }
+                })
+            }
 
 
-
-
+            res.json({
+                ok: true,
+                auditoria: auditoriaBorrada
             })
+
+
+
+
+        })
 
     })
 
