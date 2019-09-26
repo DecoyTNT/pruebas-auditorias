@@ -160,7 +160,7 @@ app.delete('/plan/:id', (req, res) => {
 })
 
 // Elimina definitivamente un plan
-app.delete('/plan/:id', (req, res) => {
+app.delete('/plan/eliminar/:id', (req, res) => {
     let id = req.params.id
 
     Plan.findByIdAndRemove(id, (err, planBorrado) => {
