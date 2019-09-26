@@ -208,7 +208,7 @@ app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res)
         Subproceso.find({ proceso: procesoid })
             // .skip(desde)
             // .limit(limite)
-            .update(cambiaEstado, { new: true }, (err, subprocesoBorrado) => {
+            .update(cambiaEstado, (err, subprocesoBorrado) => {
                 if (err) {
                     return res.status(500).json({
                         ok: false,
