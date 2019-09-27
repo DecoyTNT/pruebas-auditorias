@@ -137,7 +137,7 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Auditoria.findByIdAndUpdate(id, { $set: { valido: false, normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
