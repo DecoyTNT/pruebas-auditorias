@@ -77,7 +77,7 @@ app.put('/plan/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Plan.findByIdAndUpdate(id, { body, valido: false }, { new: true, runValidators: true, context: 'query' }, (err, planDB) => {
+    Plan.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, planDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
