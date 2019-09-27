@@ -160,6 +160,36 @@ app.put('/auditoria/:id', (req, res) => {
     })
 })
 
+// Valida la auditoria
+app.put('/auditoria/validacion/:id', (req, res) => {
+    let id = req.params.id
+    let cambiaValido = {
+        valido: true
+    }
+
+    Auditoria.findByIdAndUpdate(id, cambiaValido, { new: true }, (err, auditoriaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!auditoriaDB) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            auditoria: auditoriaDB
+        })
+
+    })
+})
+
 app.delete('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let cambiaEstado = {

@@ -41,6 +41,40 @@ app.get('/usuario', [verificaToken, verificaAdminAuditorLider], (req, res) => {
         })
 })
 
+// Usuarios Activos
+app.get('/usuario/tipo/:termino', (req, res) => {
+
+    let termino = req.params.termino
+
+    // let desde = req.query.desde || 0
+    // desde = Number(desde)
+
+    // let limite = req.query.limite || 5
+    // limite = Number(limite)
+
+    Usuario.find({ estado: true, tipo_Usuario: termino })
+        // .skip(desde)
+        // .limit(limite)
+        .sort('nombre_Usuario')
+        .exec((err, usuarios) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Usuario.count({ estado: true, tipo_Usuario: termino }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    usuarios,
+                    cuantos: conteo
+                })
+            })
+
+        })
+})
+
 // Usuarios Inactivos
 app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 
