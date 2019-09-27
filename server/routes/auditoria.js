@@ -136,11 +136,9 @@ app.post('/auditoria', (req, res) => {
 app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
-    let cambiaValido = {
-        valido: false
-    }
+    body.valido = false
 
-    Auditoria.findByIdAndUpdate(id, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, body, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados, body } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
