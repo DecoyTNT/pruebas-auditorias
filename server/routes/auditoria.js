@@ -140,50 +140,6 @@ app.put('/auditoria/:id', (req, res) => {
         valido: false
     }
 
-    Auditoria.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, auditoriaDB) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
-
-        if (!auditoriaDB) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-
-        res.json({
-            ok: true,
-            auditoria: auditoriaDB
-        })
-
-    })
-
-    Auditoria.findByIdAndUpdate(id, cambiaValido, { new: true }, (err, auditoriaDB) => {
-        if (err) {
-            return res.status(500).json({
-                ok: false,
-                err
-            });
-        }
-
-        if (!auditoriaDB) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-
-        res.json({
-            ok: true,
-            auditoria: auditoriaDB
-        })
-
-    })
-
     Auditoria.findByIdAndUpdate(id, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados } }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
