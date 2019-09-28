@@ -49,8 +49,9 @@ app.get('/auditoria/:id', (req, res) => {
 
     Auditoria.findById(auditoriaid)
         .populate('normas', 'nombreNorma')
-        .populate('grupoAuditor', 'nombre', 'primer_Apellido')
-        .populate('auditados', 'nombre', 'primer_Apellido')
+        .populate('grupoAuditor', 'nombre')
+        .populate('auditados', 'nombre')
+        .populate('plan', 'nombrePlan')
         .exec((err, auditoriaDB) => {
             if (err) {
                 return res.status(500).json({
