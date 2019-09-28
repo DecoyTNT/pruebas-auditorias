@@ -62,6 +62,25 @@ let verificaAdminAuditorLider = (req, res, next) => {
 }
 
 // =======================
+// Verificar ADMIN, AUDITOR_LIDER o Director
+// =======================
+let verificaAdminAuditorLiderDir = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITOR_LIDER' || usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
+        next()
+    } else {
+
+        return res.status(401).json({
+            ok: false,
+            err: {
+                message: "El usuario no es administrador o auditor lider"
+            }
+        })
+    }
+
+}
+
+// =======================
 // Verificar AUDITADO
 // =======================
 let verificaAuditado = (req, res, next) => {
@@ -167,6 +186,7 @@ module.exports = {
     verificaToken,
     verificaAdmin,
     verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
     verificaAuditado,
     verificaAuditor,
     verificaAuditorLider,

@@ -1,13 +1,22 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir
+} = require('../middlewares/autenticacion')
 
 const Norma = require('../models/norma')
 
 const app = express()
 
 // Obtiene todas las normas
-app.get('/norma', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.get('/norma', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -39,7 +48,7 @@ app.get('/norma', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 })
 
 // Obtiene una norma por id
-app.get('/norma/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.get('/norma/:id', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
     var normid = req.params.id
 
     Norma.findById(normid).exec((err, normaDB) => {

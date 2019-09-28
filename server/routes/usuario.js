@@ -5,12 +5,21 @@ const bcrypt = require('bcrypt')
 const _ = require('underscore')
 
 const Usuario = require('../models/usuario')
-const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir
+} = require('../middlewares/autenticacion')
 
 const app = express()
 
 // Usuarios Activos
-app.get('/usuario', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.get('/usuario', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -107,7 +116,7 @@ app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 //Obtener un usuario por id
-app.get('/usuario/:id', [verificaToken, verificaAdminAuditorLider], function(req, res) {
+app.get('/usuario/:id', [verificaToken, verificaAdminAuditorLiderDir], function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {
