@@ -114,7 +114,7 @@ app.put('/plan/validacion/:id', (req, res) => {
             });
         }
 
-        if (err) {
+        if (!planDB) {
             return res.status(400).json({
                 ok: false,
                 err

@@ -101,6 +101,9 @@ app.get('/auditoria/plan/:id', (req, res) => {
 // Crea una auditoria
 app.post('/auditoria', (req, res) => {
     let body = req.body
+    let cambiaValido = {
+        valido: true
+    }
 
     let auditoria = new Auditoria({
         nombreAuditoria: body.nombreAuditoria,
@@ -124,6 +127,24 @@ app.post('/auditoria', (req, res) => {
             })
         }
 
+        Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!planDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: "No se encontro el plan"
+                    }
+                })
+            }
+        })
+
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -138,6 +159,9 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
     body.valido = false
+    let cambiaValido = {
+        valido: false
+    }
 
     Auditoria.findByIdAndUpdate(id, body, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados, body } }, (err, auditoriaDB) => {
         if (err) {
@@ -153,6 +177,24 @@ app.put('/auditoria/:id', (req, res) => {
                 err
             })
         }
+
+        Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!planDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: "No se encontro el plan"
+                    }
+                })
+            }
+        })
 
         res.json({
             ok: true,
@@ -197,6 +239,9 @@ app.delete('/auditoria/:id', (req, res) => {
     let cambiaEstado = {
         estado: false
     }
+    let cambiaValido = {
+        valido: false
+    }
 
     Auditoria.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, auditoriaBorrada) => {
 
@@ -216,6 +261,24 @@ app.delete('/auditoria/:id', (req, res) => {
             })
         }
 
+        Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!planDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: "No se encontro el plan"
+                    }
+                })
+            }
+        })
+
         res.json({
             ok: true,
             auditoria: auditoriaBorrada
@@ -229,20 +292,23 @@ app.delete('/auditoria/plan/:id', (req, res) => {
     let cambiaEstado = {
         estado: false
     }
+    let cambiaValido = {
+        valido: false
+    }
 
-    Plan.findById(planid, (err, planid) => {
+    Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
-            })
+            });
         }
 
-        if (!planid) {
+        if (!planDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Plan no encontrado'
+                    message: "No se encontro el plan"
                 }
             })
         }
