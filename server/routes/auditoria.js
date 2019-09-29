@@ -102,7 +102,7 @@ app.get('/auditoria/plan/:id', (req, res) => {
 app.post('/auditoria', (req, res) => {
     let body = req.body
     let cambiaValido = {
-        valido: true
+        valido: false
     }
 
     let auditoria = new Auditoria({
@@ -159,9 +159,9 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
     body.valido = false
-    let cambiaValido = {
-        valido: false
-    }
+        // let cambiaValido = {
+        //     valido: false
+        // }
 
     Auditoria.findByIdAndUpdate(id, body, { $set: { normas: body.normas, grupoAuditor: body.grupoAuditor, auditados: body.auditados, body } }, (err, auditoriaDB) => {
         if (err) {
@@ -178,23 +178,23 @@ app.put('/auditoria/:id', (req, res) => {
             })
         }
 
-        Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                });
-            }
+        // Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+        //     if (err) {
+        //         return res.status(500).json({
+        //             ok: false,
+        //             err
+        //         });
+        //     }
 
-            if (!planDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: "No se encontro el plan"
-                    }
-                })
-            }
-        })
+        //     if (!planDB) {
+        //         return res.status(400).json({
+        //             ok: false,
+        //             err: {
+        //                 message: "No se encontro el plan"
+        //             }
+        //         })
+        //     }
+        // })
 
         res.json({
             ok: true,
@@ -296,7 +296,7 @@ app.delete('/auditoria/plan/:id', (req, res) => {
         valido: false
     }
 
-    Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+    Plan.findByIdAndUpdate(planid, cambiaValido, { new: true }, (err, planDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
