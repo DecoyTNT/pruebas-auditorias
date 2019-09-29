@@ -236,6 +236,7 @@ app.put('/auditoria/validacion/:id', (req, res) => {
 
 app.delete('/auditoria/:id', (req, res) => {
     let id = req.params.id
+    let body = req.body
     let cambiaEstado = {
         estado: false
     }
