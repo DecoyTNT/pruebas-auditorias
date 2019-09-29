@@ -262,7 +262,7 @@ app.delete('/auditoria/:id', (req, res) => {
             })
         }
 
-        Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
+        Plan.findByIdAndUpdate(auditoriaBorrada.plan, cambiaValido, { new: true }, (err, planDB) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
