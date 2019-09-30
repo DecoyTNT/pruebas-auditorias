@@ -21,12 +21,12 @@ let auditoriaSchema = new Schema({
         ref: 'Norma'
     }],
     fechaInicial: {
-        type: Date,
-        required: [true, 'La fecha incial de la auditoria es necesario']
+        type: String,
+        required: [true, 'La fecha incial de la auditoria es necesaria']
     },
     fechaFinal: {
-        type: Date,
-        required: [true, 'La fecha final de la auditoria es necesario']
+        type: String,
+        required: [true, 'La fecha final de la auditoria es necesaria']
     },
     plan: {
         type: Schema.Types.ObjectId,

@@ -49,6 +49,14 @@ app.get('/institucion/:id', [verificaToken, verificaAdminAuditorLider], (req, re
                 err
             })
         }
+        if (!institucionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontró la institución'
+                }
+            })
+        }
         res.json({
             ok: true,
             institucion: institucionDB
