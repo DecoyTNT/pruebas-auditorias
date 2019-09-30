@@ -94,6 +94,9 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
 // Crear una planeacion
 app.post('/planeacion', (req, res) => {
     let body = req.body
+    let cambiaValido = {
+        valido: false
+    }
 
     let planeacion = new Planeacion({
         auditoria: body.auditoria,
@@ -108,9 +111,45 @@ app.post('/planeacion', (req, res) => {
     })
 
     planeacion.save({ $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
 
+        Auditoria.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: "No se encontro la auditoría"
+                    }
+                })
+            }
+        })
+
+        res.json({
+            ok: true,
+            planeacion: planeacionDB
+        })
     })
 })
 
+// Actualizar una Planeacion
+app.put('/planeacion/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+    let cambiaValido
+
+
+})
 
 module.exports = app;

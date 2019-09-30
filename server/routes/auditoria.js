@@ -162,6 +162,7 @@ app.put('/auditoria/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
     body.valido = false
+    body.progreso = 'encurso'
         // let cambiaValido = {
         //     valido: false
         // }
@@ -180,24 +181,6 @@ app.put('/auditoria/:id', (req, res) => {
                 err
             })
         }
-
-        // Plan.findByIdAndUpdate(body.plan, cambiaValido, { new: true }, (err, planDB) => {
-        //     if (err) {
-        //         return res.status(500).json({
-        //             ok: false,
-        //             err
-        //         });
-        //     }
-
-        //     if (!planDB) {
-        //         return res.status(400).json({
-        //             ok: false,
-        //             err: {
-        //                 message: "No se encontro el plan"
-        //             }
-        //         })
-        //     }
-        // })
 
         res.json({
             ok: true,
