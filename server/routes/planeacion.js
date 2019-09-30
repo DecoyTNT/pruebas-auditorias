@@ -1,0 +1,116 @@
+const express = require('express')
+
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir
+} = require('../middlewares/autenticacion')
+
+const Planeacion = require('../models/planeacion')
+const Auditoria = require('../models/auditoria')
+
+const app = express()
+
+// Obtener todas las planeaciones
+app.get('/planeacion', (req, res) => {
+
+    Planeacion.find()
+        .exec((err, planeaciones) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            Planeacion.count((err, conteo) => {
+                res.json({
+                    ok: true,
+                    planeaciones,
+                    cuantos: conteo
+                })
+            })
+        })
+})
+
+// Obtener todas las planeaciones
+app.get('/planeacion/:id', (req, res) => {
+    let id = req.params.id
+
+    Planeacion.findById(id)
+        .exec((err, planeacionDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            if (!planeacionDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontró la planeación'
+                    }
+                })
+            }
+            res.json({
+                ok: true,
+                planeacion: planeacionDB,
+            })
+
+        })
+})
+
+// Obtiene las planeaciones de una auditoría por id
+app.get('/planeacion/auditoria/:id', (req, res) => {
+    var auditoriaid = req.params.id
+
+    Auditoria.findById(auditoriaid)
+        .exec((err, planeacionDB) => {
+            Planeacion.find({ auditoria: auditoriaid, estado: true })
+                .exec((err, planeaciones) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Planeacion.count({ auditoria: auditoriaid, estado: true }, (err, conteo) => {
+                        res.json({
+                            ok: true,
+                            planeaciones,
+                            cuantos: conteo
+                        })
+                    })
+
+                })
+
+        })
+})
+
+// Crear una planeacion
+app.post('/planeacion', (req, res) => {
+    let body = req.body
+
+    let planeacion = new Planeacion({
+        auditoria: body.auditoria,
+        fecha: body.fecha,
+        horario: body.horario,
+        proceso: body.proceso,
+        actividad: body.actividad,
+        criterio: body.criterio,
+        participantes: body.participantes,
+        contacto: body.contacto,
+        area: body.area
+    })
+
+    planeacion.save({ $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
+
+    })
+})
+
+
+module.exports = app;
