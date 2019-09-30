@@ -19,10 +19,10 @@ app.get('/auditoria', (req, res) => {
     Auditoria.find({ estado: true })
         // .skip(desde)
         // .limit(limite)
-        .populate('normas', 'nombreNorma')
-        .populate('grupoAuditor', 'nombre')
-        .populate('auditados', 'nombre')
-        .populate('plan', 'nombrePlan')
+        .populate('normas')
+        .populate('grupoAuditor')
+        .populate('auditados')
+        .populate('plan')
         .exec((err, auditorias) => {
             if (err) {
                 return res.status(500).json({
@@ -48,10 +48,10 @@ app.get('/auditoria/:id', (req, res) => {
     var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
-        .populate('normas', 'nombreNorma')
-        .populate('grupoAuditor', 'nombre')
-        .populate('auditados', 'nombre')
-        .populate('plan', 'nombrePlan')
+        .populate('normas')
+        .populate('grupoAuditor')
+        .populate('auditados')
+        .populate('plan')
         .exec((err, auditoriaDB) => {
             if (err) {
                 return res.status(500).json({
@@ -76,7 +76,10 @@ app.get('/auditoria/plan/:id', (req, res) => {
             Auditoria.find({ plan: planid, estado: true })
                 // .skip(desde)
                 // .limit(limite)
-                .populate('plan', 'nombrePlan')
+                .populate('normas')
+                .populate('grupoAuditor')
+                .populate('auditados')
+                .populate('plan')
                 .exec((err, auditorias) => {
                     if (err) {
                         return res.status(500).json({
