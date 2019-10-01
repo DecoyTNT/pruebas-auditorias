@@ -6,6 +6,7 @@ const {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditado,
+    verificaAuditadoAuditorDir,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
@@ -16,7 +17,7 @@ const Plan = require('../models/plan')
 const app = express()
 
 // Obtiene los planes
-app.get('/plan', (req, res) => {
+app.get('/plan', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
 
     Plan.find({ estado: true })
         .exec((err, planes) => {
@@ -38,7 +39,7 @@ app.get('/plan', (req, res) => {
 })
 
 // Obtiene un plan por id
-app.get('/plan/:id', (req, res) => {
+app.get('/plan/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
     var planid = req.params.id
 
     Plan.findById(planid)
@@ -109,7 +110,7 @@ app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 })
 
 // Valida un plan
-app.put('/plan/validacion/:id', (req, res) => {
+app.put('/plan/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id
     let cambiaValido = {
         valido: true

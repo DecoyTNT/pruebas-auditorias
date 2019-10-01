@@ -62,7 +62,7 @@ let verificaAdminAuditorLider = (req, res, next) => {
 }
 
 // =======================
-// Verificar ADMIN, AUDITOR_LIDER o Director
+// Verificar ADMIN, AUDITOR_LIDER o DIRECTOR
 // =======================
 let verificaAdminAuditorLiderDir = (req, res, next) => {
     let usuario = req.usuario
@@ -86,6 +86,25 @@ let verificaAdminAuditorLiderDir = (req, res, next) => {
 let verificaAuditado = (req, res, next) => {
     let usuario = req.usuario
     if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'ROOT') {
+        next()
+    } else {
+
+        return res.status(401).json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditado"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar AUDITADO, AUDITOR y DIRECTOR
+// =======================
+let verificaAuditadoAuditorDir = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
@@ -188,6 +207,7 @@ module.exports = {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditado,
+    verificaAuditadoAuditorDir,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir,

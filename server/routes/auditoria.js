@@ -6,6 +6,7 @@ const {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditado,
+    verificaAuditadoAuditorDir,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
@@ -17,7 +18,7 @@ const Plan = require('../models/plan')
 const app = express()
 
 // Obtiene las auditorias
-app.get('/auditoria', (req, res) => {
+app.get('/auditoria', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -53,7 +54,7 @@ app.get('/auditoria', (req, res) => {
 })
 
 // Obtiene una auditoria por id
-app.get('/auditoria/:id', (req, res) => {
+app.get('/auditoria/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
     var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
@@ -77,7 +78,7 @@ app.get('/auditoria/:id', (req, res) => {
 })
 
 // Obtiene las auditorias de un plan por id
-app.get('/auditoria/plan/:id', (req, res) => {
+app.get('/auditoria/plan/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
     var planid = req.params.id
 
     Plan.findById(planid)
@@ -202,7 +203,7 @@ app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res)
 })
 
 // Valida la auditoria
-app.put('/auditoria/validacion/:id', (req, res) => {
+app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id
     let cambiaValido = {
         valido: true
