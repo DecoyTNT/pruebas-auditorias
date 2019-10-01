@@ -13,7 +13,7 @@ let verificaToken = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 err: {
-                    message: "Token no válido"
+                    message: "No tienes acceso a este contenido"
                 }
             })
         }
@@ -93,25 +93,6 @@ let verificaAuditado = (req, res, next) => {
             ok: false,
             err: {
                 message: "El usuario no es auditado"
-            }
-        })
-    }
-
-}
-
-// =======================
-// Verificar AUDITADO, AUDITOR y DIRECTOR
-// =======================
-let verificaAuditadoAuditorDir = (req, res, next) => {
-    let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
-        next()
-    } else {
-
-        return res.status(401).json({
-            ok: false,
-            err: {
-                message: "El usuario no es administrador, auditado"
             }
         })
     }
@@ -207,7 +188,6 @@ module.exports = {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditado,
-    verificaAuditadoAuditorDir,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir,

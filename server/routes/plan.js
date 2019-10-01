@@ -6,7 +6,6 @@ const {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditado,
-    verificaAuditadoAuditorDir,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
