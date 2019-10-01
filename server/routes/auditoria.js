@@ -1,6 +1,15 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir
+} = require('../middlewares/autenticacion')
 
 const Auditoria = require('../models/auditoria')
 const Plan = require('../models/plan')
@@ -102,7 +111,7 @@ app.get('/auditoria/plan/:id', (req, res) => {
 })
 
 // Crea una auditoria
-app.post('/auditoria', (req, res) => {
+app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
     let cambiaValido = {
         valido: false
@@ -158,7 +167,7 @@ app.post('/auditoria', (req, res) => {
 })
 
 // Actualiza la auditoria
-app.put('/auditoria/:id', (req, res) => {
+app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
     body.valido = false
@@ -178,7 +187,9 @@ app.put('/auditoria/:id', (req, res) => {
         if (!auditoriaDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'No se encontro la auditoría'
+                }
             })
         }
 
@@ -220,7 +231,7 @@ app.put('/auditoria/validacion/:id', (req, res) => {
     })
 })
 
-app.delete('/auditoria/:id', (req, res) => {
+app.delete('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
     let cambiaEstado = {
@@ -274,7 +285,7 @@ app.delete('/auditoria/:id', (req, res) => {
 })
 
 // Elimina los subprocesos de un procesos por id
-app.delete('/auditoria/plan/:id', (req, res) => {
+app.delete('/auditoria/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var planid = req.params.id
     let cambiaEstado = {
         estado: false

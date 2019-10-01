@@ -1,6 +1,15 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
+    verificaAuditado,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir
+} = require('../middlewares/autenticacion')
 
 const Plan = require('../models/plan')
 
@@ -49,7 +58,7 @@ app.get('/plan/:id', (req, res) => {
 })
 
 // Crea un plan
-app.post('/plan', (req, res) => {
+app.post('/plan', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
 
     let plan = new Plan({
@@ -73,7 +82,7 @@ app.post('/plan', (req, res) => {
 })
 
 // Actualiza un plan
-app.put('/plan/:id', (req, res) => {
+app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -99,7 +108,7 @@ app.put('/plan/:id', (req, res) => {
     })
 })
 
-// Actualiza un plan
+// Valida un plan
 app.put('/plan/validacion/:id', (req, res) => {
     let id = req.params.id
     let cambiaValido = {
@@ -129,7 +138,7 @@ app.put('/plan/validacion/:id', (req, res) => {
 })
 
 // Elimina un plan
-app.delete('/plan/:id', (req, res) => {
+app.delete('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let cambiaEstado = {
         estado: false
@@ -160,7 +169,7 @@ app.delete('/plan/:id', (req, res) => {
 })
 
 // Elimina definitivamente un plan
-app.delete('/plan/eliminar/:id', (req, res) => {
+app.delete('/plan/eliminar/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
     Plan.findByIdAndRemove(id, (err, planBorrado) => {

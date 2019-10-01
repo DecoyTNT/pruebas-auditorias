@@ -17,7 +17,11 @@ const app = express()
 // Obtener todas las planeaciones
 app.get('/planeacion', (req, res) => {
 
-    Planeacion.find()
+    Planeacion.find({ estado: true })
+        .populate('auditoria')
+        .populate('proceso')
+        .populate('participantes')
+        .populate('contacto')
         .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -25,7 +29,7 @@ app.get('/planeacion', (req, res) => {
                     err
                 })
             }
-            Planeacion.count((err, conteo) => {
+            Planeacion.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     planeaciones,
@@ -40,6 +44,10 @@ app.get('/planeacion/:id', (req, res) => {
     let id = req.params.id
 
     Planeacion.findById(id)
+        .populate('auditoria')
+        .populate('proceso')
+        .populate('participantes')
+        .populate('contacto')
         .exec((err, planeacionDB) => {
             if (err) {
                 return res.status(500).json({
@@ -68,6 +76,10 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
     var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
+        .populate('auditoria')
+        .populate('proceso')
+        .populate('participantes')
+        .populate('contacto')
         .exec((err, planeacionDB) => {
             Planeacion.find({ auditoria: auditoriaid, estado: true })
                 .exec((err, planeaciones) => {
@@ -147,9 +159,104 @@ app.post('/planeacion', (req, res) => {
 app.put('/planeacion/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
-    let cambiaValido
+    let cambiaValido = {
+        valido: false
+    }
 
+    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!planeacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la planeacion'
+                }
+            })
+        }
+
+        Auditoria.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoría'
+                    }
+                })
+            }
+        })
+
+        res.json({
+            ok: true,
+            planeacion: planeacionDB
+        })
+    })
 
 })
+
+// Eliminar planeacion
+app.delete('planeacion/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+    let cambiaEstado = {
+        estado: true
+    }
+
+    Planeacion.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planeacionBorrada) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!planeacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la planeacion'
+                }
+            })
+        }
+
+        Auditoria.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoría'
+                    }
+                })
+            }
+        })
+
+        res.json({
+            ok: true,
+            planeacion: planeacionBorrada
+        })
+    })
+})
+
+
+
 
 module.exports = app;
