@@ -73,7 +73,7 @@ let verificaAdminAuditorLiderDir = (req, res, next) => {
         return res.status(401).json({
             ok: false,
             err: {
-                message: "El usuario no es administrador o auditor lider"
+                message: "El usuario no es administrador, auditor lider o director"
             }
         })
     }
@@ -104,14 +104,14 @@ let verificaAuditado = (req, res, next) => {
 // =======================
 let verificaAuditadoAuditorDir = (req, res, next) => {
     let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
+    if (usuario.tipo_Usuario === 'ADMIN' || usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'ALTA_DIRECCION' || usuario.tipo_Usuario === 'ROOT') {
         next()
     } else {
 
         return res.status(401).json({
             ok: false,
             err: {
-                message: "El usuario no es auditado"
+                message: "El usuario no es administrador, auditado"
             }
         })
     }

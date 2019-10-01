@@ -17,7 +17,7 @@ const Plan = require('../models/plan')
 const app = express()
 
 // Obtiene los planes
-app.get('/plan', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
+app.get('/plan', [verificaToken], (req, res) => {
 
     Plan.find({ estado: true })
         .exec((err, planes) => {
@@ -39,7 +39,7 @@ app.get('/plan', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
 })
 
 // Obtiene un plan por id
-app.get('/plan/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
+app.get('/plan/:id', [verificaToken], (req, res) => {
     var planid = req.params.id
 
     Plan.findById(planid)

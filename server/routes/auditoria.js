@@ -18,7 +18,7 @@ const Plan = require('../models/plan')
 const app = express()
 
 // Obtiene las auditorias
-app.get('/auditoria', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
+app.get('/auditoria', [verificaToken], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
@@ -54,7 +54,7 @@ app.get('/auditoria', [verificaToken, verificaAuditadoAuditorDir], (req, res) =>
 })
 
 // Obtiene una auditoria por id
-app.get('/auditoria/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
+app.get('/auditoria/:id', [verificaToken], (req, res) => {
     var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
@@ -78,7 +78,7 @@ app.get('/auditoria/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res
 })
 
 // Obtiene las auditorias de un plan por id
-app.get('/auditoria/plan/:id', [verificaToken, verificaAuditadoAuditorDir], (req, res) => {
+app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
     var planid = req.params.id
 
     Plan.findById(planid)
