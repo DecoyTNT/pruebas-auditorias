@@ -13,6 +13,11 @@ app.use(require('./auditoria'))
 app.use(require('./plan'))
 app.use(require('./planeacion'))
 app.use(require('./imagen'))
+app.use(require('./pdfmake'))
+
+
+// const pdfRoute = require('./routes/pdfmake');
+// app.use('/pdfMake', pdfRoute);
 
 
 module.exports = app;

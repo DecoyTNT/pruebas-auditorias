@@ -73,14 +73,30 @@ app.get('/planeacion/:id', (req, res) => {
 
 // Obtiene las planeaciones de una auditoría por id
 app.get('/planeacion/auditoria/:id', (req, res) => {
-    var auditoriaid = req.params.id
+    let auditoriaid = req.params.id
 
-    Auditoria.findById(auditoriaid)
+    Auditoria.findById(auditoriaid, { valido: true })
         .populate('auditoria')
         .populate('proceso')
         .populate('participantes')
         .populate('contacto')
         .exec((err, planeacionDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!planeacionDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoria'
+                    }
+                })
+            }
+
             Planeacion.find({ auditoria: auditoriaid, estado: true })
                 .exec((err, planeaciones) => {
                     if (err) {
