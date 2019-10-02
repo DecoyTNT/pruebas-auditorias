@@ -73,7 +73,7 @@ app.get('/planeacion/:id', (req, res) => {
 
 // Obtiene las planeaciones de una auditoría por id
 app.get('/planeacion/auditoria/:id', (req, res) => {
-    let auditoriaid = req.params.id
+    var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
         .populate('auditoria')
