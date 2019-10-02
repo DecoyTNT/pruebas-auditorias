@@ -75,7 +75,7 @@ app.get('/planeacion/:id', (req, res) => {
 app.get('/planeacion/auditoria/:id', (req, res) => {
     let auditoriaid = req.params.id
 
-    Auditoria.findById(auditoriaid, { valido: true })
+    Auditoria.findById(auditoriaid)
         .populate('auditoria')
         .populate('proceso')
         .populate('participantes')
