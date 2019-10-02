@@ -76,11 +76,7 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
     var auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
-        .populate('auditoria')
-        .populate('proceso')
-        .populate('participantes')
-        .populate('contacto')
-        .exec((err, planeacionDB) => {
+        .exec((err, auditoriaDB) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
@@ -88,7 +84,7 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
                 })
             }
 
-            if (!planeacionDB) {
+            if (!auditoriaDB) {
                 return res.status(400).json({
                     ok: false,
                     err: {
@@ -98,6 +94,10 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
             }
 
             Planeacion.find({ auditoria: auditoriaid, estado: true })
+                .populate('auditoria')
+                .populate('proceso')
+                .populate('participantes')
+                .populate('contacto')
                 .exec((err, planeaciones) => {
                     if (err) {
                         return res.status(500).json({
@@ -134,11 +134,11 @@ app.post('/planeacion', (req, res) => {
         actividad: body.actividad,
         criterio: body.criterio,
         participantes: body.participantes,
-        contactos: body.contactos,
+        contacto: body.contacto,
         area: body.area
     })
 
-    planeacion.save({ $set: { participantes: body.participantes, contactos: body.contactos, } }, (err, planeacionDB) => {
+    planeacion.save({ $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -179,7 +179,7 @@ app.put('/planeacion/:id', (req, res) => {
         valido: false
     }
 
-    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contactos: body.contactos, } }, (err, planeacionDB) => {
+    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
