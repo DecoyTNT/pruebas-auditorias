@@ -12,6 +12,7 @@ pdfMake.vfs = vfsFonts.pdfMake.vfs;
 app.post('/pdf/planeacion', (req, res, next) => {
     //res.send('PDF');
     let body = req.body
+    var fecha = { text: 'FECHA:', margin: [35, 20, 0, 0], style: 'tableHeader' }
 
     var documentDefinition = {
         content: [{
@@ -42,7 +43,10 @@ app.post('/pdf/planeacion', (req, res, next) => {
                     ]
                 }
             },
-            { text: 'FECHA:', margin: [35, 20, 0, 0], style: 'tableHeader' },
+            fecha,
+            { fecha },
+            { fecha },
+            // { text: 'FECHA:', margin: [35, 20, 0, 0], style: 'tableHeader' },
             {
                 style: 'tableExample', // optional
                 table: {

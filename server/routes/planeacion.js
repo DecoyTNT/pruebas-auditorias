@@ -98,6 +98,7 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
                 .populate('proceso')
                 .populate('participantes')
                 .populate('contacto')
+                .sort('horario')
                 .exec((err, planeaciones) => {
                     if (err) {
                         return res.status(500).json({
