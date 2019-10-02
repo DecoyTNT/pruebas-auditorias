@@ -28,7 +28,7 @@ let planeacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }],
-    contacto: [{
+    contactos: [{
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }],

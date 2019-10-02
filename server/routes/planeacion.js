@@ -134,7 +134,7 @@ app.post('/planeacion', (req, res) => {
         actividad: body.actividad,
         criterio: body.criterio,
         participantes: body.participantes,
-        contacto: body.contacto,
+        contactos: body.contactos,
         area: body.area
     })
 
