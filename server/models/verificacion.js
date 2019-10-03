@@ -8,19 +8,19 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    proceso: {
-        type: Schema.Types.ObjectId,
-        ref: 'Proceso'
-    },
-    procedimiento: {
-        type: String
-    },
-    area: {
-        type: String
-    },
-    actividad: {
-        type: String
-    },
+    // proceso: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Proceso'
+    // },
+    // procedimiento: {
+    //     type: String
+    // },
+    // area: {
+    //     type: String
+    // },
+    // actividad: {
+    //     type: String
+    // },
     auditoria: {
         type: Schema.Types.ObjectId,
         ref: 'Auditorias'
@@ -29,10 +29,10 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    norma: {
-        type: Schema.Types.ObjectId,
-        ref: 'Norma'
-    },
+    // norma: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Norma'
+    // },
     puntoNorma: [{
         type: String
     }],
