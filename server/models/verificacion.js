@@ -8,19 +8,6 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    // proceso: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Proceso'
-    // },
-    // procedimiento: {
-    //     type: String
-    // },
-    // area: {
-    //     type: String
-    // },
-    // actividad: {
-    //     type: String
-    // },
     auditoria: {
         type: Schema.Types.ObjectId,
         ref: 'Auditorias'
@@ -29,27 +16,27 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    // norma: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Norma'
-    // },
-    puntoNorma: [{
+    puntoNorma: {
         type: String
-    }],
-    pregunta: [{
+    },
+    pregunta: {
         type: String
-    }],
-    documento: [{
+    },
+    documento: {
         type: String
-    }],
-    evidencia: [{
+    },
+    evidencia: {
         type: String
-    }],
-    hallazgos: [{
+    },
+    hallazgos: {
         type: String
-    }],
+    },
     fecha: {
         type: String
+    },
+    estado: {
+        type: Boolean,
+        default: true
     }
 
 })
