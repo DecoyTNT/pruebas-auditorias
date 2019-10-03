@@ -194,6 +194,19 @@ app.post('/verificacion', (req, res) => {
         hallazgos: body.hallazgos,
         fecha: body.fecha
     })
+
+    verificacion.save((err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+        res.json({
+            ok: true,
+            verificacionDB
+        })
+    })
 })
 
 
