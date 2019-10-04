@@ -252,7 +252,7 @@ app.delete('/planeacion/:id', (req, res) => {
             })
         }
 
-        Auditoria.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, auditoriaDB) => {
+        Auditoria.findByIdAndUpdate(planeacionBorrada.auditoria, cambiaValido, { new: true }, (err, auditoriaDB) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
