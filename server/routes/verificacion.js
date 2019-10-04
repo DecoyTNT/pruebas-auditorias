@@ -146,8 +146,8 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria y auditor 
-app.get('/verificacion/auditoria/usuario/:idAuditoria', verificaToken, (req, res) => {
-    let auditoriaid = req.params.idAuditoria
+app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
+    let auditoriaid = req.params.id
         // let auditorid = req.params.idUsuario
     let usuario = req.usuario
 
