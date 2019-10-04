@@ -225,7 +225,7 @@ app.put('/planeacion/:id', (req, res) => {
 })
 
 // Eliminar planeacion
-app.delete('planeacion/:id', (req, res) => {
+app.delete('/planeacion/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
     let cambiaEstado = {
