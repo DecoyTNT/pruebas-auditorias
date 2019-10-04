@@ -98,6 +98,7 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
                 .populate('proceso')
                 .populate('participantes')
                 .populate('contacto')
+                .sort('fecha')
                 .sort('horario')
                 .exec((err, planeaciones) => {
                     if (err) {

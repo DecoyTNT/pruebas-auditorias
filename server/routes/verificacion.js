@@ -146,11 +146,12 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria y auditor 
-app.get('/verificacion/auditoria/usuario/:idAuditoria/:idUsuario', (req, res) => {
+app.get('/verificacion/auditoria/usuario/:idAuditoria', verificaToken, (req, res) => {
     let auditoriaid = req.params.idAuditoria
-    let auditorid = req.params.idUsuario
+        // let auditorid = req.params.idUsuario
+    let usuario = req.usuario
 
-    Verificacion.find({ auditoria: auditoriaid, auditor: auditorid })
+    Verificacion.find({ auditoria: auditoriaid, auditor: usuario._id })
         .exec((err, verificaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -168,7 +169,7 @@ app.get('/verificacion/auditoria/usuario/:idAuditoria/:idUsuario', (req, res) =>
                 })
             }
 
-            Verificacion.count({ auditoria: auditoriaid, auditor: auditorid }, (err, conteo) => {
+            Verificacion.count({ auditoria: auditoriaid, auditor: usuario._id }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
@@ -183,7 +184,7 @@ app.get('/verificacion/auditoria/usuario/:idAuditoria/:idUsuario', (req, res) =>
 app.post('/verificacion', (req, res) => {
     let body = req.body
 
-    let verificaion = new Verificacion({
+    let verificacion = new Verificacion({
         auditor: body.auditor,
         auditoria: body.auditoria,
         entrevistado: body.entrevistado,
