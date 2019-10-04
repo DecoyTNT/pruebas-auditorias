@@ -231,6 +231,9 @@ app.delete('/planeacion/:id', (req, res) => {
     let cambiaEstado = {
         estado: true
     }
+    let cambiaValido = {
+        valido: false
+    }
 
     Planeacion.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, planeacionBorrada) => {
         if (err) {
@@ -240,7 +243,7 @@ app.delete('/planeacion/:id', (req, res) => {
             });
         }
 
-        if (!planeacionDB) {
+        if (!planeacionBorrada) {
             return res.status(400).json({
                 ok: false,
                 err: {
