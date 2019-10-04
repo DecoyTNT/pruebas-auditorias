@@ -181,11 +181,12 @@ app.get('/verificacion/auditoria/usuario/:idAuditoria', verificaToken, (req, res
 })
 
 // Crear una verificacion
-app.post('/verificacion', (req, res) => {
+app.post('/verificacion', verificaToken, (req, res) => {
     let body = req.body
+    let usuario = req.usuario
 
     let verificacion = new Verificacion({
-        auditor: body.auditor,
+        auditor: usuario._id,
         auditoria: body.auditoria,
         entrevistado: body.entrevistado,
         puntoNorma: body.puntoNorma,
