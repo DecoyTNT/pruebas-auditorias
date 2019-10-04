@@ -229,7 +229,7 @@ app.delete('/planeacion/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
     let cambiaEstado = {
-        estado: true
+        estado: false
     }
     let cambiaValido = {
         valido: false
