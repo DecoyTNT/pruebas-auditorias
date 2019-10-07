@@ -144,23 +144,18 @@ app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
                 })
             }
 
-            Planeacion.find({ auditoria: auditoriaid, estado: true })
-                .exec((err, planeaciones) => {
+            Usuario.find({ _id: auditoriaDB.grupoAuditor })
+                .exec((err, usuarios) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
                             err
                         })
                     }
-
-                    Usuario.find({ _id: auditoriaDB.grupoAuditor })
-                        .exec((err, usuarios) => {
-                            res.json({
-                                ok: true,
-                                usuarios
-                            })
-                        })
-
+                    res.json({
+                        ok: true,
+                        usuarios
+                    })
                 })
 
         })
