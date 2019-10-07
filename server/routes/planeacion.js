@@ -153,7 +153,7 @@ app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
                         })
                     }
 
-                    Usuario.find({ _id: planeaciones.participantes })
+                    Usuario.find({ _id: auditoriaDB.grupoAuditor })
                         .exec((err, usuarios) => {
                             res.json({
                                 ok: true,
