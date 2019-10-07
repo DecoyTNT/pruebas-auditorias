@@ -130,23 +130,27 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
             })
         }
 
-        Auditoria.update({ plan: id }, { nombreAuditoria: `${planDB}_${nombreAuditoria}` }, { multi: true }, (err, auditoriaDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                })
-            }
+        Auditoria
+            .find({ plan: id })
+            .exec((err, auditorias) => {
+                update({ plan: id }, { nombreAuditoria: `${planDB}_${auditorias.nombreAuditoria}` }, { multi: true }, (err, auditoriaDB) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
 
-            if (!auditoriaDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'Auditoria no encontrada'
+                    if (!auditoriaDB) {
+                        return res.status(400).json({
+                            ok: false,
+                            err: {
+                                message: 'Auditoria no encontrada'
+                            }
+                        })
                     }
                 })
-            }
-        })
+            })
         res.json({
             ok: true,
             plan: planDB
