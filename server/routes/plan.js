@@ -133,7 +133,7 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
         Auditoria
             .find({ plan: id })
             .exec((err, auditorias) => {
-                update({ plan: id }, { nombreAuditoria: `${planDB}_${auditorias.nombreAuditoria}` }, { multi: true }, (err, auditoriaDB) => {
+                Auditoria.update({ plan: id }, { nombreAuditoria: `${planDB}_${auditorias.nombreAuditoria}` }, { multi: true }, (err, auditoriaDB) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
