@@ -83,33 +83,6 @@ app.post('/plan', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 })
 
 // Actualiza un plan
-// app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
-//     let id = req.params.id
-//     let body = req.body
-
-//     Plan.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, planDB) => {
-//         if (err) {
-//             return res.status(500).json({
-//                 ok: false,
-//                 err
-//             });
-//         }
-
-//         if (err) {
-//             return res.status(400).json({
-//                 ok: false,
-//                 err
-//             })
-//         }
-
-//         res.json({
-//             ok: true,
-//             plan: planDB
-//         })
-//     })
-// })
-
-// Actualiza un plan
 app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
@@ -128,29 +101,14 @@ app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
                 err
             })
         }
-        Auditoria.update({ plan: id }, { nombreAuditoria: `${planDB}_${nombreAuditoria}` }, { multi: true }, (err, auditoriaDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                })
-            }
 
-            if (!auditoriaDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'Auditoria no encontrada'
-                    }
-                })
-            }
-        })
         res.json({
             ok: true,
             plan: planDB
         })
     })
 })
+
 
 // Actualiza un plan
 app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
