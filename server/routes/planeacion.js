@@ -11,6 +11,7 @@ const {
 
 const Planeacion = require('../models/planeacion')
 const Auditoria = require('../models/auditoria')
+const Usuario = require('../models/usuario')
 
 const app = express()
 
@@ -115,6 +116,50 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
                             cuantos: conteo
                         })
                     })
+
+                })
+
+        })
+})
+
+// Obtiene los auditores de una planeacion de una auditoría por id
+app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
+    let auditoriaid = req.params.id
+
+    Auditoria.findById(auditoriaid)
+        .exec((err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoria'
+                    }
+                })
+            }
+
+            Planeacion.find({ auditoria: auditoriaid, estado: true })
+                .exec((err, planeaciones) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Usuario.find({ _id: planeaciones.participantes })
+                        .exec((err, usuarios) => {
+                            res.json({
+                                ok: true,
+                                usuarios
+                            })
+                        })
 
                 })
 
