@@ -59,6 +59,10 @@ let auditoriaSchema = new Schema({
         type: Boolean,
         default: false
     },
+    pasos: {
+        type: Number,
+        default: 0
+    },
     estado: {
         type: Boolean,
         default: true

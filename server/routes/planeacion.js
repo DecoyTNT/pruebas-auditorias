@@ -121,6 +121,56 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
         })
 })
 
+// Obtiene las planeaciones de una auditoría por id
+app.get('/planeacion/auditoria/enviar/:id', (req, res) => {
+    let auditoriaid = req.params.id
+
+    Auditoria.findById(auditoriaid)
+        .exec((err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoria'
+                    }
+                })
+            }
+
+            Planeacion.find({ auditoria: auditoriaid, estado: true, enviar: true })
+                .populate('auditoria')
+                .populate('proceso')
+                .populate('participantes')
+                .populate('contacto')
+                .sort('fecha')
+                .sort('horario')
+                .exec((err, planeaciones) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Planeacion.count({ auditoria: auditoriaid, estado: true, enviar: true }, (err, conteo) => {
+                        res.json({
+                            ok: true,
+                            planeaciones,
+                            cuantos: conteo
+                        })
+                    })
+
+                })
+
+        })
+})
+
 // Crear una planeacion
 app.post('/planeacion', (req, res) => {
     let body = req.body

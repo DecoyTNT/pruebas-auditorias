@@ -35,6 +35,10 @@ let planeacionSchema = new Schema({
     area: {
         type: String
     },
+    enviar: {
+        type: Boolean,
+        default: false
+    },
     estado: {
         type: Boolean,
         default: true
