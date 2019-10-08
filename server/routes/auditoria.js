@@ -203,11 +203,11 @@ app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res)
 // Valida la auditoria
 app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id
-    let cambiaValido = {
-        valido: true
-    }
+        // let cambiaValido = {
+        //     valido: true
+        // }
 
-    Auditoria.findByIdAndUpdate(id, { cambiaValido, pasos: 2 }, { new: true }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, { valido: true, pasos: 2 }, { multi: true }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
