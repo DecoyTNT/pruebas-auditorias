@@ -56,11 +56,11 @@ app.post('/pdf/planeacion', (req, res, next) => {
                 table: {
                     widths: [140, 220, 38, 50],
                     body: [
-                        [{ text: 'Instituto Tecnologico Superior:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.institucion, colSpan: 3, style: 'tableHeader', alignment: 'center' }, ' ', ' '],
-                        [{ text: 'Norma de Referencia:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.normasR, colSpan: 3, style: 'tableHeader', alignment: 'center' }, ' ', ' '],
+                        [{ text: 'Instituto Tecnologico Superior:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.institucion, colSpan: 3, style: 'tableHeader' }, ' ', ' '],
+                        [{ text: 'Norma de Referencia:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.normasR, colSpan: 3, style: 'tableHeader' }, ' ', ' '],
                         [{ text: 'Domicilio:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.domicilio, fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: 'Idioma:', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }, { text: 'Español', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }],
-                        [{ text: 'Objetivo:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.objetivo, colSpan: 1, style: 'tableHeader', alignment: 'center' }, { text: 'NACE:', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }, { text: '37', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }],
-                        [{ text: 'Alcance:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.alcance, colSpan: 3, style: 'tableHeader', alignment: 'center' }, ' ', ' '],
+                        [{ text: 'Objetivo:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.objetivo, colSpan: 1, style: 'tableHeader' }, { text: 'NACE:', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }, { text: '37', fontSize: 10, colSpan: 1, style: 'tableHeader', alignment: 'center' }],
+                        [{ text: 'Alcance:', fontSize: 10, colSpan: 1, style: 'tableHeader' }, { text: body.alcance, colSpan: 3, style: 'tableHeader' }, ' ', ' '],
                     ]
                 }
             },
