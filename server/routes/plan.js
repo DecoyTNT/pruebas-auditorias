@@ -130,10 +130,9 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
             })
         }
 
-        Auditoria
-            .find({ plan: id })
+        Auditoria.find({ plan: id })
             .exec((err, auditorias) => {
-                Auditoria.update({ plan: id }, { nombreAuditoria: `${planDB.nombrePlan}_${auditorias.nombre}` }, { multi: true }, (err, auditoriaDB) => {
+                Auditoria.updateMany({ plan: id }, { $set: { nombreAuditoria: `${planDB.nombrePlan}_${auditorias.indexOf[this].nombre}` } }, { multi: true }, (err, auditoriaDB) => {
                     if (err) {
                         return res.status(500).json({
                             ok: false,
@@ -149,13 +148,19 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
                             }
                         })
                     }
+
+                    res.json({
+                        ok: true,
+                        auditoria: auditoriaDB
+                    })
                 })
 
+
+
+
             })
-        res.json({
-            ok: true,
-            plan: planDB
-        })
+
+
     })
 })
 

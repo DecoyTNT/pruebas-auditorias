@@ -161,7 +161,7 @@ app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
         })
 })
 
-// Obtiene las planeaciones de una auditoría por id
+// Obtiene las planeaciones que han sido enviadas de una auditoría por id
 app.get('/planeacion/auditoria/enviar/:id', (req, res) => {
     let auditoriaid = req.params.id
 
