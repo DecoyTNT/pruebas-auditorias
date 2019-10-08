@@ -267,7 +267,7 @@ app.post('/planeacion', (req, res) => {
 app.put('/planeacion/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
-    body.enviar: false
+    body.enviar = false
     let cambiaValido = {
         valido: false
     }
