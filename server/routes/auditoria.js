@@ -170,7 +170,6 @@ app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) =>
 app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
-    body.valido = false
     body.progreso = 'encurso'
         // let cambiaValido = {
         //     valido: false
