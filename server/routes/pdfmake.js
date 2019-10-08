@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-const pdfMake = require('../pdfmake/pdfmake');
-const vfsFonts = require('../pdfmake/vfs_fonts');
+const pdfMake = require('../../pdfmake/pdfmake');
+const vfsFonts = require('../../pdfmake/vfs_fonts');
 
 pdfMake.vfs = vfsFonts.pdfMake.vfs;
 
