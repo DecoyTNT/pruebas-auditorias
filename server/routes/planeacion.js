@@ -314,6 +314,35 @@ app.put('/planeacion/:id', (req, res) => {
 
 })
 
+// Actualizar planeaciones por id de auditoria
+app.put('/planeacion/auditoria/:id', (req, res) => {
+    let auditoriaid = req.params.id
+
+    Planeacion.update({ auditoria: auditoriaid }, { enviar: true }, { multi: true }, (err, planeacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!planeacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro una planeacion con ese id de auditoría'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            planeacion: planeacionDB
+        })
+    })
+
+})
+
 // Eliminar planeacion
 app.delete('/planeacion/:id', (req, res) => {
     let id = req.params.id
