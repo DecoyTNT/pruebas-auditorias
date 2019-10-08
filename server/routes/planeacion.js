@@ -271,7 +271,7 @@ app.put('/planeacion/:id', (req, res) => {
         valido: false
     }
 
-    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
+    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contacto: body.contacto, enviar: false } }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

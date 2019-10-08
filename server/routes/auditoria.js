@@ -207,7 +207,7 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
         valido: true
     }
 
-    Auditoria.findByIdAndUpdate(id, cambiaValido, { new: true }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, { cambiaValido, pasos: 2 }, { new: true }, (err, auditoriaDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
