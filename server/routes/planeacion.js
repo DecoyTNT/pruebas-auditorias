@@ -318,6 +318,9 @@ app.put('/planeacion/:id', (req, res) => {
 // Actualizar planeaciones por id de auditoria
 app.put('/planeacion/auditoria/:id', (req, res) => {
     let auditoriaid = req.params.id
+    let cambiaValido = {
+        valido: false
+    }
 
     Planeacion.update({ auditoria: auditoriaid }, { enviar: true }, { multi: true }, (err, planeacionDB) => {
         if (err) {
@@ -335,7 +338,23 @@ app.put('/planeacion/auditoria/:id', (req, res) => {
                 }
             })
         }
+        Auditoria.findByIdAndUpdate(auditoriaid, cambiaValido, { new: true }, (err, auditoriaDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
 
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoría'
+                    }
+                })
+            }
+        })
         res.json({
             ok: true,
             planeacion: planeacionDB
