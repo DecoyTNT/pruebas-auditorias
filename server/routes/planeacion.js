@@ -339,6 +339,7 @@ app.put('/planeacion/auditoria/:id', (req, res) => {
             ok: true,
             planeacion: planeacionDB
         })
+
     })
 
 })
