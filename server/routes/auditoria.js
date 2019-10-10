@@ -63,7 +63,7 @@ app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Auditoria.find({ estado: true, termino: usuario._id })
+    Auditoria.find({ estado: true, termino: usuario.id })
         // .skip(desde)
         // .limit(limite)
         .populate('normas')
