@@ -81,25 +81,6 @@ let verificaAdminAuditorLiderDir = (req, res, next) => {
 }
 
 // =======================
-// Verificar AUDITADO
-// =======================
-let verificaAuditado = (req, res, next) => {
-    let usuario = req.usuario
-    if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'ROOT') {
-        next()
-    } else {
-
-        return res.status(401).json({
-            ok: false,
-            err: {
-                message: "El usuario no es auditado"
-            }
-        })
-    }
-
-}
-
-// =======================
 // Verificar AUDITOR
 // =======================
 let verificaAuditor = (req, res, next) => {
@@ -112,6 +93,44 @@ let verificaAuditor = (req, res, next) => {
             ok: false,
             err: {
                 message: "El usuario no es auditor"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar AUDITOR o AUDITADO
+// =======================
+let verificaAuditorAuditado = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITOR' || usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'ROOT') {
+        next()
+    } else {
+
+        return res.status(401).json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditor"
+            }
+        })
+    }
+
+}
+
+// =======================
+// Verificar AUDITADO
+// =======================
+let verificaAuditado = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'AUDITADO' || usuario.tipo_Usuario === 'ROOT') {
+        next()
+    } else {
+
+        return res.status(401).json({
+            ok: false,
+            err: {
+                message: "El usuario no es auditado"
             }
         })
     }
@@ -187,8 +206,9 @@ module.exports = {
     verificaAdmin,
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
-    verificaAuditado,
     verificaAuditor,
+    verificaAuditorAuditado,
+    verificaAuditado,
     verificaAuditorLider,
     verificaAltaDir,
     verificaTokenImg

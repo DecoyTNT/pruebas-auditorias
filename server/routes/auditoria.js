@@ -5,8 +5,9 @@ const {
     verificaAdmin,
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
-    verificaAuditado,
     verificaAuditor,
+    verificaAuditorAuditado,
+    verificaAuditado,
     verificaAuditorLider,
     verificaAltaDir
 } = require('../middlewares/autenticacion')
@@ -111,7 +112,7 @@ app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
 })
 
 // Obtiene las auditorias de un plan por id y por usuario
-app.get('/auditoria/plan/grupoauditor/:id', [verificaToken], (req, res) => {
+app.get('/auditoria/plan/usuario/:id', [verificaToken, verificaAuditorAuditado], (req, res) => {
     let planid = req.params.id
     let usuario = req.usuario
 
