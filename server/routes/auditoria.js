@@ -62,7 +62,7 @@ app.get('/auditoria/usuario/grupoAuditor', [verificaToken], (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Auditoria.find({ estado: true, grupoAuditor: usuario.id })
+    Auditoria.find({ estado: true, grupoAuditor: usuario._id })
         // .skip(desde)
         // .limit(limite)
         .populate('normas')
@@ -77,7 +77,7 @@ app.get('/auditoria/usuario/grupoAuditor', [verificaToken], (req, res) => {
                 })
             }
 
-            Auditoria.count({ estado: true, grupoAuditor: usuario.id }, (err, conteo) => {
+            Auditoria.count({ estado: true, grupoAuditor: usuario._id }, (err, conteo) => {
                 res.json({
                     ok: true,
                     auditorias,
