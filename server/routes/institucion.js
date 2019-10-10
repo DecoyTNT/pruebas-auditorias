@@ -1,13 +1,13 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAdminAuditorLiderDir, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
 
 const Institucion = require('../models/institucion')
 
 const app = express()
 
 // Obtiene la institucion
-app.get('/institucion', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.get('/institucion', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)

@@ -16,7 +16,7 @@ const Usuario = require('../models/usuario')
 const app = express()
 
 // Obtener todas las planeaciones
-app.get('/planeacion', (req, res) => {
+app.get('/planeacion', [verificaToken], (req, res) => {
 
     Planeacion.find({ estado: true })
         .populate('auditoria')
@@ -41,7 +41,7 @@ app.get('/planeacion', (req, res) => {
 })
 
 // Obtener todas las planeaciones
-app.get('/planeacion/:id', (req, res) => {
+app.get('/planeacion/:id', [verificaToken], (req, res) => {
     let id = req.params.id
 
     Planeacion.findById(id)
@@ -73,7 +73,7 @@ app.get('/planeacion/:id', (req, res) => {
 })
 
 // Obtiene las planeaciones de una auditoría por id
-app.get('/planeacion/auditoria/:id', (req, res) => {
+app.get('/planeacion/auditoria/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
@@ -123,7 +123,7 @@ app.get('/planeacion/auditoria/:id', (req, res) => {
 })
 
 // Obtiene los auditores de una planeacion de una auditoría por id
-app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
+app.get('/planeacion/auditoria/auditores/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
@@ -162,7 +162,7 @@ app.get('/planeacion/auditoria/auditores/:id', (req, res) => {
 })
 
 // Obtiene las planeaciones que han sido enviadas de una auditoría por id
-app.get('/planeacion/auditoria/enviar/:id', (req, res) => {
+app.get('/planeacion/auditoria/enviar/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
 
     Auditoria.findById(auditoriaid)
@@ -212,7 +212,7 @@ app.get('/planeacion/auditoria/enviar/:id', (req, res) => {
 })
 
 // Crear una planeacion
-app.post('/planeacion', (req, res) => {
+app.post('/planeacion', [verificaToken], (req, res) => {
     let body = req.body
     let cambiaValido = {
         valido: false
@@ -264,7 +264,7 @@ app.post('/planeacion', (req, res) => {
 })
 
 // Actualizar una Planeacion
-app.put('/planeacion/:id', (req, res) => {
+app.put('/planeacion/:id', [verificaToken], (req, res) => {
     let id = req.params.id
     let body = req.body
     body.enviar = false
@@ -316,7 +316,7 @@ app.put('/planeacion/:id', (req, res) => {
 })
 
 // Actualizar planeaciones por id de auditoria
-app.put('/planeacion/auditoria/:id', (req, res) => {
+app.put('/planeacion/auditoria/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
     let cambiaValido = {
         valido: false
@@ -365,7 +365,7 @@ app.put('/planeacion/auditoria/:id', (req, res) => {
 })
 
 // Eliminar planeacion
-app.delete('/planeacion/:id', (req, res) => {
+app.delete('/planeacion/:id', [verificaToken], (req, res) => {
     let id = req.params.id
     let body = req.body
     let cambiaEstado = {
