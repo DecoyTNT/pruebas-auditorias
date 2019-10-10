@@ -54,16 +54,15 @@ app.get('/auditoria', [verificaToken], (req, res) => {
 })
 
 // Obtiene las auditorias
-app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
+app.get('/auditoria/usuario/grupoAuditor', [verificaToken], (req, res) => {
     let usuario = req.usuario
-    let termino = req.params.termino
         // let desde = req.query.desde || 0
         // desde = Number(desde)
 
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Auditoria.find({ estado: true, grupoAuditor: '5d7aa2033c3a61001767acb3' })
+    Auditoria.find({ estado: true, grupoAuditor: usuario.id })
         // .skip(desde)
         // .limit(limite)
         .populate('normas')
@@ -78,7 +77,7 @@ app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
                 })
             }
 
-            Auditoria.count({ estado: true, grupoAuditor: '5d7aa2033c3a61001767acb3' }, (err, conteo) => {
+            Auditoria.count({ estado: true, grupoAuditor: usuario.id }, (err, conteo) => {
                 res.json({
                     ok: true,
                     auditorias,
