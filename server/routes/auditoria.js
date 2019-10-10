@@ -78,7 +78,7 @@ app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
                 })
             }
 
-            Auditoria.count({ estado: true, termino: usuario._id }, (err, conteo) => {
+            Auditoria.count({ estado: true, termino: usuario.id }, (err, conteo) => {
                 res.json({
                     ok: true,
                     auditorias,
