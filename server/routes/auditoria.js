@@ -53,6 +53,43 @@ app.get('/auditoria', [verificaToken], (req, res) => {
 
 })
 
+// Obtiene las auditorias
+app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
+    let usuario = req.usuario
+    let termino = req.params.termino
+        // let desde = req.query.desde || 0
+        // desde = Number(desde)
+
+    // let limite = req.query.limite || 5
+    // limite = Number(limite)
+
+    Auditoria.find({ estado: true, termino: usuario._id })
+        // .skip(desde)
+        // .limit(limite)
+        .populate('normas')
+        .populate('grupoAuditor')
+        .populate('auditados')
+        .populate('plan')
+        .exec((err, auditorias) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Auditoria.count({ estado: true, termino: usuario._id }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    auditorias,
+                    cuantos: conteo
+                })
+            })
+
+        })
+
+})
+
 // Obtiene una auditoria por id
 app.get('/auditoria/:id', [verificaToken], (req, res) => {
     var auditoriaid = req.params.id
@@ -99,41 +136,6 @@ app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
                     }
 
                     Auditoria.count({ plan: planid, estado: true }, (err, conteo) => {
-                        res.json({
-                            ok: true,
-                            auditorias,
-                            cuantos: conteo
-                        })
-                    })
-
-                })
-
-        })
-})
-
-// Obtiene las auditorias de un plan por id y por usuario
-app.get('/auditoria/plan/usuario/:id', [verificaToken, verificaAuditorAuditado], (req, res) => {
-    let planid = req.params.id
-    let usuario = req.usuario
-
-    Plan.findById(planid)
-        .exec((err, auditoriaDB) => {
-            Auditoria.find({ plan: planid, estado: true, grupoAuditor: usuario._id })
-                // .skip(desde)
-                // .limit(limite)
-                .populate('normas')
-                .populate('grupoAuditor')
-                .populate('auditados')
-                .populate('plan')
-                .exec((err, auditorias) => {
-                    if (err) {
-                        return res.status(500).json({
-                            ok: false,
-                            err
-                        })
-                    }
-
-                    Auditoria.count({ plan: planid, estado: true, grupoAuditor: usuario._id }, (err, conteo) => {
                         res.json({
                             ok: true,
                             auditorias,
