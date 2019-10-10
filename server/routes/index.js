@@ -15,7 +15,6 @@ app.use(require('./planeacion'))
 app.use(require('./verificacion'))
 app.use(require('./mensaje'))
 app.use(require('./imagen'))
-app.use(require('./pdfmake'))
 
 
 // const pdfRoute = require('./routes/pdfmake');
