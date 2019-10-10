@@ -63,7 +63,7 @@ app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
     // let limite = req.query.limite || 5
     // limite = Number(limite)
 
-    Auditoria.find({ estado: true, termino: '5d7aa2033c3a61001767acb3' })
+    Auditoria.find({ estado: true, grupoAuditor: '5d7aa2033c3a61001767acb3' })
         // .skip(desde)
         // .limit(limite)
         .populate('normas')
@@ -78,7 +78,7 @@ app.get('/auditoria/usuario/:termino', [verificaToken], (req, res) => {
                 })
             }
 
-            Auditoria.count({ estado: true, termino: '5d7aa2033c3a61001767acb3' }, (err, conteo) => {
+            Auditoria.count({ estado: true, grupoAuditor: '5d7aa2033c3a61001767acb3' }, (err, conteo) => {
                 res.json({
                     ok: true,
                     auditorias,
