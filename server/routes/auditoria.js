@@ -110,6 +110,41 @@ app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
         })
 })
 
+// Obtiene las auditorias de un plan por id y por usuario
+app.get('/auditoria/plan/grupoauditor/:id', [verificaToken], (req, res) => {
+    let planid = req.params.id
+    let usuario = req.usuario
+
+    Plan.findById(planid)
+        .exec((err, auditoriaDB) => {
+            Auditoria.find({ plan: planid, estado: true, grupoAuditor: usuario._id })
+                // .skip(desde)
+                // .limit(limite)
+                .populate('normas')
+                .populate('grupoAuditor')
+                .populate('auditados')
+                .populate('plan')
+                .exec((err, auditorias) => {
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Auditoria.count({ plan: planid, estado: true, grupoAuditor: usuario._id }, (err, conteo) => {
+                        res.json({
+                            ok: true,
+                            auditorias,
+                            cuantos: conteo
+                        })
+                    })
+
+                })
+
+        })
+})
+
 // Crea una auditoria
 app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
