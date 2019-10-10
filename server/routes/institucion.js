@@ -7,7 +7,7 @@ const Institucion = require('../models/institucion')
 const app = express()
 
 // Obtiene la institucion
-app.get('/institucion', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
+app.get('/institucion', [verificaToken], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)
