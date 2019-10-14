@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 let tiposValidos = {
-    values: ['ROOT', 'ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'],
+    values: ['ROOT', 'ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'ALTA_DIRECCION'],
     message: '{VALUE} no es un tipo valido'
 }
 

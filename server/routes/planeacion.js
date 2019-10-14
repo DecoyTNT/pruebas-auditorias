@@ -4,7 +4,6 @@ const {
     verificaToken,
     verificaAdmin,
     verificaAdminAuditorLider,
-    verificaAuditado,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
@@ -22,8 +21,7 @@ app.get('/planeacion', [verificaToken], (req, res) => {
     Planeacion.find({ estado: true })
         .populate('auditoria')
         .populate('proceso')
-        .populate('participantes')
-        .populate('contacto')
+        .populate('auditores')
         .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -48,8 +46,7 @@ app.get('/planeacion/:id', [verificaToken], (req, res) => {
     Planeacion.findById(id)
         .populate('auditoria')
         .populate('proceso')
-        .populate('participantes')
-        .populate('contacto')
+        .populate('auditores')
         .exec((err, planeacionDB) => {
             if (err) {
                 return res.status(500).json({
@@ -98,8 +95,7 @@ app.get('/planeacion/auditoria/:id', [verificaToken], (req, res) => {
             Planeacion.find({ auditoria: auditoriaid, estado: true })
                 .populate('auditoria')
                 .populate('proceso')
-                .populate('participantes')
-                .populate('contacto')
+                .populate('auditores')
                 .sort('fecha')
                 .sort('horario')
                 .exec((err, planeaciones) => {
@@ -187,8 +183,7 @@ app.get('/planeacion/auditoria/enviar/:id', [verificaToken], (req, res) => {
             Planeacion.find({ auditoria: auditoriaid, estado: true, enviar: true })
                 .populate('auditoria')
                 .populate('proceso')
-                .populate('participantes')
-                .populate('contacto')
+                .populate('auditores')
                 .sort('fecha')
                 .sort('horario')
                 .exec((err, planeaciones) => {
@@ -226,12 +221,13 @@ app.post('/planeacion', [verificaToken, verificaAdminAuditorLider], (req, res) =
         proceso: body.proceso,
         actividad: body.actividad,
         criterio: body.criterio,
+        auditores: body.auditores,
         participantes: body.participantes,
         contacto: body.contacto,
         area: body.area
     })
 
-    planeacion.save({ $set: { participantes: body.participantes, contacto: body.contacto, } }, (err, planeacionDB) => {
+    planeacion.save({ $set: { auditores: body.auditores } }, (err, planeacionDB) => {
         if (err) {
             return res.status(400).json({
                 ok: false,
@@ -273,7 +269,7 @@ app.put('/planeacion/:id', [verificaToken, verificaAdminAuditorLider], (req, res
         valido: false
     }
 
-    Planeacion.findByIdAndUpdate(id, body, { $set: { participantes: body.participantes, contacto: body.contacto } }, (err, planeacionDB) => {
+    Planeacion.findByIdAndUpdate(id, body, { $set: { auditores: body.auditores } }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,

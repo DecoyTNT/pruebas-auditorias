@@ -24,14 +24,16 @@ let planeacionSchema = new Schema({
     criterio: {
         type: String
     },
-    participantes: [{
+    auditores: [{
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }],
-    contacto: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario'
-    }],
+    participantes: {
+        type: String
+    },
+    contacto: {
+        type: String
+    },
     area: {
         type: String
     },

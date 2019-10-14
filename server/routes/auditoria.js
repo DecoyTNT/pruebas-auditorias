@@ -6,8 +6,6 @@ const {
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
     verificaAuditor,
-    verificaAuditorAuditado,
-    verificaAuditado,
     verificaAuditorLider,
     verificaAltaDir
 } = require('../middlewares/autenticacion')

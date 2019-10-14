@@ -1,6 +1,14 @@
 const express = require('express')
 
-const { verificaToken, verificaAdmin, verificaAdminAuditorLider, verificaAdminAuditorLiderDir, verificaAuditado, verificaAuditor, verificaAuditorLider, verificaAltaDir, } = require('../middlewares/autenticacion')
+const {
+    verificaToken,
+    verificaAdmin,
+    verificaAdminAuditorLider,
+    verificaAdminAuditorLiderDir,
+    verificaAuditor,
+    verificaAuditorLider,
+    verificaAltaDir,
+} = require('../middlewares/autenticacion')
 
 const Institucion = require('../models/institucion')
 
