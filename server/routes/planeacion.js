@@ -120,42 +120,59 @@ app.get('/planeacion/auditoria/:id', [verificaToken], (req, res) => {
 })
 
 // Obtiene los auditores de una planeacion de una auditoría por id
-app.get('/planeacion/auditoria/auditores/:id', [verificaToken], (req, res) => {
+app.get('/planeacion/auditoria/usuario/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
+    let usuario = req.usuario
 
-    Auditoria.findById(auditoriaid)
-        .exec((err, auditoriaDB) => {
+    Planeacion.find({ auditores: usuario._id, auditoria: auditoriaid })
+        .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
                     err
                 })
             }
-
-            if (!auditoriaDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'No se encontro la auditoria'
-                    }
+            Planeacion.count({ auditores: usuario._id, auditoria: auditoriaid }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    planeaciones,
+                    cuantos: conteo
                 })
-            }
-
-            Usuario.find({ _id: auditoriaDB.grupoAuditor })
-                .exec((err, usuarios) => {
-                    if (err) {
-                        return res.status(500).json({
-                            ok: false,
-                            err
-                        })
-                    }
-                    res.json({
-                        ok: true,
-                        usuarios
-                    })
-                })
-
+            })
         })
+        // Auditoria.findById(auditoriaid)
+        //     .exec((err, auditoriaDB) => {
+        //         if (err) {
+        //             return res.status(500).json({
+        //                 ok: false,
+        //                 err
+        //             })
+        //         }
+
+    //         if (!auditoriaDB) {
+    //             return res.status(400).json({
+    //                 ok: false,
+    //                 err: {
+    //                     message: 'No se encontro la auditoria'
+    //                 }
+    //             })
+    //         }
+
+    //         Usuario.find({ _id: auditoriaDB.grupoAuditor })
+    //             .exec((err, usuarios) => {
+    //                 if (err) {
+    //                     return res.status(500).json({
+    //                         ok: false,
+    //                         err
+    //                     })
+    //                 }
+    //                 res.json({
+    //                     ok: true,
+    //                     usuarios
+    //                 })
+    //             })
+
+    //     })
 })
 
 // Obtiene las planeaciones que han sido enviadas de una auditoría por id

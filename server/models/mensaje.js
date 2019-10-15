@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
 
-const uniqueValidator = require('mongoose-unique-validator')
-
 let Schema = mongoose.Schema;
 
 let mensajeSchema = new Schema({
@@ -16,7 +14,11 @@ let mensajeSchema = new Schema({
     usuarios: [{
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
-    }]
+    }],
+    visto: {
+        type: Boolean,
+        default: false
+    }
 })
 
 

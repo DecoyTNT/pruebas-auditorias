@@ -3,14 +3,13 @@ const express = require('express')
 const {
     verificaToken,
     verificaAdmin,
-    verificaAuditado,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
 } = require('../middlewares/autenticacion')
 
 const Verificacion = require('../models/verificacion')
-const Auditoria = require('../models/auditoria')
+const Planeacion = require('../models/planeacion')
 const Usuario = require('../models/usuario')
 
 const app = express()
@@ -147,11 +146,11 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 
 // Obtener las verificaciones por auditoria y auditor 
 app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
-    let auditoriaid = req.params.id
+    let planeacionid = req.params.id
         // let auditorid = req.params.idUsuario
     let usuario = req.usuario
 
-    Verificacion.find({ auditoria: auditoriaid, auditor: usuario._id })
+    Verificacion.find({ planeacion: planeacionid, auditor: usuario._id })
         .exec((err, verificaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -169,7 +168,7 @@ app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
                 })
             }
 
-            Verificacion.count({ auditoria: auditoriaid, auditor: usuario._id }, (err, conteo) => {
+            Verificacion.count({ planeacion: planeacionid, auditor: usuario._id }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
@@ -186,8 +185,8 @@ app.post('/verificacion', verificaToken, (req, res) => {
     let usuario = req.usuario
 
     let verificacion = new Verificacion({
-        auditor: usuario._id,
-        auditoria: body.auditoria,
+        auditor: body.auditor,
+        planeacion: body.planeacion,
         entrevistado: body.entrevistado,
         puntoNorma: body.puntoNorma,
         pregunta: body.pregunta,
@@ -197,18 +196,54 @@ app.post('/verificacion', verificaToken, (req, res) => {
         fecha: body.fecha
     })
 
-    verificacion.save((err, verificacionDB) => {
+    Planeacion.findOne({ auditores: body.auditor, _id: body.planeacion }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
             })
         }
-        res.json({
-            ok: true,
-            verificacionDB
+
+        if (!planeacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No es posible crear esta lista de verificacion'
+                }
+            })
+        }
+
+        verificacion.save((err, verificacionDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                verificacionDB
+            })
         })
     })
+
+    // verificacion.save((err, verificacionDB) => {
+    //     if (err) {
+    //         return res.status(500).json({
+    //             ok: false,
+    //             err
+    //         })
+    //     }
+    //     res.json({
+    //         ok: true,
+    //         verificacionDB
+    //     })
+    // })
+})
+
+app.put('/verificacion/:id', verificaToken, (req, res) => {
+    let body = req.body
+
 })
 
 

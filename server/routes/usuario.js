@@ -11,7 +11,6 @@ const {
     verificaAdmin,
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,
-    verificaAuditado,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir

@@ -8,13 +8,12 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     },
-    auditoria: {
+    planeacion: {
         type: Schema.Types.ObjectId,
-        ref: 'Auditorias'
+        ref: 'Planeaciones'
     },
     entrevistado: {
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario'
+        type: String
     },
     puntoNorma: {
         type: String
