@@ -185,7 +185,7 @@ app.post('/verificacion', verificaToken, (req, res) => {
     let usuario = req.usuario
 
     let verificacion = new Verificacion({
-        auditor: body.auditor,
+        auditor: usuario._id,
         planeacion: body.planeacion,
         entrevistado: body.entrevistado,
         puntoNorma: body.puntoNorma,
@@ -196,7 +196,7 @@ app.post('/verificacion', verificaToken, (req, res) => {
         fecha: body.fecha
     })
 
-    Planeacion.findOne({ auditores: body.auditor, _id: body.planeacion }, (err, planeacionDB) => {
+    Planeacion.findOne({ auditores: usuario._id, _id: body.planeacion }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
