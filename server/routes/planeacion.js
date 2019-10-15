@@ -22,6 +22,8 @@ app.get('/planeacion', [verificaToken], (req, res) => {
         .populate('auditoria')
         .populate('proceso')
         .populate('auditores')
+        .sort('fecha')
+        .sort('horario')
         .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -47,6 +49,8 @@ app.get('/planeacion/:id', [verificaToken], (req, res) => {
         .populate('auditoria')
         .populate('proceso')
         .populate('auditores')
+        .sort('fecha')
+        .sort('horario')
         .exec((err, planeacionDB) => {
             if (err) {
                 return res.status(500).json({
@@ -125,6 +129,11 @@ app.get('/planeacion/auditoria/usuario/:id', [verificaToken], (req, res) => {
     let usuario = req.usuario
 
     Planeacion.find({ auditores: usuario._id, auditoria: auditoriaid, estado: true })
+        .populate('auditoria')
+        .populate('proceso')
+        .populate('auditores')
+        .sort('fecha')
+        .sort('horario')
         .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -140,39 +149,6 @@ app.get('/planeacion/auditoria/usuario/:id', [verificaToken], (req, res) => {
                 })
             })
         })
-        // Auditoria.findById(auditoriaid)
-        //     .exec((err, auditoriaDB) => {
-        //         if (err) {
-        //             return res.status(500).json({
-        //                 ok: false,
-        //                 err
-        //             })
-        //         }
-
-    //         if (!auditoriaDB) {
-    //             return res.status(400).json({
-    //                 ok: false,
-    //                 err: {
-    //                     message: 'No se encontro la auditoria'
-    //                 }
-    //             })
-    //         }
-
-    //         Usuario.find({ _id: auditoriaDB.grupoAuditor })
-    //             .exec((err, usuarios) => {
-    //                 if (err) {
-    //                     return res.status(500).json({
-    //                         ok: false,
-    //                         err
-    //                     })
-    //                 }
-    //                 res.json({
-    //                     ok: true,
-    //                     usuarios
-    //                 })
-    //             })
-
-    //     })
 })
 
 // Obtiene las planeaciones que han sido enviadas de una auditoría por id
