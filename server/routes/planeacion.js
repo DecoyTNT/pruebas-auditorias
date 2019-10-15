@@ -124,7 +124,7 @@ app.get('/planeacion/auditoria/usuario/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
     let usuario = req.usuario
 
-    Planeacion.find({ auditores: usuario._id, auditoria: auditoriaid })
+    Planeacion.find({ auditores: usuario._id, auditoria: auditoriaid, estado: true })
         .exec((err, planeaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -132,7 +132,7 @@ app.get('/planeacion/auditoria/usuario/:id', [verificaToken], (req, res) => {
                     err
                 })
             }
-            Planeacion.count({ auditores: usuario._id, auditoria: auditoriaid }, (err, conteo) => {
+            Planeacion.count({ auditores: usuario._id, auditoria: auditoriaid, estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     planeaciones,
