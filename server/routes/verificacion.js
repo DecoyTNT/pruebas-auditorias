@@ -18,7 +18,7 @@ const app = express()
 
 // Obtiene todas las verificaciones
 app.get('/verificacion', (req, res) => {
-    Verificacion.find()
+    Verificacion.find({ estado: true })
         .exec((err, verificaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -26,7 +26,7 @@ app.get('/verificacion', (req, res) => {
                     err
                 })
             }
-            Verificacion.count((err, conteo) => {
+            Verificacion.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
@@ -85,7 +85,7 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                     }
                 })
             }
-            Verificacion.find({ auditoria: auditoriaid })
+            Verificacion.find({ auditoria: auditoriaid, estado: true })
                 .exec((err, verificaciones) => {
                     if (err) {
                         return res.status(500).json({
@@ -94,7 +94,7 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                         })
                     }
 
-                    Verificacion.count({ auditoria: auditoriaid }, (err, conteo) => {
+                    Verificacion.count({ auditoria: auditoriaid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             verificaciones,
@@ -126,7 +126,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
                     }
                 })
             }
-            Verificacion.find({ auditor: usuarioid })
+            Verificacion.find({ auditor: usuarioid, estado: true })
                 .exec((err, verificaciones) => {
                     if (err) {
                         return res.status(500).json({
@@ -135,7 +135,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
                         })
                     }
 
-                    Verificacion.count({ auditoria: auditoriaid }, (err, conteo) => {
+                    Verificacion.count({ auditoria: auditoriaid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             verificaciones,
@@ -151,7 +151,7 @@ app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
     let planeacionid = req.params.id
     let usuarioid = req.params.iduser
 
-    Verificacion.find({ planeacion: planeacionid, auditor: usuarioid })
+    Verificacion.find({ planeacion: planeacionid, auditor: usuarioid, estado: true })
         .exec((err, verificaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -169,7 +169,7 @@ app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
                 })
             }
 
-            Verificacion.count({ planeacion: planeacionid, auditor: usuarioid }, (err, conteo) => {
+            Verificacion.count({ planeacion: planeacionid, auditor: usuarioid, estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
@@ -191,9 +191,7 @@ app.post('/verificacion', (req, res) => {
         pregunta: body.pregunta,
         documento: body.documento,
         evidencia: body.evidencia,
-        hallazgos: body.hallazgos,
-        valido: body.valido,
-        enviar: body.enviar
+        hallazgos: body.hallazgos
     })
 
     Planeacion.findOne({ auditores: body.auditor, _id: body.planeacion }, (err, planeacionDB) => {
