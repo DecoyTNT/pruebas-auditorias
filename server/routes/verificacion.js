@@ -85,7 +85,7 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                     }
                 })
             }
-            Verificacion.find({ auditoria: auditoriaid, estado: true })
+            Verificacion.find({ planeacion: planeacionid, estado: true })
                 .exec((err, verificaciones) => {
                     if (err) {
                         return res.status(500).json({
@@ -94,7 +94,7 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                         })
                     }
 
-                    Verificacion.count({ auditoria: auditoriaid, estado: true }, (err, conteo) => {
+                    Verificacion.count({ planeacion: planeacionid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             verificaciones,
@@ -103,6 +103,29 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                     })
                 })
         })
+})
+
+app.get('/verificacion/planeacion/enviar/:id', (req, res) => {
+    let planeacionid = req.params.id
+
+    Verificacion.find({ planeacion: planeacionid, estado: true, enviar: true })
+        .exec((err, verificaciones) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Verificacion.count({ planeacion: planeacionid, estado: true, enviar: true }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    verificaciones,
+                    cuantos: conteo
+                })
+            })
+        })
+
 })
 
 // Obtener las verificaciones por usuario 
