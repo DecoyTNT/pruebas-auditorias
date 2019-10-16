@@ -145,7 +145,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria y auditor 
-app.get('/verificacion/planeacion/usuario/:id/:iduser', [verificaToken], (req, res) => {
+app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
     let planeacionid = req.params.id
     let usuarioid = req.params.iduser
 
