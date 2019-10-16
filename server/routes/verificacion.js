@@ -63,11 +63,11 @@ app.get('/verificacion/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria 
-app.get('/verificacion/auditoria/:id', (req, res) => {
-    let auditoriaid = req.body.id
+app.get('/verificacion/planeacion/:id', (req, res) => {
+    let planeacionid = req.params.id
 
-    Auditoria.findById(auditoriaid)
-        .exec((err, auditoriaDB) => {
+    Planeacion.findById(planeacionid)
+        .exec((err, planeacionDB) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,
@@ -75,7 +75,7 @@ app.get('/verificacion/auditoria/:id', (req, res) => {
                 })
             }
 
-            if (!auditoriaDB) {
+            if (!planeacionDB) {
                 return res.status(400).json({
                     ok: false,
                     err: {
@@ -145,8 +145,8 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria y auditor 
-app.get('/verificacion/auditoria/usuario/:idauditoria/:iduser', (req, res) => {
-    let planeacionid = req.params.idauditoria
+app.get('/verificacion/planeacion/usuario/:id/:iduser', [verificaToken], (req, res) => {
+    let planeacionid = req.params.id
     let usuarioid = req.params.iduser
 
     Verificacion.find({ planeacion: planeacionid, auditor: usuarioid })
@@ -240,7 +240,53 @@ app.post('/verificacion', (req, res) => {
 })
 
 app.put('/verificacion/:id', (req, res) => {
+    let id = req.params.id
     let body = req.body
+    body.enviar = false
+    let cambiaValido = {
+        valido: false
+    }
+
+    Verificacion.findByIdAndUpdate(id, body, { $set: { auditores: body.auditores } }, (err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!verificacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la planeacion'
+                }
+            })
+        }
+
+        Planeacion.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, planeacionDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                });
+            }
+
+            if (!planeacionDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro la auditoría'
+                    }
+                })
+            }
+        })
+
+        res.json({
+            ok: true,
+            planeacion: planeacionDB
+        })
+    })
 
 })
 
