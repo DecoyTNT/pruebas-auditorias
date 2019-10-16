@@ -299,7 +299,9 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
         if (!usuarioDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'No se encontro el usuario'
+                }
             })
         }
 
