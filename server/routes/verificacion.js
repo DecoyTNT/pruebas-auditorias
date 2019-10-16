@@ -285,6 +285,7 @@ app.put('/verificacion/documento/:id', (req, res) => {
     })
 })
 
+// Envia todas las planeaciones
 app.put('/verificacion/planeacion/:id', (req, res) => {
     let planeacionid = req.params.id
 
@@ -300,7 +301,36 @@ app.put('/verificacion/planeacion/:id', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro una planeacion con ese id de planeación'
+                    message: 'No se encontro una planeacion con ese id'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            verificacion: verificacionDB
+        })
+
+    })
+})
+
+// Valida todas las planeaciones
+app.put('/verificacion/planeacion/validar/:id', (req, res) => {
+    let planeacionid = req.params.id
+
+    Verificacion.update({ planeacion: planeacionid }, { valido: true }, { multi: true }, (err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!verificacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro una planeacion con ese id'
                 }
             })
         }
