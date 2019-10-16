@@ -116,7 +116,7 @@ app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 })
 
 //Obtener un usuario por id
-app.get('/usuario/:id', [verificaToken, verificaAdminAuditorLiderDir], function(req, res) {
+app.get('/usuario/:id', [verificaToken], function(req, res) {
     var usid = req.params.id
 
     Usuario.findById(usid).exec((err, usuarioDB) => {

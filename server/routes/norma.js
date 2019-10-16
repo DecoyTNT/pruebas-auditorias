@@ -15,7 +15,7 @@ const Norma = require('../models/norma')
 const app = express()
 
 // Obtiene todas las normas
-app.get('/norma', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
+app.get('/norma', [verificaToken], (req, res) => {
 
     // let desde = req.query.desde || 0
     // desde = Number(desde)

@@ -145,12 +145,11 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por auditoria y auditor 
-app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
-    let planeacionid = req.params.id
-        // let auditorid = req.params.idUsuario
-    let usuario = req.usuario
+app.get('/verificacion/auditoria/usuario/:idauditoria/:iduser', (req, res) => {
+    let planeacionid = req.params.idauditoria
+    let usuarioid = req.params.iduser
 
-    Verificacion.find({ planeacion: planeacionid, auditor: usuario._id })
+    Verificacion.find({ planeacion: planeacionid, auditor: usuarioid })
         .exec((err, verificaciones) => {
             if (err) {
                 return res.status(500).json({
@@ -168,7 +167,7 @@ app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
                 })
             }
 
-            Verificacion.count({ planeacion: planeacionid, auditor: usuario._id }, (err, conteo) => {
+            Verificacion.count({ planeacion: planeacionid, auditor: usuarioid }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
@@ -180,23 +179,20 @@ app.get('/verificacion/auditoria/usuario/:id', verificaToken, (req, res) => {
 })
 
 // Crear una verificacion
-app.post('/verificacion', verificaToken, (req, res) => {
+app.post('/verificacion', (req, res) => {
     let body = req.body
-    let usuario = req.usuario
 
     let verificacion = new Verificacion({
-        auditor: usuario._id,
+        auditor: body.auditor,
         planeacion: body.planeacion,
-        entrevistado: body.entrevistado,
         puntoNorma: body.puntoNorma,
         pregunta: body.pregunta,
         documento: body.documento,
         evidencia: body.evidencia,
-        hallazgos: body.hallazgos,
-        fecha: body.fecha
+        hallazgos: body.hallazgos
     })
 
-    Planeacion.findOne({ auditores: usuario._id, _id: body.planeacion }, (err, planeacionDB) => {
+    Planeacion.findOne({ auditores: body.auditor, _id: body.planeacion }, (err, planeacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -241,7 +237,7 @@ app.post('/verificacion', verificaToken, (req, res) => {
     // })
 })
 
-app.put('/verificacion/:id', verificaToken, (req, res) => {
+app.put('/verificacion/:id', (req, res) => {
     let body = req.body
 
 })

@@ -12,9 +12,6 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Planeaciones'
     },
-    entrevistado: {
-        type: String
-    },
     puntoNorma: {
         type: String
     },
@@ -30,8 +27,13 @@ let verificacionSchema = new Schema({
     hallazgos: {
         type: String
     },
-    fecha: {
-        type: String
+    valido: {
+        type: Boolean,
+        default: false
+    },
+    enviar: {
+        type: Boolean,
+        default: false
     },
     estado: {
         type: Boolean,
