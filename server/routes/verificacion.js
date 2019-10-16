@@ -235,7 +235,7 @@ app.put('/verificacion/punto/:id', (req, res) => {
     body.enviar = false
     body.valido = false
 
-    Verificacion.findByIdAndUpdate(id, body, (err, verificacionDB) => {
+    Verificacion.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, verificacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -263,7 +263,7 @@ app.put('/verificacion/documento/:id', (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['documento', 'evidencia', 'hallazgo'])
 
-    Verificacion.findByIdAndUpdate(id, body, (err, verificacionDB) => {
+    Verificacion.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, verificacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
