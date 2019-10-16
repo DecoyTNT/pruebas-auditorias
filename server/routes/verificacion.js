@@ -313,7 +313,36 @@ app.put('/verificacion/planeacion/:id', (req, res) => {
     })
 })
 
+// Eliminar Verificacion
+app.delete('/verificacion/:id', (req, res) => {
+    let id = req.params.id
+    let cambiaEstado = {
+        estado: false
+    }
 
+    Verificacion.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, verificacionBorrada) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!verificacionBorrada) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la planeacion'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            verificacion: verificacionBorrada
+        })
+    })
+})
 
 
 module.exports = app;
