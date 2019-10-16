@@ -259,7 +259,7 @@ app.put('/verificacion/punto/:id', (req, res) => {
 
 app.put('/verificacion/documento/:id', (req, res) => {
     let id = req.params.id
-    let body = _.pick(req.body, ['documento', 'evidencia', 'hallazgo'])
+    let body = _.pick(req.body, ['documento', 'evidencia', 'hallazgos'])
 
     Verificacion.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, verificacionDB) => {
         if (err) {
