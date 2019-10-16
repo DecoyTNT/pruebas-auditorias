@@ -226,6 +226,7 @@ app.post('/verificacion', (req, res) => {
     })
 })
 
+// Modifica el punto y la pregunta de la verificación por id
 app.put('/verificacion/punto/:id', (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['puntoNorma', 'pregunta', 'enviar', 'valido'])
