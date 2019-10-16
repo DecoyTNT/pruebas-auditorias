@@ -254,7 +254,7 @@ app.put('/verificacion/punto/:id', (req, res) => {
 
         res.json({
             ok: true,
-            verificacion: verificacionDB
+            verificacionDB
         })
     })
 })
@@ -282,7 +282,7 @@ app.put('/verificacion/documento/:id', (req, res) => {
 
         res.json({
             ok: true,
-            verificacion: verificacionDB
+            verificacionDB
         })
     })
 })
