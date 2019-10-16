@@ -189,7 +189,9 @@ app.post('/verificacion', (req, res) => {
         pregunta: body.pregunta,
         documento: body.documento,
         evidencia: body.evidencia,
-        hallazgos: body.hallazgos
+        hallazgos: body.hallazgos,
+        valido: body.valido,
+        enviar: body.enviar
     })
 
     Planeacion.findOne({ auditores: body.auditor, _id: body.planeacion }, (err, planeacionDB) => {
