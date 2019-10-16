@@ -224,30 +224,15 @@ app.post('/verificacion', (req, res) => {
             })
         })
     })
-
-    // verificacion.save((err, verificacionDB) => {
-    //     if (err) {
-    //         return res.status(500).json({
-    //             ok: false,
-    //             err
-    //         })
-    //     }
-    //     res.json({
-    //         ok: true,
-    //         verificacionDB
-    //     })
-    // })
 })
 
-app.put('/verificacion/:id', (req, res) => {
+app.put('/verificacion/punto/:id', (req, res) => {
     let id = req.params.id
-    let body = req.body
+    let body = _.pick(req.body, ['puntoNorma', 'pregunta', 'enviar', 'valido'])
     body.enviar = false
-    let cambiaValido = {
-        valido: false
-    }
+    body.valido = false
 
-    Verificacion.findByIdAndUpdate(id, body, { $set: { auditores: body.auditores } }, (err, verificacionDB) => {
+    Verificacion.findByIdAndUpdate(id, body, (err, verificacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -259,35 +244,72 @@ app.put('/verificacion/:id', (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro la planeacion'
+                    message: 'No se encontro la verificación'
                 }
             })
         }
 
-        Planeacion.findByIdAndUpdate(body.auditoria, cambiaValido, { new: true }, (err, planeacionDB) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                });
-            }
-
-            if (!planeacionDB) {
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'No se encontro la auditoría'
-                    }
-                })
-            }
+        res.json({
+            ok: true,
+            verificacion: verificacionDB
         })
+    })
+})
+
+app.put('/verificacion/documento/:id', (req, res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['documento', 'evidencia', 'hallazgo'])
+
+    Verificacion.findByIdAndUpdate(id, body, (err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!verificacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la verificación'
+                }
+            })
+        }
 
         res.json({
             ok: true,
-            planeacion: planeacionDB
+            verificacion: verificacionDB
         })
     })
+})
 
+app.put('/verificacion/planeacion/:id', (req, res) => {
+    let planeacionid = req.params.id
+
+    Verificacion.update({ planeacion: planeacionid }, { enviar: true }, { multi: true }, (err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!verificacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro una planeacion con ese id de verificación'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            verificacion: verificacionDB
+        })
+
+    })
 })
 
 

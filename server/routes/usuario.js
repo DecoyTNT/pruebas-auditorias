@@ -240,6 +240,45 @@ app.post('/usuario/director/:id', [verificaToken, verificaAltaDir], (req, res) =
     })
 })
 
+// Validacion de auditor lider
+app.post('/usuario/lider/:id', [verificaToken, verificaAuditorLider], (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Usuario.findById(id, (err, usuarioDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No existe el uuario'
+                }
+            })
+        }
+
+        if (!bcrypt.compareSync(body.contraseña, usuarioDB.contraseña)) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Contraseña incorrecta'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            usuario: usuarioDB
+        })
+
+    })
+})
+
 
 // Actualizar Usuario
 app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
