@@ -15,7 +15,7 @@ const Tabla = require('../models/tabla')
 const app = express()
 
 app.get('/tabla', (req, res) => {
-    Tabla.find({ estado: true })
+    Tabla.find()
         .populate('marcas')
         .sort('numero')
         .exec((err, tablas) => {
@@ -25,7 +25,7 @@ app.get('/tabla', (req, res) => {
                     err
                 })
             }
-            Tabla.count({ estado: true }, (err, conteo) => {
+            Tabla.count((err, conteo) => {
                 res.json({
                     ok: true,
                     tablas,
