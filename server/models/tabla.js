@@ -10,9 +10,9 @@ let tablaSchema = new Schema({
     requisito: {
         type: String
     },
-    marcas: [{
+    normas: [{
         type: Schema.Types.ObjectId,
-        ref: 'Marca'
+        ref: 'Norma'
     }]
 
 })

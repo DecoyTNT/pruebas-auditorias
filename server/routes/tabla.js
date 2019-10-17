@@ -16,7 +16,7 @@ const app = express()
 
 app.get('/tabla', (req, res) => {
     Tabla.find()
-        .populate('marcas')
+        .populate('normas')
         .sort('numero')
         .exec((err, tablas) => {
             if (err) {
@@ -41,10 +41,10 @@ app.post('/tabla', (req, res) => {
     let tabla = new Tabla({
         numero: body.numero,
         requisito: body.requisito,
-        marcas: body.marcas
+        normas: body.normas
     })
 
-    tabla.save({ $set: { marcas: body.marcas } }, (err, tablaDB) => {
+    tabla.save({ $set: { normas: body.normas } }, (err, tablaDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
