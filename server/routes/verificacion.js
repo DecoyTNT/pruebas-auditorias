@@ -378,7 +378,7 @@ app.put('/verificacion/planeacion/entrevistado/:id', (req, res) => {
     let planeacionid = req.params.id
     let body = _.pick(req.body, ['entrevistado', 'fecha'])
 
-    Verificacion.update({ planeacion: planeacionid }, { body }, { multi: true }, (err, verificacionDB) => {
+    Verificacion.update({ planeacion: planeacionid }, { entrevistado: body.entrevistado, fecha: body.fecha }, { multi: true }, (err, verificacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
