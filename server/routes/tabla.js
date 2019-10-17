@@ -48,7 +48,7 @@ app.post('/tabla', (req, res) => {
         resultado: body.resultado
     })
 
-    tabla.save((err, tablaDB) => {
+    tabla.save({ normas }, (err, tablaDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,

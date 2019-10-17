@@ -19,8 +19,4 @@ app.use(require('./mensaje'))
 app.use(require('./imagen'))
 
 
-// const pdfRoute = require('./routes/pdfmake');
-// app.use('/pdfMake', pdfRoute);
-
-
 module.exports = app;
