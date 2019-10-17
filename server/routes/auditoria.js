@@ -301,6 +301,35 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
     })
 })
 
+// Cambiar pasos en auditoria
+app.put('/auditoria/pasos/:id', (req, res) => {
+    let id = req.params.id
+    let pasos = req.body.pasos
+
+    Auditoria.findByIdAndUpdate(id, pasos, { new: true }, (err, auditoriaDB) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!auditoriaDB) {
+            res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la auditoría'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            auditoria: auditoriaDB
+        })
+    })
+})
+
 app.delete('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body

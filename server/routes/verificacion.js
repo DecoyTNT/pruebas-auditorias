@@ -371,11 +371,40 @@ app.put('/verificacion/planeacion/:id', (req, res) => {
     })
 })
 
+// Modifica todas las verificaciones el entrevistado y la fecha de una planeación
+app.put('/verificacion/planeacion/entrevistado/:id', (req, res) => {
+    let planeacionid = req.params.id
+    let body = _.pick(req.body, ['entrevistado', 'fecha'])
+
+    Verificacion.update({ planeacion: planeacionid }, { body }, { multi: true }, (err, verificacionDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!verificacionDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro la verificación'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            verificacionDB
+        })
+    })
+})
+
 // Valida todas las planeaciones
 app.put('/verificacion/planeacion/validar/:id', (req, res) => {
     let planeacionid = req.params.id
 
-    Verificacion.update({ planeacion: planeacionid }, { valido: true }, { multi: true }, (err, verificacionDB) => {
+    Verificacion.update({ planeacion: planeacionid, enviar: true }, { valido: true }, { multi: true }, (err, verificacionDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
