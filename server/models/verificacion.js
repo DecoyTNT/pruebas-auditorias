@@ -12,6 +12,12 @@ let verificacionSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Planeaciones'
     },
+    entrevistado: {
+        type: String
+    },
+    fecha: {
+        type: String
+    },
     puntoNorma: {
         type: String
     },
