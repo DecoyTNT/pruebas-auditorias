@@ -13,6 +13,8 @@ app.use(require('./auditoria'))
 app.use(require('./plan'))
 app.use(require('./planeacion'))
 app.use(require('./verificacion'))
+app.use(require('./tabla'))
+app.use(require('./informe'))
 app.use(require('./mensaje'))
 app.use(require('./imagen'))
 
