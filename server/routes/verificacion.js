@@ -245,6 +245,8 @@ app.post('/verificacion', (req, res) => {
         auditor: body.auditor,
         planeacion: body.planeacion,
         puntoNorma: body.puntoNorma,
+        entrevistado: bodyentrevistado,
+        fecha: bodyfecha,
         pregunta: body.pregunta,
         documento: body.documento,
         evidencia: body.evidencia,
