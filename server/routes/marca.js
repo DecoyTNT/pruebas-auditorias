@@ -24,6 +24,7 @@ app.get('/marca', (req, res) => {
                     err
                 })
             }
+
             Marca.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
