@@ -35,6 +35,7 @@ app.get('/tabla', (req, res) => {
         })
 })
 
+// Crea punto de la tabla
 app.post('/tabla', (req, res) => {
     let body = req.body
 
@@ -55,6 +56,34 @@ app.post('/tabla', (req, res) => {
         res.json({
             ok: true,
             tabla: tablaDB
+        })
+    })
+})
+
+//Elimina punto de la tabla
+app.delete('/tabla/:id', (req, res) => {
+    let id = req.params.id
+
+    Tabla.findByIdAndRemove(id, (err, tablaBorrada) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!tablaBorrada) {
+            res.status(500).json({
+                ok: false,
+                err: {
+                    message: 'No se encontro ese punto'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            tabla: tablaBorrada
         })
     })
 })
