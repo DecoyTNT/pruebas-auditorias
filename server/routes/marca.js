@@ -15,7 +15,7 @@ const Marca = require('../models/marca')
 const app = express()
 
 app.get('/marca', (req, res) => {
-    Marca.find({ estado: true })
+    Marca.find()
         .populate('norma', 'nombreNorma')
         .exec((err, marcas) => {
             if (err) {
@@ -25,7 +25,30 @@ app.get('/marca', (req, res) => {
                 })
             }
 
-            Marca.count({ estado: true }, (err, conteo) => {
+            Marca.count((err, conteo) => {
+                res.json({
+                    ok: true,
+                    marcas,
+                    cuantos: conteo
+                })
+            })
+        })
+})
+
+app.get('/marca/norma/:id', (req, res) => {
+    let normaid = req.params.id
+
+    Marca.find({ norma: normaid })
+        .populate('norma', 'nombreNorma')
+        .exec((err, marcas) => {
+            if (err) {
+                res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Marca.count({ norma: normaid }, (err, conteo) => {
                 res.json({
                     ok: true,
                     marcas,
