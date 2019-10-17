@@ -64,7 +64,7 @@ app.get('/verificacion/:id', (req, res) => {
         })
 })
 
-// Obtener las verificaciones por auditoria 
+// Obtener las verificaciones por planeación 
 app.get('/verificacion/planeacion/:id', (req, res) => {
     let planeacionid = req.params.id
 
@@ -81,7 +81,7 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     err: {
-                        message: 'No se encontro la auditoria'
+                        message: 'No se encontro la planeación'
                     }
                 })
             }
@@ -158,7 +158,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
                         })
                     }
 
-                    Verificacion.count({ auditoria: auditoriaid, estado: true }, (err, conteo) => {
+                    Verificacion.count({ auditor: usuarioid, estado: true }, (err, conteo) => {
                         res.json({
                             ok: true,
                             verificaciones,
@@ -169,7 +169,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
         })
 })
 
-// Obtener las verificaciones por auditoria y auditor 
+// Obtener las verificaciones por planeación y auditor 
 app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
     let planeacionid = req.params.id
     let usuarioid = req.params.iduser
@@ -187,12 +187,46 @@ app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
                 return res.status(400).json({
                     ok: false,
                     err: {
-                        message: 'No se encontro ninguna verificacion para esa auditoria o auditor'
+                        message: 'No se encontro ninguna verificacion para esa planeación o auditor'
                     }
                 })
             }
 
             Verificacion.count({ planeacion: planeacionid, auditor: usuarioid, estado: true }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    verificaciones,
+                    cuantos: conteo
+                })
+            })
+        })
+
+})
+
+// Obtener las verificaciones enviadas por planeación y auditor 
+app.get('/verificacion/planeacion/usuario/enviar/:id/:iduser', (req, res) => {
+    let planeacionid = req.params.id
+    let usuarioid = req.params.iduser
+
+    Verificacion.find({ planeacion: planeacionid, auditor: usuarioid, estado: true, enviar: true })
+        .exec((err, verificaciones) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!verificaciones) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro ninguna verificacion para esa planeación o auditor'
+                    }
+                })
+            }
+
+            Verificacion.count({ planeacion: planeacionid, auditor: usuarioid, estado: true, enviar: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     verificaciones,
