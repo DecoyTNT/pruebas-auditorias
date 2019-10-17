@@ -10,26 +10,10 @@ let tablaSchema = new Schema({
     requisito: {
         type: String
     },
-    normas: [{
-        norma: {
-            type: Schema.Types.ObjectId,
-            ref: 'Norma'
-        },
-        marca: {
-            type: Boolean,
-            default: false
-        }
-    }],
-    revision: {
-        type: String
-    },
-    resultado: {
-        type: String
-    },
-    estado: {
-        type: Boolean,
-        default: true
-    }
+    marcas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Marca'
+    }]
 
 })
 

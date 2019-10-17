@@ -10,41 +10,39 @@ const {
     verificaAltaDir
 } = require('../middlewares/autenticacion')
 
-const Tabla = require('../models/tabla')
+const Marca = require('../models/marca')
 
 const app = express()
 
-app.get('/tabla', (req, res) => {
-    Tabla.find({ estado: true })
-        .populate('marcas')
-        .sort('numero')
-        .exec((err, tablas) => {
+app.get('/marca', (req, res) => {
+    Marca.find({ estado: true })
+        .populate('norma', 'nombreNorma')
+        .exec((err, marcas) => {
             if (err) {
                 res.status(500).json({
                     ok: false,
                     err
                 })
             }
-            Tabla.count({ estado: true }, (err, conteo) => {
+            Marca.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
-                    tablas,
+                    marcas,
                     cuantos: conteo
                 })
             })
         })
 })
 
-app.post('/tabla', (req, res) => {
+app.post('/marca', (req, res) => {
     let body = req.body
 
-    let tabla = new Tabla({
-        numero: body.numero,
-        requisito: body.requisito,
-        marcas: body.marcas
+    let marca = new Marca({
+        norma: body.norma,
+        marca: body.marca
     })
 
-    tabla.save({ $set: { marcas: body.marcas } }, (err, tablaDB) => {
+    marca.save((err, tablaDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
