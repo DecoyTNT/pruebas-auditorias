@@ -65,9 +65,9 @@ app.post('/informe', (req, res) => {
     })
 })
 
-app.put('/informe/proceso/:id', (req, res) => {
+app.put('/informe/:id', (req, res) => {
     let id = req.params.id
-    let body = _.pick(req.body, ['proceso', 'fecha'])
+    let body = req.body
 
     Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
@@ -91,9 +91,35 @@ app.put('/informe/proceso/:id', (req, res) => {
     })
 })
 
-app.put('/informe/:id', (req, res) => {
+app.put('/informe/proceso/:id', (req, res) => {
     let id = req.params.id
-    let body = req.body
+    let body = _.pick(req.body, ['proceso', 'fecha'])
+
+    Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!informeDB) {
+            res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            informeDB
+        })
+    })
+})
+
+app.put('/informe/oportunidades/:id', (req, res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['oportunidadesMejora'])
 
     Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
