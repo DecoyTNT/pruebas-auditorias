@@ -1,5 +1,7 @@
 const express = require('express')
 
+const _ = require('underscore')
+
 const {
     verificaToken,
     verificaAdmin,
@@ -304,9 +306,9 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
 // Cambiar pasos en auditoria
 app.put('/auditoria/pasos/:id', (req, res) => {
     let id = req.params.id
-    let pasos = req.body.pasos
+    let body = _.pick(req.body, ['pasos'])
 
-    Auditoria.findByIdAndUpdate(id, pasos, { new: true }, (err, auditoriaDB) => {
+    Auditoria.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, auditoriaDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
