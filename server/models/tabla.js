@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 
+const uniqueValidator = require('mongoose-unique-validator')
+
 let Schema = mongoose.Schema;
 
 let tablaSchema = new Schema({
 
     numero: {
-        type: String
+        type: String,
+        unique: true
     },
     requisito: {
         type: String
@@ -15,6 +18,10 @@ let tablaSchema = new Schema({
         ref: 'Norma'
     }]
 
+})
+
+tablaSchema.plugin(uniqueValidator, {
+    message: 'El número ya existe'
 })
 
 module.exports = mongoose.model('Tabla', tablaSchema)
