@@ -40,24 +40,17 @@ app.post('/informe', (req, res) => {
 
     let informe = new Informe({
         auditoria: body.auditoria,
+        proceso: body.proceso,
         fecha: body.fecha,
-        personal: {
-            nombre: body.nombre,
-            puesto: body.puesto
-        },
-        noConformidadesTotal: body.noConformidadesTotal,
         oportunidadesMejora: body.oportunidadesMejora,
         comentarios: body.comentarios,
-        noConformidades: {
-            hallazgo: body.hallazgo,
-            requisito: body.requisito
-        },
         conclusiones: body.conclusiones,
         recibiConformidad: body.recibiConformidad,
-        fechaInforme: body.fechaInforme
+        fechaAuditorias: body.fechaAuditorias,
+        fechaEmision: body.fechaEmision
     })
 
-    informe.save({ $set: { personal: [{ nombre: body.nombre, puesto: body.puesto }] } }, (err, informeDB) => {
+    informe.save({ $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -72,11 +65,37 @@ app.post('/informe', (req, res) => {
     })
 })
 
+app.put('/informe/proceso/:id', (req, res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['proceso', 'fecha'])
+
+    Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!informeDB) {
+            res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            informeDB
+        })
+    })
+})
+
 app.put('/informe/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Informe.findByIdAndUpdate(id, { $push: { personal: [{ nombre: body.nombre, puesto: body.puesto }] } }, { new: true }, (err, informeDB) => {
+    Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,

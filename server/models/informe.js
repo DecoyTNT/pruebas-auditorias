@@ -8,50 +8,29 @@ let informeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Auditorias'
     },
+    proceso: {
+        type: String
+    },
     fecha: {
         type: String
     },
-    personal: [{
-        nombre: {
-            type: String
-        },
-        puesto: {
-            type: String
-        },
+    oportunidadesMejora: [{
+        type: String
     }],
-    noConformidadesTotal: {
-        type: String
-    },
-    oportunidadesMejora: {
-        type: String
-    },
     comentarios: {
         type: String
     },
-    noConformidades: [{
-        hallazgo: {
-            type: String
-        },
-        requisito: {
-            type: String
-        }
-    }],
     conclusiones: {
         type: String
     },
     recibiConformidad: {
         type: String
     },
-    fechaInforme: {
+    fechaAuditorias: {
         type: String
     },
-    valido: {
-        type: Boolean,
-        default: false
-    },
-    enviar: {
-        type: Boolean,
-        default: false
+    fechaEmision: {
+        type: String
     },
     estado: {
         type: Boolean,
