@@ -17,6 +17,7 @@ app.use(require('./informe'))
 app.use(require('./auditado'))
 app.use(require('./hallazgo'))
 app.use(require('./tabla'))
+app.use(require('./matriz'))
 app.use(require('./mensaje'))
 app.use(require('./imagen'))
 
