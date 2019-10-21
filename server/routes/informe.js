@@ -48,12 +48,20 @@ app.get('/informe/auditoria/:id', (req, res) => {
                     err
                 })
             }
-            Informe.count((err, conteo) => {
-                res.json({
-                    ok: true,
-                    informe: informeDB,
-                    cuantos: conteo
+
+            if (!informeDB) {
+                res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'No se encontro ningún informe relacionado a esa auditoría'
+                    }
                 })
+            }
+
+            res.json({
+                ok: true,
+                informe: informeDB,
+                cuantos: conteo
             })
         })
 })
