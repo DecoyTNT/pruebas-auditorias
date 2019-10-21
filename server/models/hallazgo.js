@@ -2,8 +2,12 @@ const mongoose = require('mongoose')
 
 let Schema = mongoose.Schema;
 
-let noConformidadSchema = new Schema({
+let hallazgoSchema = new Schema({
 
+    informe: {
+        type: Schema.Types.ObjectId,
+        ref: 'Informe'
+    },
     numero: {
         type: String,
         unique: true
@@ -17,4 +21,4 @@ let noConformidadSchema = new Schema({
 
 })
 
-module.exports = mongoose.model('NoConformidades', noConformidadSchema)
+module.exports = mongoose.model('Hallazgo', hallazgoSchema)

@@ -10,14 +10,15 @@ const {
     verificaAltaDir
 } = require('../middlewares/autenticacion')
 
-const Auditado = require('../models/auditado')
+const Hallazgo = require('../models/hallazgo')
 
 const app = express()
 
-app.get('/personal', (req, res) => {
-    Auditado.find()
+app.get('/hallazgo', (req, res) => {
+
+    Hallazgo.find()
         .populate('informe')
-        .exec((err, auditados) => {
+        .exec((err, hallazgos) => {
             if (err) {
                 res.status(500).json({
                     ok: false,
@@ -25,21 +26,22 @@ app.get('/personal', (req, res) => {
                 })
             }
 
-            Auditado.count((err, conteo) => {
+            Hallazgo.count((err, conteo) => {
                 res.json({
                     ok: true,
-                    auditados,
+                    hallazgos,
                     cuantos: conteo
                 })
             })
         })
 })
 
-app.get('/personal/informe/:id', (req, res) => {
+app.get('/hallazgo/informe/:id', (req, res) => {
     let id = req.params.id
-    Auditado.find({ informe: id })
+
+    Hallazgo.find({ informe: id })
         .populate('informe')
-        .exec((err, auditados) => {
+        .exec((err, hallazgos) => {
             if (err) {
                 res.status(500).json({
                     ok: false,
@@ -47,26 +49,27 @@ app.get('/personal/informe/:id', (req, res) => {
                 })
             }
 
-            Auditado.count({ informe: id }, (err, conteo) => {
+            Hallazgo.count({ informe: id }, (err, conteo) => {
                 res.json({
                     ok: true,
-                    auditados,
+                    hallazgos,
                     cuantos: conteo
                 })
             })
         })
 })
 
-app.post('/personal', (req, res) => {
+app.post('/hallazgo', (req, res) => {
     let body = req.body
 
-    let auditado = new Auditado({
+    hallazgo = new Hallazgo({
         informe: body.informe,
-        nombre: body.nombre,
-        puesto: body.puesto
+        numero: body.numero,
+        hallazgo: body.hallazgo,
+        requisito: body.requisito
     })
 
-    auditado.save((err, auditadoDB) => {
+    hallazgo.save((err, hallazgoDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -76,15 +79,15 @@ app.post('/personal', (req, res) => {
 
         res.json({
             ok: true,
-            auditado: auditadoDB
+            hallazgo: hallazgoDB
         })
     })
 })
 
-app.delete('/personal/:id', (req, res) => {
+app.delete('/hallazgo/:id', (req, res) => {
     let id = req.params.id
 
-    Auditado.findByIdAndRemove(id, (err, auditadoBorrado) => {
+    Hallazgo.findByIdAndRemove(id, (err, hallazgoBorrado) => {
         if (err) {
             res.status(500).json({
                 ok: false,
@@ -92,18 +95,18 @@ app.delete('/personal/:id', (req, res) => {
             })
         }
 
-        if (!auditadoBorrado) {
+        if (!hallazgoBorrado) {
             res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro ese auditado'
+                    message: 'No se encontro esa no conformidad'
                 }
             })
         }
 
         res.json({
             ok: true,
-            auditado: auditadoBorrado
+            hallazgo: hallazgoBorrado
         })
     })
 })
