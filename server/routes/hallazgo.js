@@ -64,7 +64,6 @@ app.post('/hallazgo', (req, res) => {
 
     hallazgo = new Hallazgo({
         informe: body.informe,
-        numero: body.numero,
         hallazgo: body.hallazgo,
         requisito: body.requisito
     })

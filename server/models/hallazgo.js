@@ -8,10 +8,6 @@ let hallazgoSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Informe'
     },
-    numero: {
-        type: String,
-        unique: true
-    },
     hallazgo: {
         type: String
     },
