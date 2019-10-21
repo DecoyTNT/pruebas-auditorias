@@ -14,7 +14,7 @@ const Auditado = require('../models/auditado')
 
 const app = express()
 
-app.get('/personal', (req, res) => {
+app.get('/personal', [verificaToken], (req, res) => {
     Auditado.find()
         .populate('informe')
         .exec((err, auditados) => {
@@ -35,7 +35,7 @@ app.get('/personal', (req, res) => {
         })
 })
 
-app.get('/personal/informe/:id', (req, res) => {
+app.get('/personal/informe/:id', [verificaToken], (req, res) => {
     let id = req.params.id
     Auditado.find({ informe: id })
         .populate('informe')
@@ -57,7 +57,7 @@ app.get('/personal/informe/:id', (req, res) => {
         })
 })
 
-app.post('/personal', (req, res) => {
+app.post('/personal', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
 
     let auditado = new Auditado({
@@ -81,7 +81,7 @@ app.post('/personal', (req, res) => {
     })
 })
 
-app.delete('/personal/:id', (req, res) => {
+app.delete('/personal/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
     Auditado.findByIdAndRemove(id, (err, auditadoBorrado) => {

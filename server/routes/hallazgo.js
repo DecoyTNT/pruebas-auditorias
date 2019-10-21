@@ -14,7 +14,7 @@ const Hallazgo = require('../models/hallazgo')
 
 const app = express()
 
-app.get('/hallazgo', (req, res) => {
+app.get('/hallazgo', [verificaToken], (req, res) => {
 
     Hallazgo.find()
         .populate('informe')
@@ -36,7 +36,7 @@ app.get('/hallazgo', (req, res) => {
         })
 })
 
-app.get('/hallazgo/informe/:id', (req, res) => {
+app.get('/hallazgo/informe/:id', [verificaToken], (req, res) => {
     let id = req.params.id
 
     Hallazgo.find({ informe: id })
@@ -59,7 +59,7 @@ app.get('/hallazgo/informe/:id', (req, res) => {
         })
 })
 
-app.post('/hallazgo', (req, res) => {
+app.post('/hallazgo', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
 
     hallazgo = new Hallazgo({
@@ -83,7 +83,7 @@ app.post('/hallazgo', (req, res) => {
     })
 })
 
-app.delete('/hallazgo/:id', (req, res) => {
+app.delete('/hallazgo/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
     Hallazgo.findByIdAndRemove(id, (err, hallazgoBorrado) => {

@@ -5,6 +5,7 @@ const _ = require('underscore')
 const {
     verificaToken,
     verificaAdmin,
+    verificaAdminAuditorLider,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
@@ -14,7 +15,7 @@ const Informe = require('../models/informe')
 
 const app = express()
 
-app.get('/informe', (req, res) => {
+app.get('/informe', [verificaToken], (req, res) => {
     Informe.find()
         .exec((err, informes) => {
             if (err) {
@@ -33,7 +34,7 @@ app.get('/informe', (req, res) => {
         })
 })
 
-app.get('/informe/auditoria/:id', (req, res) => {
+app.get('/informe/auditoria/:id', [verificaToken], (req, res) => {
     let id = req.params.id
 
     Informe.findOne({ auditoria: id })
@@ -64,7 +65,7 @@ app.get('/informe/auditoria/:id', (req, res) => {
         })
 })
 
-app.post('/informe', (req, res) => {
+app.post('/informe', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
 
     let informe = new Informe({
@@ -95,7 +96,7 @@ app.post('/informe', (req, res) => {
     })
 })
 
-app.put('/informe/:id', (req, res) => {
+app.put('/informe/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -121,7 +122,7 @@ app.put('/informe/:id', (req, res) => {
     })
 })
 
-app.put('/informe/proceso/:id', (req, res) => {
+app.put('/informe/proceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['proceso', 'fecha'])
 
@@ -147,7 +148,7 @@ app.put('/informe/proceso/:id', (req, res) => {
     })
 })
 
-app.put('/informe/oportunidades/:id', (req, res) => {
+app.put('/informe/oportunidades/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['oportunidadesMejora'])
 
@@ -173,7 +174,7 @@ app.put('/informe/oportunidades/:id', (req, res) => {
     })
 })
 
-app.put('/informe/comentarios/:id', (req, res) => {
+app.put('/informe/comentarios/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['comentarios'])
 
@@ -199,7 +200,7 @@ app.put('/informe/comentarios/:id', (req, res) => {
     })
 })
 
-app.put('/informe/conclusiones/:id', (req, res) => {
+app.put('/informe/conclusiones/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['conclusiones'])
 
@@ -225,7 +226,7 @@ app.put('/informe/conclusiones/:id', (req, res) => {
     })
 })
 
-app.put('/informe/fechaauditorias/:id', (req, res) => {
+app.put('/informe/fechaauditorias/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['fechaAuditorias'])
 
@@ -251,7 +252,7 @@ app.put('/informe/fechaauditorias/:id', (req, res) => {
     })
 })
 
-app.put('/informe/fechaemision/:id', (req, res) => {
+app.put('/informe/fechaemision/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['fechaEmision'])
 
