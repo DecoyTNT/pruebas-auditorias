@@ -225,4 +225,56 @@ app.put('/informe/conclusiones/:id', (req, res) => {
     })
 })
 
+app.put('/informe/fechaauditorias/:id', (req, res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['fechaAuditorias'])
+
+    Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!informeDB) {
+            res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            informeDB
+        })
+    })
+})
+
+app.put('/informe/fechaemision/:id', (req, res) => {
+    let id = req.params.id
+    let body = _.pick(req.body, ['fechaEmision'])
+
+    Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
+        if (err) {
+            res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!informeDB) {
+            res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+
+        res.json({
+            ok: true,
+            informeDB
+        })
+    })
+})
+
 module.exports = app
