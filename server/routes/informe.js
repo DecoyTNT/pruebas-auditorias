@@ -16,8 +16,6 @@ const app = express()
 
 app.get('/informe', (req, res) => {
     Informe.find()
-        .populate('marcas')
-        .sort('numero')
         .exec((err, informes) => {
             if (err) {
                 res.status(500).json({
@@ -39,8 +37,6 @@ app.get('/informe/auditoria/:id', (req, res) => {
     let id = req.params.id
 
     Informe.findOne({ auditoria: id })
-        .populate('marcas')
-        .sort('numero')
         .exec((err, informeDB) => {
             if (err) {
                 res.status(500).json({
@@ -60,8 +56,7 @@ app.get('/informe/auditoria/:id', (req, res) => {
 
             res.json({
                 ok: true,
-                informe: informeDB,
-                cuantos: conteo
+                informe: informeDB
             })
         })
 })
