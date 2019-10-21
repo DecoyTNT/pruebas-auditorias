@@ -37,6 +37,9 @@ app.get('/informe/auditoria/:id', (req, res) => {
     let id = req.params.id
 
     Informe.findOne({ auditoria: id })
+        .populate('auditorias')
+        .populate('auditorLider')
+        .populate('director')
         .exec((err, informeDB) => {
             if (err) {
                 res.status(500).json({
