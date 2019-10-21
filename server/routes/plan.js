@@ -163,54 +163,6 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
     })
 })
 
-// app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
-//     let id = req.params.id
-//     let body = req.body
-
-//     Plan.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, planDB) => {
-//         if (err) {
-//             return res.status(500).json({
-//                 ok: false,
-//                 err
-//             });
-//         }
-
-//         if (err) {
-//             return res.status(400).json({
-//                 ok: false,
-//                 err
-//             })
-//         }
-
-//         Auditoria
-//             .find({ plan: id })
-//             .exec((err, auditorias) => {
-//                 Auditoria.update({ plan: id }, { nombreAuditoria: `${planDB.nombrePlan}_${auditorias.nombre}` }, { multi: true }, (err, auditoriaDB) => {
-//                     if (err) {
-//                         return res.status(500).json({
-//                             ok: false,
-//                             err
-//                         })
-//                     }
-
-//                     if (!auditoriaDB) {
-//                         return res.status(400).json({
-//                             ok: false,
-//                             err: {
-//                                 message: 'Auditoria no encontrada'
-//                             }
-//                         })
-//                     }
-//                 })
-
-//             })
-//         res.json({
-//             ok: true,
-//             plan: planDB
-//         })
-//     })
-// })
-
 // Valida un plan
 app.put('/plan/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id

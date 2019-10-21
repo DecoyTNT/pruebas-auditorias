@@ -17,7 +17,7 @@ const Usuario = require('../models/usuario')
 const app = express()
 
 // Obtiene todas las verificaciones
-app.get('/verificacion', (req, res) => {
+app.get('/verificacion', [verificaToken], (req, res) => {
     Verificacion.find({ estado: true })
         .exec((err, verificaciones) => {
             if (err) {
@@ -37,7 +37,7 @@ app.get('/verificacion', (req, res) => {
 })
 
 // Obtener una verificacion por id 
-app.get('/verificacion/:id', (req, res) => {
+app.get('/verificacion/:id', [verificaToken], (req, res) => {
     let id = req.body.id
     Verificacion.findById(id)
         .exec((err, verificacionDB) => {
@@ -65,7 +65,7 @@ app.get('/verificacion/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por planeación 
-app.get('/verificacion/planeacion/:id', (req, res) => {
+app.get('/verificacion/planeacion/:id', [verificaToken], (req, res) => {
     let planeacionid = req.params.id
 
     Planeacion.findById(planeacionid)
@@ -105,7 +105,8 @@ app.get('/verificacion/planeacion/:id', (req, res) => {
         })
 })
 
-app.get('/verificacion/planeacion/enviar/:id', (req, res) => {
+// 
+app.get('/verificacion/planeacion/enviar/:id', [verificaToken], (req, res) => {
     let planeacionid = req.params.id
 
     Verificacion.find({ planeacion: planeacionid, estado: true, enviar: true })
@@ -129,7 +130,7 @@ app.get('/verificacion/planeacion/enviar/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por usuario 
-app.get('/verificacion/usuario/:id', (req, res) => {
+app.get('/verificacion/usuario/:id', [verificaToken], (req, res) => {
     let usuarioid = req.params.id
 
     Usurio.findById(usuarioid)
@@ -170,7 +171,7 @@ app.get('/verificacion/usuario/:id', (req, res) => {
 })
 
 // Obtener las verificaciones por planeación y auditor 
-app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
+app.get('/verificacion/planeacion/usuario/:id/:iduser', [verificaToken], (req, res) => {
     let planeacionid = req.params.id
     let usuarioid = req.params.iduser
 
@@ -204,7 +205,7 @@ app.get('/verificacion/planeacion/usuario/:id/:iduser', (req, res) => {
 })
 
 // Obtener las verificaciones enviadas por planeación y auditor 
-app.get('/verificacion/planeacion/usuario/enviar/:id/:iduser', (req, res) => {
+app.get('/verificacion/planeacion/usuario/enviar/:id/:iduser', [verificaToken], (req, res) => {
     let planeacionid = req.params.id
     let usuarioid = req.params.iduser
 
@@ -238,7 +239,7 @@ app.get('/verificacion/planeacion/usuario/enviar/:id/:iduser', (req, res) => {
 })
 
 // Crear una verificacion
-app.post('/verificacion', (req, res) => {
+app.post('/verificacion', [verificaToken, verificaAuditor], (req, res) => {
     let body = req.body
 
     let verificacion = new Verificacion({
@@ -286,7 +287,7 @@ app.post('/verificacion', (req, res) => {
 })
 
 // Modifica el punto y la pregunta de la verificación por id
-app.put('/verificacion/punto/:id', (req, res) => {
+app.put('/verificacion/punto/:id', [verificaToken, verificaAuditor], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['puntoNorma', 'pregunta', 'enviar', 'valido'])
     body.enviar = false
@@ -316,7 +317,7 @@ app.put('/verificacion/punto/:id', (req, res) => {
     })
 })
 
-app.put('/verificacion/documento/:id', (req, res) => {
+app.put('/verificacion/documento/:id', [verificaToken, verificaAuditor], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['documento', 'evidencia', 'hallazgos'])
 
@@ -345,7 +346,7 @@ app.put('/verificacion/documento/:id', (req, res) => {
 })
 
 // Envia todas las planeaciones
-app.put('/verificacion/planeacion/:id', (req, res) => {
+app.put('/verificacion/planeacion/:id', [verificaToken, verificaAuditor], (req, res) => {
     let planeacionid = req.params.id
 
     Verificacion.update({ planeacion: planeacionid }, { enviar: true }, { multi: true }, (err, verificacionDB) => {
@@ -374,7 +375,7 @@ app.put('/verificacion/planeacion/:id', (req, res) => {
 })
 
 // Modifica todas las verificaciones el entrevistado y la fecha de una planeación
-app.put('/verificacion/planeacion/entrevistado/:id', (req, res) => {
+app.put('/verificacion/planeacion/entrevistado/:id', [verificaToken, verificaAuditor], (req, res) => {
     let planeacionid = req.params.id
     let body = _.pick(req.body, ['entrevistado', 'fecha'])
 
@@ -403,7 +404,7 @@ app.put('/verificacion/planeacion/entrevistado/:id', (req, res) => {
 })
 
 // Valida todas las planeaciones
-app.put('/verificacion/planeacion/validar/:id', (req, res) => {
+app.put('/verificacion/planeacion/validar/:id', [verificaToken, verificaAuditorLider], (req, res) => {
     let planeacionid = req.params.id
 
     Verificacion.update({ planeacion: planeacionid, enviar: true }, { valido: true }, { multi: true }, (err, verificacionDB) => {
@@ -432,7 +433,7 @@ app.put('/verificacion/planeacion/validar/:id', (req, res) => {
 })
 
 // Eliminar Verificacion
-app.delete('/verificacion/:id', (req, res) => {
+app.delete('/verificacion/:id', [verificaToken, verificaAuditor], (req, res) => {
     let id = req.params.id
     let cambiaEstado = {
         estado: false

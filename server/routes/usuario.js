@@ -51,7 +51,7 @@ app.get('/usuario', [verificaToken, verificaAdminAuditorLiderDir], (req, res) =>
 })
 
 // Usuarios Activos
-app.get('/usuario/tipo/:termino', (req, res) => {
+app.get('/usuario/tipo/:termino', [verificaToken], (req, res) => {
 
     let termino = req.params.termino
 

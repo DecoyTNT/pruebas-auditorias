@@ -304,7 +304,7 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
 })
 
 // Cambiar pasos en auditoria
-app.put('/auditoria/pasos/:id', (req, res) => {
+app.put('/auditoria/pasos/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
     let body = _.pick(req.body, ['pasos'])
 

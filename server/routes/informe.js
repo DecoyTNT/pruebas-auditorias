@@ -35,17 +35,41 @@ app.get('/informe', (req, res) => {
         })
 })
 
+app.get('/informe/auditoria/:id', (req, res) => {
+    let id = req.params.id
+
+    Informe.findOne({ auditoria: id })
+        .populate('marcas')
+        .sort('numero')
+        .exec((err, informeDB) => {
+            if (err) {
+                res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            Informe.count((err, conteo) => {
+                res.json({
+                    ok: true,
+                    informe: informeDB,
+                    cuantos: conteo
+                })
+            })
+        })
+})
+
 app.post('/informe', (req, res) => {
     let body = req.body
 
     let informe = new Informe({
         auditoria: body.auditoria,
+        auditorLider: body.auditorLider,
         proceso: body.proceso,
         fecha: body.fecha,
         oportunidadesMejora: body.oportunidadesMejora,
         comentarios: body.comentarios,
         conclusiones: body.conclusiones,
-        recibiConformidad: body.recibiConformidad,
+        director: body.director,
         fechaAuditorias: body.fechaAuditorias,
         fechaEmision: body.fechaEmision
     })

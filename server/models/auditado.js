@@ -4,6 +4,10 @@ let Schema = mongoose.Schema;
 
 let auditadoSchema = new Schema({
 
+    informe: {
+        type: Schema.Types.ObjectId,
+        ref: 'Informe'
+    },
     nombre: {
         type: String
     },

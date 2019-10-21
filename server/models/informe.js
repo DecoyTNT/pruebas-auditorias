@@ -8,6 +8,10 @@ let informeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Auditorias'
     },
+    auditorLider: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
     proceso: {
         type: String
     },
@@ -23,8 +27,9 @@ let informeSchema = new Schema({
     conclusiones: {
         type: String
     },
-    recibiConformidad: {
-        type: String
+    director: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
     },
     fechaAuditorias: {
         type: String
