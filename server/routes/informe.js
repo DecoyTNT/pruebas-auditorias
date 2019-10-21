@@ -82,7 +82,7 @@ app.post('/informe', (req, res) => {
         fechaEmision: body.fechaEmision
     })
 
-    informe.save({ $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
+    informe.save({ $set: { oportunidadesMejora: body.oportunidadesMejora } }, (err, informeDB) => {
         if (err) {
             res.status(500).json({
                 ok: false,
