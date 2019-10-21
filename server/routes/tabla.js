@@ -14,7 +14,7 @@ const Tabla = require('../models/tabla')
 
 const app = express()
 
-app.get('/tabla', (req, res) => {
+app.get('/tabla', [verificaToken], (req, res) => {
     Tabla.find()
         .populate('normas')
         .sort('numero')
@@ -36,7 +36,7 @@ app.get('/tabla', (req, res) => {
 })
 
 // Crea punto de la tabla
-app.post('/tabla', (req, res) => {
+app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let body = req.body
 
     let tabla = new Tabla({
@@ -61,7 +61,7 @@ app.post('/tabla', (req, res) => {
 })
 
 //Elimina punto de la tabla
-app.delete('/tabla/:id', (req, res) => {
+app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
     Tabla.findByIdAndRemove(id, (err, tablaBorrada) => {
