@@ -42,7 +42,6 @@ app.get('/matriz/informe/:id', (req, res) => {
     Matriz.find({ informe: id })
         .populate('informe')
         .populate('tabla')
-        .sort('tabla', 'numero')
         .exec((err, matrices) => {
             if (err) {
                 res.status(500).json({
