@@ -5,6 +5,7 @@ const _ = require('underscore')
 const {
     verificaToken,
     verificaAdmin,
+    verificaAdminAuditorLider,
     verificaAuditor,
     verificaAuditorLider,
     verificaAltaDir
