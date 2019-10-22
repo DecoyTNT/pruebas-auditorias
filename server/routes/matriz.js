@@ -88,6 +88,34 @@ app.post('/matriz', (req, res) => {
     })
 })
 
+app.put('/matriz/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Matriz.findById(id, body, { new: true, runValidators: true, context: 'query' }, (err, matrizDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!matrizDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'no se encontro resultados'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            matriz: matrizDB
+        })
+    })
+})
+
 app.delete('/matriz/informe/:id', (req, res) => {
     let id = req.params.id
 

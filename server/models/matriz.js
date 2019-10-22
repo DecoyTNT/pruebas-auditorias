@@ -26,11 +26,13 @@ let matrizSchema = new Schema({
     },
     revision: {
         type: String,
-        enum: revisionValida
+        enum: revisionValida,
+        default: 'A'
     },
     resultado: {
         type: String,
-        enum: resultadoValido
+        enum: resultadoValido,
+        default: 'AD'
     }
 
 
