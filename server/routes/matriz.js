@@ -37,6 +37,8 @@ app.get('/matriz', (req, res) => {
 })
 
 app.get('/matriz/informe/:id', (req, res) => {
+    let id = req.params.id
+
     Matriz.find({ informe: id })
         .populate('informe')
         .populate('tabla')
