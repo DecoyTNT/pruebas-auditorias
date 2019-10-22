@@ -64,7 +64,7 @@ app.post('/mensaje', (req, res) => {
 
     mensaje.save({ $set: { mensajes: body.mensajes, usuarios: body.usuarios } }, (err, mensajeDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })

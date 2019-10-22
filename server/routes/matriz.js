@@ -11,6 +11,7 @@ const {
 } = require('../middlewares/autenticacion')
 
 const Matriz = require('../models/matriz')
+const Informe = require('../models/informe')
 
 const app = express()
 
@@ -20,7 +21,7 @@ app.get('/matriz', (req, res) => {
         .populate('tabla')
         .exec((err, matrices) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -44,7 +45,7 @@ app.get('/matriz/informe/:id', (req, res) => {
         .populate('tabla')
         .exec((err, matrices) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -58,6 +59,8 @@ app.get('/matriz/informe/:id', (req, res) => {
                 })
             })
         })
+
+
 })
 
 app.post('/matriz', (req, res) => {
@@ -72,7 +75,7 @@ app.post('/matriz', (req, res) => {
 
     matriz.save((err, matrizDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -90,7 +93,7 @@ app.delete('/matriz/informe/:id', (req, res) => {
 
     Matriz.remove({ informe: id }, (err, matrices) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })

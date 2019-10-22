@@ -61,7 +61,7 @@ app.get('/institucion/:id', [verificaToken, verificaAdminAuditorLider], (req, re
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontró la institución'
+                    message: 'Institución no encontrada'
                 }
             })
         }
@@ -115,10 +115,12 @@ app.put('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
             });
         }
 
-        if (err) {
+        if (!institucionDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Institución no encontrada'
+                }
             })
         }
 
@@ -144,7 +146,7 @@ app.delete('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Institucion no encontrada'
+                    message: 'Institución no encontrada'
                 }
             })
         }

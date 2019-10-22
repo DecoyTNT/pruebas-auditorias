@@ -19,7 +19,7 @@ app.get('/informe', [verificaToken], (req, res) => {
     Informe.find()
         .exec((err, informes) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -43,14 +43,14 @@ app.get('/informe/auditoria/:id', [verificaToken], (req, res) => {
         .populate('director')
         .exec((err, informeDB) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
             }
 
             if (!informeDB) {
-                res.status(400).json({
+                return res.status(400).json({
                     ok: false,
                     err: {
                         message: 'No se encontro ningún informe relacionado a esa auditoría'
@@ -83,7 +83,7 @@ app.post('/informe', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
     informe.save({ $set: { oportunidadesMejora: body.oportunidadesMejora } }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -102,14 +102,14 @@ app.put('/informe/:id', [verificaToken, verificaAdminAuditorLider], (req, res) =
 
     Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -128,14 +128,14 @@ app.put('/informe/proceso/:id', [verificaToken, verificaAdminAuditorLider], (req
 
     Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -154,14 +154,14 @@ app.put('/informe/oportunidades/:id', [verificaToken, verificaAdminAuditorLider]
 
     Informe.findByIdAndUpdate(id, { $set: { oportunidadesMejora: body.oportunidadesMejora } }, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -180,14 +180,14 @@ app.put('/informe/comentarios/:id', [verificaToken, verificaAdminAuditorLider], 
 
     Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -206,14 +206,14 @@ app.put('/informe/conclusiones/:id', [verificaToken, verificaAdminAuditorLider],
 
     Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -232,14 +232,14 @@ app.put('/informe/fechaauditorias/:id', [verificaToken, verificaAdminAuditorLide
 
     Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })
@@ -258,14 +258,14 @@ app.put('/informe/fechaemision/:id', [verificaToken, verificaAdminAuditorLider],
 
     Informe.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, informeDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!informeDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err
             })

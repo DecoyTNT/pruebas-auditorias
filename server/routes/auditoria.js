@@ -141,6 +141,15 @@ app.get('/auditoria/:id', [verificaToken], (req, res) => {
                     err
                 })
             }
+
+            if (!auditoriaDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+
+
             res.json({
                 ok: true,
                 auditoria: auditoriaDB
@@ -310,14 +319,14 @@ app.put('/auditoria/pasos/:id', [verificaToken, verificaAdminAuditorLider], (req
 
     Auditoria.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, auditoriaDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!auditoriaDB) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err: {
                     message: 'No se encontro la auditoría'

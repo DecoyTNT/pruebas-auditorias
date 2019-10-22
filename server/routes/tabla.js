@@ -21,7 +21,7 @@ app.get('/tabla', [verificaToken], (req, res) => {
         .sort('numero')
         .exec((err, tablas) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -48,7 +48,7 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
     tabla.save({ $set: { normas: body.normas } }, (err, tablaDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -67,14 +67,14 @@ app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) 
 
     Tabla.findByIdAndRemove(id, (err, tablaBorrada) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!tablaBorrada) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err: {
                     message: 'No se encontro ese punto'

@@ -61,6 +61,14 @@ app.get('/subproceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res
                     err
                 })
             }
+            if (!subprocesoDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'Subproceso no encontrado'
+                    }
+                })
+            }
             res.json({
                 ok: true,
                 subproceso: subprocesoDB
@@ -141,10 +149,12 @@ app.put('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             });
         }
 
-        if (err) {
+        if (!subprocesoDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Subproceso no encontrado'
+                }
             })
         }
 
@@ -212,12 +222,7 @@ app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res)
                 }
             })
         }
-        Subproceso
-        // .find({ proceso: procesoid })
-        // .skip(desde)
-        // .limit(limite)
-        // .where({ proceso: procesoid })
-            .update({ proceso: procesoid }, { estado: false }, { multi: true }, (err, subprocesoBorrado) => {
+        Subproceso.update({ proceso: procesoid }, { estado: false }, { multi: true }, (err, subprocesoBorrado) => {
             if (err) {
                 return res.status(500).json({
                     ok: false,

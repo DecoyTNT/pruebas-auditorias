@@ -324,7 +324,7 @@ app.put('/planeacion/auditoria/:id', [verificaToken, verificaAdminAuditorLider],
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro una planeacion con ese id de auditoría'
+                    message: 'No se encontro la planeación'
                 }
             })
         }
@@ -377,7 +377,7 @@ app.delete('/planeacion/:id', [verificaToken, verificaAdminAuditorLider], (req, 
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro la planeacion'
+                    message: 'No se encontro la planeación'
                 }
             })
         }

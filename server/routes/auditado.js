@@ -19,7 +19,7 @@ app.get('/personal', [verificaToken], (req, res) => {
         .populate('informe')
         .exec((err, auditados) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -41,7 +41,7 @@ app.get('/personal/informe/:id', [verificaToken], (req, res) => {
         .populate('informe')
         .exec((err, auditados) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -68,7 +68,7 @@ app.post('/personal', [verificaToken, verificaAdminAuditorLider], (req, res) => 
 
     auditado.save((err, auditadoDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -86,14 +86,14 @@ app.delete('/personal/:id', [verificaToken, verificaAdminAuditorLider], (req, re
 
     Auditado.findByIdAndRemove(id, (err, auditadoBorrado) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!auditadoBorrado) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err: {
                     message: 'No se encontro ese auditado'

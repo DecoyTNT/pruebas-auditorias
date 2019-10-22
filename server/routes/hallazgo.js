@@ -20,7 +20,7 @@ app.get('/hallazgo', [verificaToken], (req, res) => {
         .populate('informe')
         .exec((err, hallazgos) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
@@ -43,14 +43,14 @@ app.get('/hallazgo/informe/:id', [verificaToken], (req, res) => {
         .populate('informe')
         .exec((err, hallazgos) => {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     ok: false,
                     err
                 })
             }
 
             Hallazgo.count({ informe: id }, (err, conteo) => {
-                res.json({
+                return res.json({
                     ok: true,
                     hallazgos,
                     cuantos: conteo
@@ -70,7 +70,7 @@ app.post('/hallazgo', [verificaToken, verificaAdminAuditorLider], (req, res) => 
 
     hallazgo.save((err, hallazgoDB) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -88,14 +88,14 @@ app.delete('/hallazgo/:id', [verificaToken, verificaAdminAuditorLider], (req, re
 
     Hallazgo.findByIdAndRemove(id, (err, hallazgoBorrado) => {
         if (err) {
-            res.status(500).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
         }
 
         if (!hallazgoBorrado) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
                 err: {
                     message: 'No se encontro esa no conformidad'

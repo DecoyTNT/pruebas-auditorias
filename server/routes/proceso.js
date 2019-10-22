@@ -56,6 +56,14 @@ app.get('/proceso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) =
                 err
             })
         }
+        if (!procesoDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Proceso no encontrado'
+                }
+            })
+        }
         res.json({
             ok: true,
             proceso: procesoDB
@@ -102,10 +110,12 @@ app.put('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             });
         }
 
-        if (err) {
+        if (!procesoDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Proceso no encontrado'
+                }
             })
         }
 

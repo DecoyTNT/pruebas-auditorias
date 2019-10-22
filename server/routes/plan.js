@@ -49,6 +49,14 @@ app.get('/plan/:id', [verificaToken], (req, res) => {
                     err
                 })
             }
+            if (!planDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'Plan no encontrado'
+                    }
+                })
+            }
             res.json({
                 ok: true,
                 plan: planDB
@@ -94,10 +102,12 @@ app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             });
         }
 
-        if (err) {
+        if (!planDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Plan no encontrado'
+                }
             })
         }
 
@@ -122,10 +132,12 @@ app.put('/plan/auditorias/:id', [verificaToken, verificaAdminAuditorLider], (req
             });
         }
 
-        if (err) {
+        if (!planDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Plan no encontrado'
+                }
             })
         }
 
@@ -181,7 +193,9 @@ app.put('/plan/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => 
         if (!planDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Plan no encontrado'
+                }
             })
         }
 

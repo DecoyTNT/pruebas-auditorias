@@ -57,6 +57,15 @@ app.get('/norma/:id', [verificaToken, verificaAdminAuditorLiderDir], (req, res) 
                 err
             })
         }
+
+        if (!normaDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Norma no encontrada'
+                }
+            })
+        }
         res.json({
             ok: true,
             norma: normaDB
@@ -78,7 +87,7 @@ app.post('/norma', [verificaToken, verificaAdmin], (req, res) => {
 
     norma.save((err, normaDB) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(500).json({
                 ok: false,
                 err
             })
@@ -106,10 +115,12 @@ app.put('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
             });
         }
 
-        if (err) {
+        if (!normaDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Norma no encontrada'
+                }
             })
         }
 

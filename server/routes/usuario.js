@@ -127,6 +127,15 @@ app.get('/usuario/:id', [verificaToken], function(req, res) {
             })
         }
 
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
+            })
+        }
+
         res.json({
             ok: true,
             usuario: usuarioDB
@@ -218,7 +227,7 @@ app.post('/usuario/director/:id', [verificaToken, verificaAltaDir], (req, res) =
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No existe el uuario'
+                    message: 'Usuario no encontrado'
                 }
             })
         }
@@ -257,7 +266,7 @@ app.post('/usuario/lider/:id', [verificaToken, verificaAuditorLider], (req, res)
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No existe el uuario'
+                    message: 'Usuario no encontrado'
                 }
             })
         }
@@ -300,7 +309,7 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro el usuario'
+                    message: 'Usuario no encontrado'
                 }
             })
         }
@@ -320,11 +329,19 @@ app.put('/usuario/miperfil/:id', verificaToken, function(req, res) {
 
 
     Usuario.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
-
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
+            })
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
             })
         }
 
@@ -343,11 +360,19 @@ app.put('/usuario/password/:id', [verificaToken, verificaAdmin], function(req, r
     let contraseña = bcrypt.hashSync(body.contraseña, 10)
 
     Usuario.findByIdAndUpdate(id, { contraseña }, { new: true, runValidators: true, context: 'query' }, (err, usuarioDB) => {
-
         if (err) {
             return res.status(500).json({
                 ok: false,
                 err
+            })
+        }
+
+        if (!usuarioDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Usuario no encontrado'
+                }
             })
         }
 
@@ -366,7 +391,6 @@ app.put('/usuario/inactivos/:id', [verificaToken, verificaAdmin], function(req, 
         estado: true
     }
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
-
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -398,7 +422,6 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
         estado: false
     }
     Usuario.findByIdAndUpdate(id, cambiaEstado, { new: true }, (err, usuarioBorrado) => {
-
         if (err) {
             return res.status(500).json({
                 ok: false,
