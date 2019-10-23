@@ -61,6 +61,21 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     })
 })
 
+app.put('/tabla/estado', (req, res) => {
+    Tabla.update({ estado: true }, (err, estados) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+        res.json({
+            ok: true,
+            tablas
+        })
+    })
+})
+
 //Elimina punto de la tabla
 app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id

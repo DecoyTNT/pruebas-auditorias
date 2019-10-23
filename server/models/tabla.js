@@ -16,7 +16,11 @@ let tablaSchema = new Schema({
     normas: [{
         type: Schema.Types.ObjectId,
         ref: 'Norma'
-    }]
+    }],
+    estado: {
+        type: Boolean,
+        default: true
+    }
 
 })
 
