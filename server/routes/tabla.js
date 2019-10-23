@@ -63,7 +63,7 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
 app.put('/tabla/estado', (req, res) => {
 
-    Tabla.update({ estado: true }, (err, estados) => {
+    Tabla.updateMany({ estado: true }, (err, estados) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
