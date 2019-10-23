@@ -18,6 +18,7 @@ app.use(require('./auditado'))
 app.use(require('./hallazgo'))
 app.use(require('./tabla'))
 app.use(require('./matriz'))
+app.use(require('./bitacora'))
 app.use(require('./mensaje'))
 app.use(require('./imagen'))
 
