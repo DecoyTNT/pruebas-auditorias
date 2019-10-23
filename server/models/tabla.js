@@ -7,8 +7,7 @@ let Schema = mongoose.Schema;
 let tablaSchema = new Schema({
 
     numero: {
-        type: String,
-        unique: true
+        type: String
     },
     requisito: {
         type: String
