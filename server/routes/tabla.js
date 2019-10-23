@@ -16,7 +16,7 @@ const Tabla = require('../models/tabla')
 const app = express()
 
 app.get('/tabla', [verificaToken], (req, res) => {
-    Tabla.find()
+    Tabla.find({ estado: true })
         .populate('normas')
         .sort('numero')
         .exec((err, tablas) => {
@@ -26,7 +26,7 @@ app.get('/tabla', [verificaToken], (req, res) => {
                     err
                 })
             }
-            Tabla.count((err, conteo) => {
+            Tabla.count({ estado: true }, (err, conteo) => {
                 res.json({
                     ok: true,
                     tablas,
@@ -81,7 +81,7 @@ app.put('/tabla/estado', (req, res) => {
 app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
-    Tabla.findByIdAndRemove(id, (err, tablaBorrada) => {
+    Tabla.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, tablaBorrada) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
