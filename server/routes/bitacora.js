@@ -33,11 +33,29 @@ app.get('/bitacora', (req, res) => {
         })
 })
 
+app.get('/bitacora/informe/:id', (req, res) => {
+    Bitacora.find({ estado: true })
+        .exec((err, bitacoras) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+            Bitacora.count({ estado: true }, (err, conteo) => {
+                res.json({
+                    ok: true,
+                    bitacoras,
+                    cuantos: conteo
+                })
+            })
+        })
+})
+
 app.post('/bitacora', (req, res) => {
     let body = req.body
 
     let bitacora = new Bitacora({
-        informe: body.informe,
         salida: body.salida,
         noConformidad: body.noConformidad,
         incidente: body.incidente,

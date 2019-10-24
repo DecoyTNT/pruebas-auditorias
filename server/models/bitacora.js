@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 let tiposSeleccion = {
-    values: ['Salida no conforme', 'No conformidad', 'incidente'],
+    values: ['Salida no conforme', 'No conformidad', 'Incidente'],
     message: '{VALUE} no es valido'
 }
 
@@ -16,10 +16,6 @@ let Schema = mongoose.Schema;
 
 let bitacoraSchema = new Schema({
 
-    informe: {
-        type: Schema.Types.ObjectId,
-        ref: 'Informe'
-    },
     salida: {
         type: String
     },
