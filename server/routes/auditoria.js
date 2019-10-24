@@ -282,6 +282,34 @@ app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res)
     })
 })
 
+// Cambiar progreso de auditoría
+app.put('/auditoria/progreso/:id', (req, res) => {
+    let id = req.params.id
+
+    Auditoria.findByIdAndUpdate(id, { progreso: 'terminado' }, { new: true }, (err, auditoriaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            });
+        }
+
+        if (!auditoriaDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Auditoría no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            auditoria: auditoriaDB
+        })
+    })
+})
+
 // Valida la auditoria
 app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id
@@ -300,7 +328,9 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
         if (!auditoriaDB) {
             return res.status(400).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Auditoría no encontrada'
+                }
             })
         }
 
