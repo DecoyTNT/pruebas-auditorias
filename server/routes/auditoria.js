@@ -283,7 +283,7 @@ app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res)
 })
 
 // Cambiar progreso de auditoría
-app.put('/auditoria/progreso/:id', (req, res) => {
+app.put('/auditoria/progreso/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     let id = req.params.id
 
     Auditoria.findByIdAndUpdate(id, { progreso: 'terminado' }, { new: true }, (err, auditoriaDB) => {
