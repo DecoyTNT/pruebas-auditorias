@@ -6,12 +6,10 @@ const jwt = require('jsonwebtoken')
 
 const Usuario = require('../models/usuario')
 
-// const { io } = require('../server');
-// const socket = require('socket.io')
+const { io } = require('../server')
+const socket = require('socket.io')
 
 const app = express()
-
-
 
 app.post('/login', (req, res) => {
     let body = req.body
@@ -59,6 +57,8 @@ app.post('/login', (req, res) => {
         //         })
         //         // console.log('respuesta server: ', resp);
         // });
+
+        // conectar(usuarioDB)
         res.json({
             ok: true,
             usuario: usuarioDB,
@@ -68,6 +68,37 @@ app.post('/login', (req, res) => {
 
     })
 })
+
+// function conectar(usuarioDB) {
+
+//     socket.on('connect', function() {
+//         console.log('Conectado al servidor');
+//     });
+
+//     // escuchar
+//     socket.on('disconnect', function() {
+
+//         console.log('Perdimos conexión con el servidor');
+
+//     });
+
+
+//     // Enviar información
+//     socket.emit('enviarMensaje', {
+//         usuario: usuarioDB.nombre_Usuario,
+//         mensaje: 'Hola Mundo'
+//     }, function(resp) {
+//         console.log('respuesta server: ', resp);
+//     });
+
+//     // Escuchar información
+//     socket.on('enviarMensaje', function(mensaje) {
+
+//         console.log('Servidor:', mensaje);
+
+//     });
+
+// }
 
 
 module.exports = app;
