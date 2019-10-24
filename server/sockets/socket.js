@@ -1,19 +1,21 @@
 const { io } = require('../server');
 const { crearMensaje } = require('../utilidades/utilidades');
 const mongoose = require('mongoose')
-const db = mongoose.connection
-db.on('error', console.error.bind(console, 'connection error'))
+let db
+
+// console.log('Tamaño: ' + tamaño);
 
 let tamaño
-db.once('open', () => {
+io.on('connection', (client) => {
+    db = mongoose.connection
+    db.on('error', console.error.bind(console, 'connection error'))
+
+
+    db.once('open', () => {
         db.db.stats((err, stats) => {
             tamaño = stats
         })
     })
-    // console.log('Tamaño: ' + tamaño);
-
-
-io.on('connection', (client) => {
 
     console.log('Usuario conectado');
 
