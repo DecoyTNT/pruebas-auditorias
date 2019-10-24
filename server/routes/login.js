@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken')
 
 const Usuario = require('../models/usuario')
 
+// const { io } = require('../server');
+// const socket = require('socket.io')
+
 const app = express()
 
 
@@ -42,6 +45,20 @@ app.post('/login', (req, res) => {
             usuario: usuarioDB
         }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN })
 
+        // Enviar información Prueba
+        // io.emit('enviarMensaje', {
+        //     usuario: usuarioDB.nombre_Usuario,
+        //     mensaje: 'Hola Mundo'
+        // }, function(resp) {
+        //     res.json({
+        //             ok: true,
+        //             usuario: usuarioDB,
+        //             id: usuarioDB._id,
+        //             token,
+        //             resp
+        //         })
+        //         // console.log('respuesta server: ', resp);
+        // });
         res.json({
             ok: true,
             usuario: usuarioDB,
