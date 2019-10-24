@@ -24,6 +24,7 @@ const {
 const app = express()
 
 app.get('/size', (req, res) => {
+
     res.json({
         ok: true,
         tamaño: tamaño
