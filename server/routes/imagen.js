@@ -37,16 +37,12 @@ app.post('/imagen', (req, res) => {
     let body = req.body
 
     let imagen = new Imagen({
-        fecha: body.fecha,
-        seleccion: body.seleccion,
-        correccion: body.correccion,
-        causa: body.causa,
-        antecedentes: body.antecedentes,
-        correctiva: body.correctiva,
-        planes: body.planes,
-        fechaCumplimiento: body.fechaCumplimiento,
-        responsable: body.responsable,
-        fechaCierre: body.fechaCierre
+        fondo: body.fondo,
+        logoLogin: body.logoLogin,
+        logoPequenoClaro: body.logoPequenoClaro,
+        logoPequenoOscuro: body.logoPequenoOscuro,
+        logoGrandeClaro: body.logoGrandeClaro,
+        logoGrandeOscuro: body.logoGrandeOscuro
     })
 
     imagen.save((err, imagenDB) => {
@@ -64,11 +60,11 @@ app.post('/imagen', (req, res) => {
     })
 })
 
-app.put('/imagen/:id', (req, res) => {
+app.put('/imagen/fondo/:id', (req, res) => {
     let id = req.params.id
     let body = req.body
 
-    Imagen.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
+    Imagen.findByIdAndUpdate(id, { fondo: body.fondo }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -92,10 +88,11 @@ app.put('/imagen/:id', (req, res) => {
     })
 })
 
-app.delete('/imagen/:id', (req, res) => {
+app.put('/imagen/logologin/:id', (req, res) => {
     let id = req.params.id
+    let body = req.body
 
-    Imagen.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, imagenBorrada) => {
+    Imagen.findByIdAndUpdate(id, { logoLogin: body.logoLogin }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
         if (err) {
             return res.status(500).json({
                 ok: false,
@@ -103,7 +100,7 @@ app.delete('/imagen/:id', (req, res) => {
             })
         }
 
-        if (!imagenBorrada) {
+        if (!imagenDB) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -114,32 +111,122 @@ app.delete('/imagen/:id', (req, res) => {
 
         res.json({
             ok: true,
-            imagen: imagenBorrada
+            imagen: imagenDB
         })
     })
 })
 
+app.put('/imagen/logopc/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Imagen.findByIdAndUpdate(id, { logoPequenoClaro: body.logoPequenoClaro }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!imagenDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'imagen no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            imagen: imagenDB
+        })
+    })
+})
+
+app.put('/imagen/logopo/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Imagen.findByIdAndUpdate(id, { logoPequenoOscuro: body.logoPequenoOscuro }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!imagenDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'imagen no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            imagen: imagenDB
+        })
+    })
+})
+
+app.put('/imagen/logogc/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Imagen.findByIdAndUpdate(id, { logoGrandeClaro: body.logoGrandeClaro }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!imagenDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'imagen no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            imagen: imagenDB
+        })
+    })
+})
+
+app.put('/imagen/logogo/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Imagen.findByIdAndUpdate(id, { logoGrandeOscuro: body.logoGrandeOscuro }, { new: true, runValidators: true, context: 'query' }, (err, imagenDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!imagenDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'imagen no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            imagen: imagenDB
+        })
+    })
+})
+
+
 module.exports = app
-    // const express = require('express')
-
-// const { verificaToken } = require('../middlewares/autenticacion')
-// const fs = require('fs')
-
-// const path = require('path');
-
-// let app = express()
-
-// app.get('/imagen/:tipo/:img', (req, res) => {
-//     let tipo = req.params.tipo
-//     let img = req.params.img
-
-//     let pathImagen = path.resolve(__dirname, `../../uploads/${ tipo }/${ img }`);
-//     if (fs.existsSync(pathImagen)) {
-//         res.sendFile(pathImagen);
-//     } else {
-//         let noImagePath = path.resolve(__dirname, '../assets/no-image.jpg');
-//         res.sendFile(noImagePath);
-//     }
-// })
-
-// module.exports = app;
