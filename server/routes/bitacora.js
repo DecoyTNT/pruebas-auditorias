@@ -64,6 +64,34 @@ app.post('/bitacora', (req, res) => {
     })
 })
 
+app.put('/bitacora/:id', (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+    Bitacora.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, bitacoraDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!bitacoraDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Bitacora no encontrada'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            bitacora: bitacoraDB
+        })
+    })
+})
+
 app.delete('/bitacora/:id', (req, res) => {
     let id = req.params.id
 
