@@ -14,7 +14,7 @@ const Bitacora = require('../models/bitacora')
 
 const app = express()
 
-app.get('/bitacora', (req, res) => {
+app.get('/bitacora', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     Bitacora.find({ estado: true })
         .exec((err, bitacoras) => {
             if (err) {
@@ -33,7 +33,7 @@ app.get('/bitacora', (req, res) => {
         })
 })
 
-app.post('/bitacora', (req, res) => {
+app.post('/bitacora', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let bitacora = new Bitacora({
@@ -64,7 +64,7 @@ app.post('/bitacora', (req, res) => {
     })
 })
 
-app.put('/bitacora/:id', (req, res) => {
+app.put('/bitacora/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -92,7 +92,7 @@ app.put('/bitacora/:id', (req, res) => {
     })
 })
 
-app.delete('/bitacora/:id', (req, res) => {
+app.delete('/bitacora/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
 
     Bitacora.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, bitacoraBorrada) => {
