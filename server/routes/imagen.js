@@ -15,7 +15,7 @@ const Imagen = require('../models/imagen')
 const app = express()
 
 app.get('/imagen', (req, res) => {
-    Imagen.find({ estado: true })
+    Imagen.find()
         .exec((err, imagenes) => {
             if (err) {
                 return res.status(500).json({
@@ -23,7 +23,7 @@ app.get('/imagen', (req, res) => {
                     err
                 })
             }
-            Imagen.count({ estado: true }, (err, conteo) => {
+            Imagen.count((err, conteo) => {
                 res.json({
                     ok: true,
                     imagenes: imagenes,
