@@ -29,7 +29,7 @@ app.get('/tabla', [verificaToken], (req, res) => {
                 })
             }
             Tabla.count({ estado: true }, (err, conteo) => {
-                // console.log('Hola');
+
                 // const { io } = require('../server');
 
                 // io.emit('cambio', tablas)
@@ -61,11 +61,10 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
-        // const { io } = require('../server');
-        // io.on('connection', (client) => {
-        //     console.log('Conectado en tabla');
-        //     client.emit('cambio', tabla)
-        // })
+        // console.log('Hola');
+        const { io } = require('../server');
+
+        io.emit('cambio', 'Hola ')
         res.json({
             ok: true,
             tabla: tablaDB
