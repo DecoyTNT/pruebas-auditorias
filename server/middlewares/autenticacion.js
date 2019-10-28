@@ -23,6 +23,25 @@ let verificaToken = (req, res, next) => {
 }
 
 // =======================
+// Verificar ROOT
+// =======================
+let verificaRoot = (req, res, next) => {
+    let usuario = req.usuario
+    if (usuario.tipo_Usuario === 'ROOT') {
+        next()
+    } else {
+
+        return res.status(401).json({
+            ok: false,
+            err: {
+                message: "El usuario no es root"
+            }
+        })
+    }
+
+}
+
+// =======================
 // Verificar ADMIN
 // =======================
 let verificaAdmin = (req, res, next) => {
@@ -164,6 +183,7 @@ let verificaTokenImg = (req, res, next) => {
 
 module.exports = {
     verificaToken,
+    verificaRoot,
     verificaAdmin,
     verificaAdminAuditorLider,
     verificaAdminAuditorLiderDir,

@@ -2,19 +2,14 @@ const express = require('express')
 
 const {
     verificaToken,
-    verificaAdmin,
-    verificaAdminAuditorLider,
-    verificaAdminAuditorLiderDir,
-    verificaAuditor,
-    verificaAuditorLider,
-    verificaAltaDir
+    verificaRoot
 } = require('../middlewares/autenticacion')
 
 const Imagen = require('../models/imagen')
 
 const app = express()
 
-app.get('/imagen', (req, res) => {
+app.get('/imagen', [verificaToken, verificaRoot], (req, res) => {
     Imagen.find()
         .exec((err, imagenes) => {
             if (err) {
@@ -33,7 +28,7 @@ app.get('/imagen', (req, res) => {
         })
 })
 
-app.post('/imagen', (req, res) => {
+app.post('/imagen', [verificaToken, verificaRoot], (req, res) => {
     let body = req.body
 
     let imagen = new Imagen({
@@ -60,7 +55,7 @@ app.post('/imagen', (req, res) => {
     })
 })
 
-app.put('/imagen/fondo/:id', (req, res) => {
+app.put('/imagen/fondo/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -88,7 +83,7 @@ app.put('/imagen/fondo/:id', (req, res) => {
     })
 })
 
-app.put('/imagen/logologin/:id', (req, res) => {
+app.put('/imagen/logologin/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -116,7 +111,7 @@ app.put('/imagen/logologin/:id', (req, res) => {
     })
 })
 
-app.put('/imagen/logopc/:id', (req, res) => {
+app.put('/imagen/logopc/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -144,7 +139,7 @@ app.put('/imagen/logopc/:id', (req, res) => {
     })
 })
 
-app.put('/imagen/logopo/:id', (req, res) => {
+app.put('/imagen/logopo/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -172,7 +167,7 @@ app.put('/imagen/logopo/:id', (req, res) => {
     })
 })
 
-app.put('/imagen/logogc/:id', (req, res) => {
+app.put('/imagen/logogc/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
@@ -200,7 +195,7 @@ app.put('/imagen/logogc/:id', (req, res) => {
     })
 })
 
-app.put('/imagen/logogo/:id', (req, res) => {
+app.put('/imagen/logogo/:id', [verificaToken, verificaRoot], (req, res) => {
     let id = req.params.id
     let body = req.body
 
