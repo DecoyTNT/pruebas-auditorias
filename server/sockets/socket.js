@@ -11,6 +11,11 @@ io.on('connection', (client) => {
         mensaje: 'Bienvenido a esta aplicación'
     });
 
+    // client.on('cambio', (data) => {
+    //     console.log('Cambio tabla');
+    //     console.log(data);
+    //     client.broadcast.emit('cambio', data);
+    // })
 
 
     client.on('disconnect', () => {
@@ -25,9 +30,5 @@ io.on('connection', (client) => {
         client.broadcast.emit('enviarMensaje', data);
 
     });
-
-    client.on('actualizacion', (data, callback) => {
-        client.broadcast.emit('Hubo cambiós')
-    })
 
 });

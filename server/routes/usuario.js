@@ -202,6 +202,9 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
+        const { io } = require('../server');
+
+        io.emit('test', 'Hola usuario')
         res.status(201).json({
             ok: true,
             usuario: usuarioDB

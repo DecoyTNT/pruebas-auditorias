@@ -11,7 +11,7 @@ const {
     verificaAltaDir
 } = require('../middlewares/autenticacion')
 
-const { io } = require('../server');
+
 
 const Tabla = require('../models/tabla')
 
@@ -29,6 +29,11 @@ app.get('/tabla', [verificaToken], (req, res) => {
                 })
             }
             Tabla.count({ estado: true }, (err, conteo) => {
+                // console.log('Hola');
+                // const { io } = require('../server');
+
+                // io.emit('cambio', tablas)
+
                 res.json({
                     ok: true,
                     tablas,
@@ -56,7 +61,11 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
-        // io.emit('cambio-tabla', tabla)
+        // const { io } = require('../server');
+        // io.on('connection', (client) => {
+        //     console.log('Conectado en tabla');
+        //     client.emit('cambio', tabla)
+        // })
         res.json({
             ok: true,
             tabla: tablaDB
