@@ -11,6 +11,8 @@ const {
     verificaAltaDir
 } = require('../middlewares/autenticacion')
 
+const { io } = require('../server');
+
 const Tabla = require('../models/tabla')
 
 const app = express()
@@ -54,6 +56,7 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
+        // io.emit('cambio-tabla', tabla)
         res.json({
             ok: true,
             tabla: tablaDB

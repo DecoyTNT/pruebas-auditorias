@@ -9,7 +9,7 @@ const Imagen = require('../models/imagen')
 
 const app = express()
 
-app.get('/imagen', [verificaToken, verificaRoot], (req, res) => {
+app.get('/imagen', (req, res) => {
     Imagen.find()
         .exec((err, imagenes) => {
             if (err) {
