@@ -93,6 +93,8 @@ app.post('/norma', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-norma', 'Norma nueva')
         res.json({
             ok: true,
             norma: normaDB
@@ -124,6 +126,8 @@ app.put('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-norma', 'Norma actualizada')
         res.json({
             ok: true,
             norma: normaDB
@@ -155,6 +159,8 @@ app.delete('/norma/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-norma', 'Norma eliminada')
         res.json({
             ok: true,
             norma: normaBorrada
