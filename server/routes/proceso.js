@@ -88,6 +88,8 @@ app.post('/proceso', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Proceso nuevo')
         res.json({
             ok: true,
             proceso: procesoDB
@@ -119,6 +121,8 @@ app.put('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Proceso actualizado')
         res.json({
             ok: true,
             proceso: procesoDB
@@ -152,6 +156,8 @@ app.delete('/proceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Proceso eliminado')
         res.json({
             ok: true,
             proceso: procesoBorrado
