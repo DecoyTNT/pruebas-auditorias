@@ -239,6 +239,8 @@ app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) =>
             }
         })
 
+        const { io } = require('../server');
+        io.emit('cambio-auditoria', 'Auditoria nueva')
         res.json({
             ok: true,
             auditoria: auditoriaDB

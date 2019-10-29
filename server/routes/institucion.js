@@ -93,6 +93,8 @@ app.post('/institucion', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-institucion', 'Institución nueva')
         res.json({
             ok: true,
             institucion: institucionDB
@@ -124,6 +126,8 @@ app.put('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-institucion', 'Institución actualizada')
         res.json({
             ok: true,
             institucion: institucionDB
@@ -151,6 +155,8 @@ app.delete('/institucion/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-institucion', 'Institución eliminada')
         res.json({
             ok: true,
             institucion: institucionBorrada

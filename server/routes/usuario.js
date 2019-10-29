@@ -380,8 +380,6 @@ app.put('/usuario/password/:id', [verificaToken, verificaAdmin], function(req, r
             })
         }
 
-        const { io } = require("../server");
-        io.emit("cambio-usuario", "Usuario actualizado");
         res.json({
             ok: true,
             usuario: usuarioDB
