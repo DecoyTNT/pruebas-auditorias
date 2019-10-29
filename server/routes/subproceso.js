@@ -127,6 +127,8 @@ app.post('/subproceso', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Subproceso nuevo')
         res.json({
             ok: true,
             subproceso: subprocesoDB
@@ -158,6 +160,8 @@ app.put('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Subproceso actualizado')
         res.json({
             ok: true,
             subproceso: subprocesoDB
@@ -191,6 +195,8 @@ app.delete('/subproceso/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-proceso', 'Subproceso eliminado')
         res.json({
             ok: true,
             subproceso: subprocesoBorrado
@@ -240,6 +246,8 @@ app.delete('/subproceso/proceso/:id', [verificaToken, verificaAdmin], (req, res)
             }
 
 
+            const { io } = require('../server');
+            io.emit('cambio-proceso', 'Subprocesos eliminados')
             res.json({
 
                 ok: true,
