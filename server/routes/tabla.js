@@ -61,10 +61,8 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
-        // console.log('Hola');
         const { io } = require('../server');
-
-        io.emit('cambio', 'Hola ')
+        io.emit('cambio-tabla', 'Tabla nueva')
         res.json({
             ok: true,
             tabla: tablaDB
@@ -109,6 +107,8 @@ app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) 
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-tabla', 'Tabla eliminada')
         res.json({
             ok: true,
             tabla: tablaBorrada
