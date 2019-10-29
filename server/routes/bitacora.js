@@ -57,6 +57,8 @@ app.post('/bitacora', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-bitacora', 'Bitacora nueva')
         res.json({
             ok: true,
             bitacora: bitacoraDB
@@ -85,6 +87,8 @@ app.put('/bitacora/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-bitacora', 'Bitacora actualizada')
         res.json({
             ok: true,
             bitacora: bitacoraDB
@@ -112,6 +116,8 @@ app.delete('/bitacora/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-bitacora', 'Bitacora eliminada')
         res.json({
             ok: true,
             bitacora: bitacoraBorrada
