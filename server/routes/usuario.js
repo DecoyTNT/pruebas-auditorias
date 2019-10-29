@@ -203,8 +203,7 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
         }
 
         const { io } = require('../server');
-
-        io.emit('cambio-usuario', 'Hola usuario')
+        io.emit('cambio-usuario', 'Usuario nuevo')
         res.status(201).json({
             ok: true,
             usuario: usuarioDB
@@ -317,6 +316,8 @@ app.put('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-usuario', 'Usuario actualizado')
         res.status(201).json({
             ok: true,
             usuario: usuarioDB
@@ -379,6 +380,8 @@ app.put('/usuario/password/:id', [verificaToken, verificaAdmin], function(req, r
             })
         }
 
+        const { io } = require("../server");
+        io.emit("cambio-usuario", "Usuario actualizado");
         res.json({
             ok: true,
             usuario: usuarioDB
@@ -410,6 +413,8 @@ app.put('/usuario/inactivos/:id', [verificaToken, verificaAdmin], function(req, 
             })
         }
 
+        const { io } = require("../server");
+        io.emit("cambio-usuario", "Usuario activado");
         res.json({
             ok: true,
             usuario: usuarioBorrado
@@ -441,6 +446,8 @@ app.delete('/usuario/:id', [verificaToken, verificaAdmin], function(req, res) {
             })
         }
 
+        const { io } = require("../server");
+        io.emit("cambio-usuario", "Usuario desactivado");
         res.json({
             ok: true,
             usuario: usuarioBorrado
@@ -470,6 +477,8 @@ app.delete('/usuario/inactivos/:id', [verificaToken, verificaAdmin], function(re
             })
         }
 
+        const { io } = require("../server");
+        io.emit("cambio-usuario", "Usuario eliminado");
         res.json({
             ok: true,
             usuario: usuarioBorrado
