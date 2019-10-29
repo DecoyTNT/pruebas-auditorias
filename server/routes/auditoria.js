@@ -240,7 +240,7 @@ app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) =>
         })
 
         const { io } = require('../server');
-        io.emit('cambio-auditoria', 'Auditoria nueva')
+        io.emit('cambio-plan', 'Auditoria nueva')
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -276,6 +276,8 @@ app.put('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, res)
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Auditoria actualizada')
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -305,6 +307,8 @@ app.put('/auditoria/progreso/:id', [verificaToken, verificaAdminAuditorLider], (
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Auditoria actualizada en progreso')
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -336,6 +340,8 @@ app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Auditoria validada')
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -366,6 +372,8 @@ app.put('/auditoria/pasos/:id', [verificaToken, verificaAdminAuditorLider], (req
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Auditoria actualizada en pasos')
         res.json({
             ok: true,
             auditoria: auditoriaDB
@@ -419,6 +427,8 @@ app.delete('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, r
             }
         })
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Auditoria eliminada')
         res.json({
             ok: true,
             auditoria: auditoriaBorrada
@@ -426,7 +436,7 @@ app.delete('/auditoria/:id', [verificaToken, verificaAdminAuditorLider], (req, r
     })
 })
 
-// Elimina los subprocesos de un procesos por id
+
 app.delete('/auditoria/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     var planid = req.params.id
     let cambiaEstado = {
@@ -474,6 +484,8 @@ app.delete('/auditoria/plan/:id', [verificaToken, verificaAdminAuditorLider], (r
             }
 
 
+            const { io } = require('../server');
+            io.emit('cambio-plan', 'Auditorias eliminadas de un plan')
             res.json({
                 ok: true,
                 auditoria: auditoriaBorrada
