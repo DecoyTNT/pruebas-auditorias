@@ -81,6 +81,8 @@ app.post('/plan', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Plan nuevo')
         res.json({
             ok: true,
             plan: planDB
@@ -111,6 +113,8 @@ app.put('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Plan actualizado')
         res.json({
             ok: true,
             plan: planDB
@@ -199,6 +203,8 @@ app.put('/plan/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => 
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Plan validado')
         res.json({
             ok: true,
             plan: planDB
@@ -230,6 +236,8 @@ app.delete('/plan/:id', [verificaToken, verificaAdminAuditorLider], (req, res) =
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Plan desactivado')
         res.json({
             ok: true,
             norma: planBorrado
@@ -258,6 +266,8 @@ app.delete('/plan/eliminar/:id', [verificaToken, verificaAdminAuditorLider], (re
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-plan', 'Plan eliminado')
         res.json({
             ok: true,
             norma: planBorrado
