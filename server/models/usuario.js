@@ -52,10 +52,6 @@ let usuarioSchema = new Schema({
         type: String,
         enum: tiposValidos
     },
-    img: {
-        type: String,
-        required: false
-    },
     estado: {
         type: Boolean,
         default: true

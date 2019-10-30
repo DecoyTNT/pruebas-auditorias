@@ -17,15 +17,7 @@ const app = express()
 // Obtiene todas las normas
 app.get('/norma', [verificaToken], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Norma.find({ estado: true })
-        // .skip(desde)
-        // .limit(limite)
         .exec((err, normas) => {
             if (err) {
                 return res.status(500).json({

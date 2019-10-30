@@ -17,15 +17,7 @@ const app = express()
 // Obtiene la institucion
 app.get('/institucion', [verificaToken], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Institucion.find()
-        // .skip(desde)
-        // .limit(limite)
         .exec((err, instituciones) => {
             if (err) {
                 return res.status(500).json({
@@ -80,9 +72,7 @@ app.post('/institucion', [verificaToken, verificaAdmin], (req, res) => {
     let institucion = new Institucion({
         nombreInstitucion: body.nombreInstitucion,
         domicilio: body.domicilio,
-        telefono: body.telefono,
-        img: body.img
-
+        telefono: body.telefono
     })
 
     institucion.save((err, institucionDB) => {
