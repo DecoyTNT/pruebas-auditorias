@@ -48,6 +48,9 @@ app.post('/aviso', [verificaToken, verificaAdmin], (req, res) => {
                 err
             })
         }
+
+        const { io } = require('../server');
+        io.emit('cambio-aviso', 'Aviso nuevo')
         res.json({
             ok: true,
             aviso: avisoDB
@@ -75,6 +78,8 @@ app.delete('/aviso/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-aviso', 'Aviso eliminado')
         res.json({
             ok: true,
             aviso: avisoBorrado

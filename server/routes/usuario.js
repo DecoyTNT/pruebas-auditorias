@@ -21,15 +21,7 @@ const app = express()
 // Usuarios Activos
 app.get('/usuario', [verificaToken, verificaAdminAuditorLiderDir], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Usuario.find({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
-        // .skip(desde)
-        // .limit(limite)
         .sort('nombre_Usuario')
         .exec((err, usuarios) => {
             if (err) {
@@ -55,15 +47,7 @@ app.get('/usuario/tipo/:termino', [verificaToken], (req, res) => {
 
     let termino = req.params.termino
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Usuario.find({ estado: true, tipo_Usuario: termino })
-        // .skip(desde)
-        // .limit(limite)
         .sort('nombre_Usuario')
         .exec((err, usuarios) => {
             if (err) {
@@ -87,15 +71,7 @@ app.get('/usuario/tipo/:termino', [verificaToken], (req, res) => {
 // Usuarios Inactivos
 app.get('/usuario/inactivos', [verificaToken, verificaAdmin], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Usuario.find({ estado: false })
-        // .skip(desde)
-        // .limit(limite)
         .exec((err, usuarios) => {
             if (err) {
                 return res.status(500).json({
@@ -151,8 +127,6 @@ app.get('/usuario/buscar/:termino', (req, res) => {
     let regex = new RegExp(termino, 'i');
 
     Usuario.find({ nombre_Usuario: regex, estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
-        // .skip(desde)
-        // .limit(limite)
         .sort('nombre_Usuario')
         .exec((err, usuarios) => {
             if (err) {
@@ -189,7 +163,6 @@ app.post('/usuario', [verificaToken, verificaAdmin], function(req, res) {
         email: body.email,
         telefono: body.telefono,
         puesto: body.puesto,
-        // contraseña: body.contraseña,
         contraseña: bcrypt.hashSync(body.contraseña, 10),
         tipo_Usuario: body.tipo_Usuario
     })
