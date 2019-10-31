@@ -20,15 +20,8 @@ const app = express()
 // Obtiene las auditorias
 app.get('/auditoria', [verificaToken], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
 
     Auditoria.find({ estado: true })
-        // .skip(desde)
-        // .limit(limite)
         .populate('normas')
         .populate('grupoAuditor')
         .populate('auditados')

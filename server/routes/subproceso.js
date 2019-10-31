@@ -18,15 +18,7 @@ const app = express()
 // Obtiene los subproceso
 app.get('/subproceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Subproceso.find({ estado: true })
-        // .skip(desde)
-        // .limit(limite)
         .populate('proceso', 'nombreProceso')
         .exec((err, subprocesos) => {
             if (err) {
@@ -84,8 +76,6 @@ app.get('/subproceso/proceso/:id', [verificaToken, verificaAdminAuditorLider], (
     Proceso.findById(procesoid)
         .exec((err, subprocesoDB) => {
             Subproceso.find({ proceso: procesoid, estado: true })
-                // .skip(desde)
-                // .limit(limite)
                 .populate('proceso', 'nombreProceso')
                 .exec((err, subprocesos) => {
                     if (err) {

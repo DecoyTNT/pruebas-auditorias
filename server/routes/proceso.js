@@ -16,15 +16,7 @@ const app = express()
 // Obtiene los procesos
 app.get('/proceso', [verificaToken, verificaAdminAuditorLider], (req, res) => {
 
-    // let desde = req.query.desde || 0
-    // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
-
     Proceso.find({ estado: true })
-        // .skip(desde)
-        // .limit(limite)
         .exec((err, procesos) => {
             if (err) {
                 return res.status(500).json({
