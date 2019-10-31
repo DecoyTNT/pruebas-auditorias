@@ -35,4 +35,5 @@ if (process.env.NODE_ENV === 'dev') {
         // urlDB = 'mongodb+srv://Administrador:MFoqRpyLvLvTfY15@cluster0-4zhf2.mongodb.net/pruebaRespaldo?retryWrites=true&w=majority'
 }
 
+
 process.env.URLDB = urlDB
