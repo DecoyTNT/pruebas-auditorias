@@ -36,12 +36,10 @@ let usuarioSchema = new Schema({
     },
     email: {
         type: String,
-        //unique: true,
         required: [true, 'El email es necesario']
     },
     telefono: {
         type: Number,
-        //unique: true,
         required: [true, 'El telefono es necesario']
     },
     puesto: {
