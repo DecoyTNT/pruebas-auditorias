@@ -35,10 +35,6 @@ let auditoriaSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Usuario'
     }],
-    auditados: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Usuario'
-    }],
     objetivos: {
         type: String
     },

@@ -24,7 +24,6 @@ app.get('/auditoria', [verificaToken], (req, res) => {
     Auditoria.find({ estado: true })
         .populate('normas')
         .populate('grupoAuditor')
-        .populate('auditados')
         .populate('plan')
         .exec((err, auditorias) => {
             if (err) {
@@ -53,7 +52,6 @@ app.get('/auditoria/usuario/grupoauditor', [verificaToken], (req, res) => {
     Auditoria.find({ estado: true, grupoAuditor: usuario._id })
         .populate('normas')
         .populate('grupoAuditor')
-        .populate('auditados')
         .populate('plan')
         .exec((err, auditorias) => {
             if (err) {
@@ -82,7 +80,6 @@ app.get('/auditoria/usuario/auditados', [verificaToken], (req, res) => {
     Auditoria.find({ estado: true, auditados: usuario._id })
         .populate('normas')
         .populate('grupoAuditor')
-        .populate('auditados')
         .populate('plan')
         .exec((err, auditorias) => {
             if (err) {
@@ -111,7 +108,6 @@ app.get('/auditoria/:id', [verificaToken], (req, res) => {
     Auditoria.findById(auditoriaid)
         .populate('normas')
         .populate('grupoAuditor')
-        .populate('auditados')
         .populate('plan')
         .exec((err, auditoriaDB) => {
             if (err) {
@@ -162,7 +158,6 @@ app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
             Auditoria.find({ plan: planid, estado: true })
                 .populate('normas')
                 .populate('grupoAuditor')
-                .populate('auditados')
                 .populate('plan')
                 .exec((err, auditorias) => {
                     if (err) {
@@ -200,7 +195,6 @@ app.post('/auditoria', [verificaToken, verificaAdminAuditorLider], (req, res) =>
         fechaFinal: body.fechaFinal,
         plan: body.plan,
         grupoAuditor: body.grupoAuditor,
-        auditados: body.auditados,
         objetivos: body.objetivos,
         alcance: body.alcance,
         contacto: body.contacto
@@ -312,9 +306,6 @@ app.put('/auditoria/progreso/:id', [verificaToken, verificaAdminAuditorLider], (
 // Valida la auditoria
 app.put('/auditoria/validacion/:id', [verificaToken, verificaAltaDir], (req, res) => {
     let id = req.params.id
-        // let cambiaValido = {
-        //     valido: true
-        // }
 
     Auditoria.findByIdAndUpdate(id, { valido: true, pasos: 2 }, { multi: true }, (err, auditoriaDB) => {
         if (err) {
