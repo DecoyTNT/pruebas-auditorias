@@ -120,33 +120,33 @@ app.get('/usuario/:id', [verificaToken], function(req, res) {
     })
 })
 
-//Buscador de usuarios
-app.get('/usuario/buscar/:termino', (req, res) => {
-    let termino = req.params.termino;
+// //Buscador de usuarios
+// app.get('/usuario/buscar/:termino', (req, res) => {
+//     let termino = req.params.termino;
 
-    let regex = new RegExp(termino, 'i');
+//     let regex = new RegExp(termino, 'i');
 
-    Usuario.find({ nombre_Usuario: regex, estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
-        .sort('nombre_Usuario')
-        .exec((err, usuarios) => {
-            if (err) {
-                return res.status(500).json({
-                    ok: false,
-                    err
-                })
-            }
+//     Usuario.find({ nombre_Usuario: regex, estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] })
+//         .sort('nombre_Usuario')
+//         .exec((err, usuarios) => {
+//             if (err) {
+//                 return res.status(500).json({
+//                     ok: false,
+//                     err
+//                 })
+//             }
 
-            Usuario.count({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] }, (err, conteo) => {
-                res.json({
-                    ok: true,
-                    usuarios,
-                    cuantos: conteo
-                })
-            })
+//             Usuario.count({ estado: true, tipo_Usuario: ['ADMIN', 'AUDITOR_LIDER', 'AUDITOR', 'AUDITADO', 'ALTA_DIRECCION'] }, (err, conteo) => {
+//                 res.json({
+//                     ok: true,
+//                     usuarios,
+//                     cuantos: conteo
+//                 })
+//             })
 
-        })
+//         })
 
-})
+// })
 
 
 // Crear Usuario

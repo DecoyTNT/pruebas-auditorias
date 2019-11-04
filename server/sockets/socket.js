@@ -1,5 +1,4 @@
 const { io } = require('../server');
-const { crearMensaje } = require('../utilidades/utilidades');
 
 io.on('connection', (client) => {
 
@@ -10,12 +9,6 @@ io.on('connection', (client) => {
         usuario: 'Administrador',
         mensaje: 'Bienvenido a esta aplicación'
     });
-
-    // client.on('cambio', (data) => {
-    //     console.log('Cambio tabla');
-    //     console.log(data);
-    //     client.broadcast.emit('cambio', data);
-    // })
 
 
     client.on('disconnect', () => {
