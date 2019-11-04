@@ -44,7 +44,7 @@ app.get('/tabla', [verificaToken], (req, res) => {
 })
 
 // Crea punto de la tabla
-app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.post('/tabla', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let tabla = new Tabla({
@@ -70,6 +70,35 @@ app.post('/tabla', [verificaToken, verificaAdminAuditorLider], (req, res) => {
     })
 })
 
+app.put('/tabla/:id', [verificaToken, verificaAdmin], (req, res) => {
+    let id = req.params.id
+    let body = req.body
+
+
+    Tabla.findByIdAndUpdate(id, body, { new: true, runValidators: true, context: 'query' }, (err, tablaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!tablaDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Punto no encontrado'
+                }
+            })
+        }
+
+        res.json({
+            ok: true,
+            tabla: tablaDB
+        })
+    })
+})
+
 app.put('/tabla/estado', (req, res) => {
 
     Tabla.updateMany({ estado: true }, (err, estados) => {
@@ -87,7 +116,7 @@ app.put('/tabla/estado', (req, res) => {
 })
 
 //Elimina punto de la tabla
-app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) => {
+app.delete('/tabla/:id', [verificaToken, verificaAdmin], (req, res) => {
     let id = req.params.id
 
     Tabla.findByIdAndUpdate(id, { estado: false }, { new: true }, (err, tablaBorrada) => {
@@ -102,7 +131,7 @@ app.delete('/tabla/:id', [verificaToken, verificaAdminAuditorLider], (req, res) 
             return res.status(500).json({
                 ok: false,
                 err: {
-                    message: 'No se encontro ese punto'
+                    message: 'Punto no encontrado'
                 }
             })
         }

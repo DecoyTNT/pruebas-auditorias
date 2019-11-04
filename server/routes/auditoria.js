@@ -49,15 +49,8 @@ app.get('/auditoria', [verificaToken], (req, res) => {
 // Obtiene las auditorias
 app.get('/auditoria/usuario/grupoauditor', [verificaToken], (req, res) => {
     let usuario = req.usuario
-        // let desde = req.query.desde || 0
-        // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
 
     Auditoria.find({ estado: true, grupoAuditor: usuario._id })
-        // .skip(desde)
-        // .limit(limite)
         .populate('normas')
         .populate('grupoAuditor')
         .populate('auditados')
@@ -85,15 +78,8 @@ app.get('/auditoria/usuario/grupoauditor', [verificaToken], (req, res) => {
 // Obtiene las auditorias
 app.get('/auditoria/usuario/auditados', [verificaToken], (req, res) => {
     let usuario = req.usuario
-        // let desde = req.query.desde || 0
-        // desde = Number(desde)
-
-    // let limite = req.query.limite || 5
-    // limite = Number(limite)
 
     Auditoria.find({ estado: true, auditados: usuario._id })
-        // .skip(desde)
-        // .limit(limite)
         .populate('normas')
         .populate('grupoAuditor')
         .populate('auditados')
@@ -156,10 +142,24 @@ app.get('/auditoria/plan/:id', [verificaToken], (req, res) => {
     var planid = req.params.id
 
     Plan.findById(planid)
-        .exec((err, auditoriaDB) => {
+        .exec((err, planDB) => {
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            if (!planDB) {
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'Plan no encontrado'
+                    }
+                })
+            }
+
             Auditoria.find({ plan: planid, estado: true })
-                // .skip(desde)
-                // .limit(limite)
                 .populate('normas')
                 .populate('grupoAuditor')
                 .populate('auditados')

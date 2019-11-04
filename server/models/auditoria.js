@@ -41,15 +41,12 @@ let auditoriaSchema = new Schema({
     }],
     objetivos: {
         type: String
-            // required: [true, 'Es necesario establecer los objetivos']
     },
     alcance: {
         type: String
-            // required: [true, 'El email es necesario']
     },
     contacto: {
         type: String
-            // required: [true, 'El telefono es necesario']
     },
     progreso: {
         type: String,
