@@ -15,6 +15,7 @@ const Aviso = require('../models/aviso')
 const app = express()
 
 app.get('/aviso', [verificaToken], (req, res) => {
+
     Aviso.find()
         .exec((err, avisos) => {
             if (err) {
