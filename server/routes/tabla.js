@@ -90,6 +90,8 @@ app.put('/tabla/:id', [verificaToken, verificaAdmin], (req, res) => {
             })
         }
 
+        const { io } = require('../server');
+        io.emit('cambio-tabla', 'Tabla actualizada')
         res.json({
             ok: true,
             tabla: tablaDB
