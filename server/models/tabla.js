@@ -6,6 +6,9 @@ let Schema = mongoose.Schema;
 
 let tablaSchema = new Schema({
 
+    num: {
+        type: Number
+    },
     numero: {
         type: String
     },

@@ -20,6 +20,7 @@ const app = express()
 app.get('/tabla', [verificaToken], (req, res) => {
     Tabla.find({ estado: true })
         .populate('normas')
+        .sort('num')
         .sort('numero')
         .exec((err, tablas) => {
             if (err) {
@@ -29,10 +30,6 @@ app.get('/tabla', [verificaToken], (req, res) => {
                 })
             }
             Tabla.count({ estado: true }, (err, conteo) => {
-
-                // const { io } = require('../server');
-
-                // io.emit('cambio', tablas)
 
                 res.json({
                     ok: true,
@@ -48,6 +45,7 @@ app.post('/tabla', [verificaToken, verificaAdmin], (req, res) => {
     let body = req.body
 
     let tabla = new Tabla({
+        num: body.num,
         numero: body.numero,
         requisito: body.requisito,
         normas: body.normas
