@@ -142,7 +142,7 @@ app.get('/verificacion/auditoria/noconformidad/:id', [verificaToken], (req, res)
         })
 })
 
-// Obtener las verificaciones por auditoria de todas las no conformidades
+// Obtener las verificaciones por auditoria de todas las oportunidades de mejora
 app.get('/verificacion/auditoria/oportunidad/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
 
