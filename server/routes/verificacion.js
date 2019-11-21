@@ -12,6 +12,7 @@ const {
 
 const Verificacion = require('../models/verificacion')
 const Planeacion = require('../models/planeacion')
+const Auditoria = require('../models/auditoria')
 const Usuario = require('../models/usuario')
 
 const app = express()
@@ -103,6 +104,32 @@ app.get('/verificacion/planeacion/:id', [verificaToken], (req, res) => {
                     })
                 })
         })
+})
+
+// Obtener las verificaciones por auditoria 
+app.get('/verificacion/auditoria/:id', [verificaToken], (req, res) => {
+    let auditoriaid = req.params.id
+
+    Auditoria.findById(auditoriaid, (err, auditoriaDB) => {
+        if (err) {
+            return res.status(500).json({
+                ok: false,
+                err
+            })
+        }
+
+        if (!auditoriaDB) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Auditoria no encontrada'
+                }
+            })
+        }
+
+        Verificacion.find({ planeacion: auditoriaDB. })
+    })
+
 })
 
 // 
