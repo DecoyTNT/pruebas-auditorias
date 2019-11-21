@@ -112,7 +112,7 @@ app.get('/verificacion/auditoria/:id', [verificaToken], (req, res) => {
 
     Planeacion.find({ auditoria: auditoriaid })
         .exec((err, planeaciones) => {
-            Verificacion.find({ planeacion: planeaciones })
+            Verificacion.find({ planeacion: planeaciones, hallazgos: 'NC' })
                 .exec((err, verificaciones) => {
                     res.json({
                         ok: true,
