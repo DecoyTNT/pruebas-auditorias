@@ -116,7 +116,8 @@ app.get('/verificacion/auditoria/:id', [verificaToken], (req, res) => {
                 .exec((err, verificaciones) => {
                     res.json({
                         ok: true,
-                        verificaciones
+                        verificaciones,
+                        planeaciones
                     })
                 })
         })
