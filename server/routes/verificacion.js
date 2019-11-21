@@ -106,22 +106,76 @@ app.get('/verificacion/planeacion/:id', [verificaToken], (req, res) => {
         })
 })
 
-// Obtener las verificaciones por auditoria 
-app.get('/verificacion/auditoria/:id', [verificaToken], (req, res) => {
+// Obtener las verificaciones por auditoria de todas las no conformidades
+app.get('/verificacion/auditoria/noconformidad/:id', [verificaToken], (req, res) => {
     let auditoriaid = req.params.id
 
-    Planeacion.find({ auditoria: auditoriaid })
+    Planeacion.find({ estado: true, auditoria: auditoriaid })
         .exec((err, planeaciones) => {
-            Verificacion.find({ planeacion: planeaciones, hallazgos: 'NC' })
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Verificacion.find({ estado: true, planeacion: planeaciones, hallazgos: 'NC' })
                 .exec((err, verificaciones) => {
-                    res.json({
-                        ok: true,
-                        verificaciones,
-                        planeaciones
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Verificacion.count({ estado: true, planeacion: planeaciones, hallazgos: 'NC' }, (err, conteo) => {
+
+                        res.json({
+                            ok: true,
+                            verificaciones,
+                            cuantos: conteo
+                        })
                     })
                 })
         })
+})
 
+// Obtener las verificaciones por auditoria de todas las no conformidades
+app.get('/verificacion/auditoria/oportunidad/:id', [verificaToken], (req, res) => {
+    let auditoriaid = req.params.id
+
+    Planeacion.find({ estado: true, auditoria: auditoriaid })
+        .exec((err, planeaciones) => {
+
+            if (err) {
+                return res.status(500).json({
+                    ok: false,
+                    err
+                })
+            }
+
+            Verificacion.find({ estado: true, planeacion: planeaciones, hallazgos: 'ODM' })
+                .exec((err, verificaciones) => {
+
+                    if (err) {
+                        return res.status(500).json({
+                            ok: false,
+                            err
+                        })
+                    }
+
+                    Verificacion.count({ estado: true, planeacion: planeaciones, hallazgos: 'ODM' }, (err, conteo) => {
+
+                        res.json({
+                            ok: true,
+                            verificaciones,
+                            cuantos: conteo
+                        })
+                    })
+                })
+        })
 })
 
 // 
