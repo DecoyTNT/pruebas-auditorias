@@ -2,15 +2,15 @@ const mongoose = require('mongoose')
 
 const uniqueValidator = require('mongoose-unique-validator')
 
-let revisionValida = {
-    values: ['A', 'NA', 'EP'],
-    message: '{VALUE} no es una revisión valida'
-}
+// let revisionValida = {
+//     values: ['A', 'NA', 'EP'],
+//     message: '{VALUE} no es una revisión valida'
+// }
 
-let resultadoValido = {
-    values: ['AD', 'NC', 'NR', 'EP', 'NA'],
-    message: '{VALUE} no es un resultado valido'
-}
+// let resultadoValido = {
+//     values: ['AD', 'NC', 'NR', 'EP', 'NA'],
+//     message: '{VALUE} no es un resultado valido'
+// }
 
 let Schema = mongoose.Schema;
 
@@ -26,13 +26,13 @@ let matrizSchema = new Schema({
     },
     revision: {
         type: String,
-        enum: revisionValida,
-        default: 'A'
+        // enum: revisionValida,
+        default: ' '
     },
     resultado: {
         type: String,
-        enum: resultadoValido,
-        default: 'AD'
+        // enum: resultadoValido,
+        default: ' '
     }
 
 
